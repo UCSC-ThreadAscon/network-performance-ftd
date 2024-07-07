@@ -1,14 +1,12 @@
 #include "tight_loop.h"
 
-#define MAX_PACKETS_SENT 1000
-
 static otSockAddr socket;
 
 void plConfirmableSend(otSockAddr *socket)
 {
   static uint32_t numPacketsSent = 0;
 
-  if (numPacketsSent < MAX_PACKETS_SENT)
+  if (numPacketsSent < PACKET_LOSS_MAX_PACKETS_SENT)
   {
     uint32_t payload = 0;
     createRandomPayload((uint8_t *) &payload);
