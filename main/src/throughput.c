@@ -2,12 +2,6 @@
 
 static otSockAddr socket;
 
-void createRandomPayload(uint8_t *buffer) {
-  uint32_t random = esp_random();
-  memcpy(buffer, &random, TIGHT_LOOP_PAYLOAD_BYTES);
-  return;
-}
-
 void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
