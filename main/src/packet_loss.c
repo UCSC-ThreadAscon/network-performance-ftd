@@ -1,3 +1,14 @@
+/**
+ * For packet loss, the FTD sends 1000 packet, and the Border Router counts
+ * how many packets it has received from the FTD. The Border Router then calculates
+ * the packet loss as:
+ *
+ *      Number of Packets Received
+ *      --------------------------
+ *      Number of Expected Packets
+ *
+ * where the number of expected packets is PACKET_LOSS_MAX_PACKETS_SENT.
+ */
 #include "tight_loop.h"
 
 static otSockAddr socket;
@@ -50,10 +61,14 @@ void plConfirmableMain()
 
 void plNonConfirmableMain()
 {
+  static uint32_t numPacketsSent = 0;
   InitSocket(&socket, SERVER_IP);
-  while (true) {
+
+  while (numPacketsSent < PACKET_LOSS_MAX_PACKETS_SENT) {
     plNonConfirmableSend(&socket);
+    numPacketsSent += 1;
   }
+
   KEEP_THREAD_ALIVE();
   return;
 }
