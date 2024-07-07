@@ -29,9 +29,15 @@ menu "UCSC Thread-ASCON Experiment Workload"
 
     config COAP_SERVER_PORT
       int 'The port number for the CoAP server.'
-      default 5684
+      default 5683
       help
           Sets the port used by CoAP server side.
+
+    config COAP_SOCKET_PORT
+      int 'The port number for the CoAP socket of this device'
+      default 5683
+      help
+          Sets the port number used by the CoAP socket on this device.
 
     config SERVER_IP_ADDRESS
       string 'IP address of the CoAP server.'
