@@ -1,24 +1,35 @@
 #include "tight_loop.h"
 
+#define MAX_PACKETS_SENT 1000
+
 static otSockAddr socket;
 
 void plConfirmableSend(otSockAddr *socket)
 {
-  static uint32_t sequenceNum = 0;
-  request(socket, (void *) &sequenceNum, TIGHT_LOOP_PAYLOAD_BYTES,
-          PACKET_LOSS_CONFIRMABLE_URI, plConfirmableResponseCallback,
-          OT_COAP_TYPE_CONFIRMABLE);
-  sequenceNum += 1;
+  static uint32_t numPacketsSent = 0;
+
+  if (numPacketsSent < MAX_PACKETS_SENT)
+  {
+    uint32_t payload = 0;
+    createRandomPayload((uint8_t *) &payload);
+
+    request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
+            PACKET_LOSS_CONFIRMABLE_URI, plConfirmableResponseCallback,
+            OT_COAP_TYPE_CONFIRMABLE);
+
+    numPacketsSent += 1;
+  }
   return;
 }
 
 void plNonConfirmableSend(otSockAddr *socket) 
 {
-  static uint32_t sequenceNum = 0;
-  request(socket, (void *) &sequenceNum, TIGHT_LOOP_PAYLOAD_BYTES,
+  uint32_t payload = 0;
+  createRandomPayload((uint8_t *) &payload);
+
+  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
           PACKET_LOSS_NONCONFIRMABLE_URI, NULL,
           OT_COAP_TYPE_NON_CONFIRMABLE);
-  sequenceNum += 1;
   return;
 }
 
