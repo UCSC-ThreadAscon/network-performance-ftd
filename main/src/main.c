@@ -10,6 +10,11 @@ void app_main(void)
   otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
 #endif
 
+/**
+ * Delay CoAP server will be started using the "exp-server-start" command
+ * through the use of the CLI. Only clients will start their CoAP service
+ * automatically.
+ */
 #if !DELAY_SERVER
   coapStart();
 #endif
