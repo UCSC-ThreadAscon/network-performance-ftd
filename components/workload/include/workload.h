@@ -26,6 +26,8 @@ void request(otSockAddr *socket,
              otCoapResponseHandler responseCallback,
              otCoapType type);
 
+void addPayload(otMessage *aRequest, void *payload, size_t payloadSize);
+
 /* ---- CoAP Response Handler ---- */
 void defaultResponseCallback(void *aContext,
                              otMessage *aMessage,

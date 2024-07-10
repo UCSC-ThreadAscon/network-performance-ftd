@@ -7,6 +7,35 @@ uint64_t getTimeSent(otMessage *aMessage)
   return sent;
 }
 
+/**
+ * This function is based upon the both CoAP and CoAP secure source code,
+ * used as a part of the OpenThread codebase. The CoAP and
+ * CoAP secure source files can be found at:
+ * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
+*/
+void delayServerResponse(otMessage *aRequest,
+                         const otMessageInfo *aRequestInfo,
+                         uint64_t delayUs)
+{
+  otMessage *aResponse = NULL;
+  otCoapCode status = OT_COAP_CODE_VALID;
+
+  aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
+  if (aResponse == NULL) {
+    otLogCritPlat("Failed to initialize a new message for CoAP response.");
+  }
+
+  otError error = otCoapMessageInitResponse(aResponse, aRequest, OT_COAP_TYPE_ACKNOWLEDGMENT,
+                                            status);
+  HandleMessageError("coap message init response", aResponse, error);
+
+  addPayload(aResponse, &delayUs, sizeof(uint64_t));
+
+  error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
+  HandleMessageError("send response", aResponse, error);
+  return;
+}
+
 void delayRequestHandler(void* aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo)
@@ -18,14 +47,11 @@ void delayRequestHandler(void* aContext,
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
   if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       delayUs = received - sent;
-  
-      PrintDelimiter();
-      otLogNotePlat("Sent: %" PRIu64, sent);
-      otLogNotePlat("Received: %" PRIu64, received);
+
+      printRequest(aMessage, aMessageInfo);
       otLogNotePlat("Delay: %" PRIu64 " us.", delayUs);
 
-      defaultRequestHandler(aContext, aMessage, aMessageInfo);
-      PrintDelimiter();
+      delayServerResponse(aMessage, aMessageInfo, delayUs);
   }
   else {
     /**
