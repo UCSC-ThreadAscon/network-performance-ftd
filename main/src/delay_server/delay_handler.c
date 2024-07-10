@@ -18,17 +18,22 @@ void delayRequestHandler(void* aContext,
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
   if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       delayUs = received - sent;
-      otLogNotePlat("Delay is %" PRIu64 " us.", delayUs);
+  
+      PrintDelimiter();
+      otLogNotePlat("Sent: %" PRIu64, sent);
+      otLogNotePlat("Received: %", PRIu64, received);
+      otLogNotePlat("Delay: %" PRIu64 " us.", delayUs);
+
+      defaultRequestHandler(aContext, aMessage, aMessageInfo);
+      PrintDelimiter();
   }
   else {
     /**
      * Time Sync isn't working. Exit the experiment.
      */
     otLogCritPlat("Current delay test failed due to Time Sync Error.");
-    return;
   }
 
-  defaultRequestHandler(aContext, aMessage, aMessageInfo);
   return;
 }
 
