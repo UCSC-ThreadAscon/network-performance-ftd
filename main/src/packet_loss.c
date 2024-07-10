@@ -22,11 +22,11 @@ void plConfirmableSend(otSockAddr *socket)
     uint32_t payload = 0;
     createRandomPayload((uint8_t *) &payload);
 
-    request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
-            PACKET_LOSS_CONFIRMABLE_URI, plConfirmableResponseCallback,
-            OT_COAP_TYPE_CONFIRMABLE);
-
+    request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_CONFIRMABLE_URI, 
+            plConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
     numPacketsSent += 1;
+
+    otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
   }
   return;
 }
@@ -35,10 +35,8 @@ void plNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
-          PACKET_LOSS_NONCONFIRMABLE_URI, NULL,
-          OT_COAP_TYPE_NON_CONFIRMABLE);
+  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_NONCONFIRMABLE_URI,
+          NULL, OT_COAP_TYPE_NON_CONFIRMABLE);
   return;
 }
 
@@ -67,6 +65,7 @@ void plNonConfirmableMain()
   while (numPacketsSent < PACKET_LOSS_MAX_PACKETS_SENT) {
     plNonConfirmableSend(&socket);
     numPacketsSent += 1;
+    otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
   }
 
   KEEP_THREAD_ALIVE();

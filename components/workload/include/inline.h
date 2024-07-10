@@ -15,6 +15,7 @@
     handleError(error, desc);                           \
     return;                                             \
   }                                                     \
+  
 
 /**
  * Keeps a thread open so the memory associated with "socket" still exists.
