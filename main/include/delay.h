@@ -7,7 +7,7 @@
 #include <openthread/network_time.h> 
 
 #define DELAY_PACKET_BYTES 8
-#define WAIT_TIME_MS 5000
+#define WAIT_TIME_MS 100
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
 #define DELAY_MAX_PACKETS 1000
 
