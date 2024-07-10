@@ -18,7 +18,7 @@ void delayRequestHandler(void* aContext,
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
   if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       delayUs = received - sent;
-      otLogNotePlat("Delay is %" PRIu64 " us.");
+      otLogNotePlat("Delay is %" PRIu64 " us.", delayUs);
   }
   else {
     /**
