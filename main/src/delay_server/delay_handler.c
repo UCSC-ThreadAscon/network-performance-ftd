@@ -21,7 +21,7 @@ void delayRequestHandler(void* aContext,
   
       PrintDelimiter();
       otLogNotePlat("Sent: %" PRIu64, sent);
-      otLogNotePlat("Received: %", PRIu64, received);
+      otLogNotePlat("Received: %" PRIu64, received);
       otLogNotePlat("Delay: %" PRIu64 " us.", delayUs);
 
       defaultRequestHandler(aContext, aMessage, aMessageInfo);
