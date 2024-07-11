@@ -1,10 +1,13 @@
 #include "main.h"
 #include "tight_loop.h"
+#include "independent_variables.h"
 
 void app_main(void)
 {
   startMain();
   checkConnection(OT_INSTANCE);
+
+  printCipherSuite();
 
 #if (DELAY_SERVER || DELAY_CLIENT)
   otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
