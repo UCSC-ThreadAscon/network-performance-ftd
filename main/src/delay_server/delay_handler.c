@@ -36,8 +36,8 @@ void delayRequestHandler(void* aContext,
   DelayRequest payload;
   getPayload(aMessage, (void *) &payload);
 
-  uint64_t sent = payload.sent;
   uint32_t sequenceNum = payload.sequenceNum;
+  uint64_t sent = payload.sent;
   uint64_t received = 0;
   uint64_t delayUs = 0;
 
