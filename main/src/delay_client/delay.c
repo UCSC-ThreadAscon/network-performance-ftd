@@ -27,7 +27,7 @@ void delayConfirmableSend(otSockAddr *socket)
 
       otLogNotePlat("Sent: %" PRIu64 ".", payload.sent);
 
-      request(socket, &payload, DELAY_PACKET_BYTES, DELAY_URI,
+      request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
               delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
       sequenceNum += 1;
     }
