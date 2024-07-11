@@ -10,6 +10,7 @@ void app_main(void)
   printCipherSuite();
   printTxPower();
   printNetPerfTest();
+  printTimeSyncStatus();
   PrintDelimiter();
 
   checkConnection(OT_INSTANCE);
