@@ -2,6 +2,10 @@
 #include "tight_loop.h"
 #include "independent_variables.h"
 
+#if ((DELAY_SERVER || DELAY_CLIENT) && !CONFIG_OPENTHREAD_TIME_SYNC)
+#error "You must turn on Network Time Synchronization for the Delay experiments."
+#endif
+
 void app_main(void)
 {
   startMain();
