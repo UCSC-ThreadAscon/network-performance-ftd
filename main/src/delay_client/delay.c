@@ -55,7 +55,7 @@ void delayConfirmableResponseCallback(void *aContext,
     {
       delayConfirmableSend(&socket);
     }
-    else if (numPacketsReceived == 1000)
+    else if (numPacketsReceived == DELAY_MAX_PACKETS)
     {
       otLogNotePlat("Finished sending 1000 Delay packets.");
     }
