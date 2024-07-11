@@ -33,11 +33,6 @@ otError getTxPower(int8_t *aPowerAddr)
   return error;
 }
 
-#define GetTxPowerOrExit(aPowerAddr)                        \
-  if (getTxPower(aPowerAddr) != OT_ERROR_NONE) {            \
-    otLogCritPlat("Failed to get TX Power.");               \
-  }                                                         \
-
 void setTxPower() {
   otError error = otPlatRadioSetTransmitPower(esp_openthread_get_instance(),
                                               CONFIG_TX_POWER);
@@ -56,6 +51,5 @@ void setTxPower() {
     default:
         UnhandledError();
   }
-
   return;
 }
