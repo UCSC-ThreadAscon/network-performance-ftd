@@ -61,8 +61,10 @@ void delayConfirmableResponseCallback(void *aContext,
     getPayload(aMessage, (void *) &payload);
 
     uint32_t sequenceNum = payload.sequenceNum;
-    uint64_t delayUs = payload.delayUs;
-    otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
+    DelaysUs[indexDelayUs] = payload.delayUs;
+
+    otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum,
+                  DelaysUs[indexDelayUs]);
 
     indexDelayUs += 1;
     if (indexDelayUs < DELAY_MAX_PACKETS)
@@ -71,7 +73,8 @@ void delayConfirmableResponseCallback(void *aContext,
     }
     else if (indexDelayUs == DELAY_MAX_PACKETS)
     {
-      otLogNotePlat("Finished sending %d Delay packets.", DELAY_MAX_PACKETS);
+      uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
+      PrintAverageDelay(averageDelayUs);
     }
   }
   else
