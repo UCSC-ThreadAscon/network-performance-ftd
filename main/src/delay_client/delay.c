@@ -23,6 +23,7 @@ void delayConfirmableSend(otSockAddr *socket)
       DelayRequest payload;
       payload.sequenceNum = sequenceNum;
       payload.sent = networkTime;
+      otLogNotePlat("Sent: %" PRIu64 ".", payload.sent);
 
       request(socket, &payload, DELAY_PACKET_BYTES, DELAY_URI,
               delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
