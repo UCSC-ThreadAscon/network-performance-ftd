@@ -18,6 +18,7 @@
  */
 #pragma once
 
+#include <sdkconfig.h>
 #include <openthread/logging.h>
 
 #define CIPHER_SUITE CONFIG_THREAD_ASCON_CIPHER_SUITE

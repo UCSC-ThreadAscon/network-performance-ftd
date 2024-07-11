@@ -33,6 +33,8 @@
 #include "openthread/platform/time.h"
 #include "openthread/network_time.h"
 
+#define PrintDelimiter() otLogNotePlat("---------------------------");
+
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
 #define THROUGHPUT_NONCONFIRMABLE (CONFIG_EXPERIMENT == 2)
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 3)

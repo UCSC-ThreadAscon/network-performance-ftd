@@ -4,8 +4,6 @@
 #include "tight_loop.h"
 #include "delay.h"
 
-#define PrintDelimiter() otLogNotePlat("---------------------------");
-
 otError createResource(otCoapResource *resource,
                        const char *resourceName,
                        otCoapRequestHandler requestHandler);
