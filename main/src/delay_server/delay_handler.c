@@ -33,18 +33,21 @@ void delayRequestHandler(void* aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo)
 {
-  uint64_t delayUs = 0;
-  uint64_t received = 0;
-  uint64_t sent = 0;
+  DelayRequest payload;
+  getPayload(aMessage, (void *) &payload);
 
-  getPayload(aMessage, (void *) &sent);
+  uint64_t sent = payload.sent;
+  uint32_t sequenceNum = payload.sequenceNum;
+  uint64_t received = 0;
+  uint64_t delayUs = 0;
+
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
 
   if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       delayUs = received - sent;
 
       printRequest(aMessage, aMessageInfo);
-      otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+      otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
 
       delayServerSendResponse(aMessage, aMessageInfo, delayUs);
   }

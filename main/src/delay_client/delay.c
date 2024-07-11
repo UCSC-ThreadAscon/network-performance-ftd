@@ -10,17 +10,22 @@ static otSockAddr socket;
  */
 void delayConfirmableSend(otSockAddr *socket)
 {
+  static uint32_t sequenceNum = 0;
   uint64_t networkTime = 0;
   otNetworkTimeStatus status = OT_NETWORK_TIME_UNSYNCHRONIZED;
 
-  do {
+  do
+  {
     status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
-    if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
-      request(socket, (void *) &networkTime, DELAY_PACKET_BYTES,
-              DELAY_URI, delayConfirmableResponseCallback,
-              OT_COAP_TYPE_CONFIRMABLE);
+
+    if (status == OT_NETWORK_TIME_SYNCHRONIZED)
+    {
+      DelayRequest payload = {networkTime, sequenceNum};
+      request(socket, &payload, DELAY_PACKET_BYTES, DELAY_URI,
+              delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
     }
-    else {
+    else
+    {
       PrintTimeSyncError(status);
       vTaskDelay(WAIT_TIME_TICKS);
     }
@@ -46,9 +51,12 @@ void delayConfirmableResponseCallback(void *aContext,
 
   if (aResult == OT_ERROR_NONE)
   {
-    uint64_t delayUs = 0;
-    getPayload(aMessage, &delayUs);
-    otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+    DelayResponse payload;
+    getPayload(aMessage, (void *) &payload);
+
+    uint32_t sequenceNum = payload.sequenceNum;
+    uint64_t delayUs = payload.delayUs;
+    otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
 
     numPacketsReceived += 1;
     if (numPacketsReceived < DELAY_MAX_PACKETS)
