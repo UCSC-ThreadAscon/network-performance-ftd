@@ -20,9 +20,11 @@ void delayConfirmableSend(otSockAddr *socket)
 
     if (status == OT_NETWORK_TIME_SYNCHRONIZED)
     {
-      DelayRequest payload;
+      DelayRequest payload; EmptyMemory(&payload, sizeof(DelayRequest));
+
       payload.sequenceNum = sequenceNum;
       payload.sent = networkTime;
+
       otLogNotePlat("Sent: %" PRIu64 ".", payload.sent);
 
       request(socket, &payload, DELAY_PACKET_BYTES, DELAY_URI,
@@ -56,7 +58,7 @@ void delayConfirmableResponseCallback(void *aContext,
 
   if (aResult == OT_ERROR_NONE)
   {
-    DelayResponse payload;
+    DelayResponse payload; EmptyMemory(&payload, sizeof(DelayResponse));
     getPayload(aMessage, (void *) &payload);
 
     uint32_t sequenceNum = payload.sequenceNum;

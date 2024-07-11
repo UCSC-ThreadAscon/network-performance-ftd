@@ -51,7 +51,7 @@ void delayRequestHandler(void* aContext,
       printRequest(aMessage, aMessageInfo);
       otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
 
-      DelayResponse response;
+      DelayResponse response; EmptyMemory(&response, sizeof(DelayResponse));
       response.delayUs = delayUs;
       response.sequenceNum = sequenceNum;
       delayServerSendResponse(aMessage, aMessageInfo, &response);
