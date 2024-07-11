@@ -34,7 +34,8 @@ void delayConfirmableSend(otSockAddr *socket)
  * TO-DO:
  *  1. Get the Delay time from the payload, and print out the Delay.
  *  2. Get the client to stop after 1000 packets.
- *  3. Get the client to print out the average delay after receiving 1000 packets.
+ *  3. Set up a sequence number to map which packet sent which delay.
+ *  4. Get the client to print out the average delay after receiving 1000 packets.
  */
 void delayConfirmableResponseCallback(void *aContext,
                                       otMessage *aMessage,
@@ -54,6 +55,11 @@ void delayConfirmableResponseCallback(void *aContext,
       numPacketsReceived += 1;
 
       delayConfirmableSend(&socket);
+    }
+
+    if (numPacketsReceived == 1000)
+    {
+      otLogNotePlat("Finished sending 1000 Delay packets.");
     }
   }
   else
