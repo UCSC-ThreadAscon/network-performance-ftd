@@ -23,3 +23,21 @@ void printTxPower()
   }
   return;
 }
+
+void printNetPerfTest()
+{
+#if THROUGHPUT_CONFIRMABLE
+  otLogNotePlat("Current Test: Throughput Confirmable");
+#elif THROUGHPUT_NONCONFIRMABLE
+  otLogNotePlat("Current Test: Throughput NON-Confirmable");
+#elif PACKET_LOSS_CONFIRMABLE
+  otLogNotePlat("Current Test: Packet Loss Confirmable");
+#elif PACKET_LOSS_NONCONFIRMABLE
+  otLogNotePlat("Current Test: Throughput NON-Confirmable");
+#elif DELAY_CLIENT
+  otLogNotePlat("Current Test: Delay Client (Confirmable)");
+#elif DELAY_SERVER
+  otLogNotePlat("Current Test: Delay Server (Confirmable)");
+#endif
+  return;
+}

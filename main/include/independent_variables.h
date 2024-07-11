@@ -19,6 +19,7 @@
 #pragma once
 
 #include "utilities.h"
+#include "main.h"
 
 #include <sdkconfig.h>
 #include <openthread/logging.h>
@@ -31,3 +32,4 @@
 
 void printCipherSuite();
 void printTxPower();
+void printNetPerfTest();
