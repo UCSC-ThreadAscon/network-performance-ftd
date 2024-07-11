@@ -3,6 +3,9 @@
 
 static otSockAddr socket;
 
+static uint64_t DelaysUs[DELAY_MAX_PACKETS];
+static uint32_t indexDelayUs;
+
 /**
  * If the network time isn't synchronized, wait for 1 second, then check again.
  * Repeat this process of checking and waiting until the network time is synchronized,
@@ -52,8 +55,6 @@ void delayConfirmableResponseCallback(void *aContext,
                                       const otMessageInfo *aMessageInfo,
                                       otError aResult)
 {
-  static uint32_t numPacketsReceived = 0;
-
   if (aResult == OT_ERROR_NONE)
   {
     DelayResponse payload; EmptyMemory(&payload, sizeof(DelayResponse));
@@ -63,12 +64,12 @@ void delayConfirmableResponseCallback(void *aContext,
     uint64_t delayUs = payload.delayUs;
     otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
 
-    numPacketsReceived += 1;
-    if (numPacketsReceived < DELAY_MAX_PACKETS)
+    indexDelayUs += 1;
+    if (indexDelayUs < DELAY_MAX_PACKETS)
     {
       delayConfirmableSend(&socket);
     }
-    else if (numPacketsReceived == DELAY_MAX_PACKETS)
+    else if (indexDelayUs == DELAY_MAX_PACKETS)
     {
       otLogNotePlat("Finished sending %d Delay packets.", DELAY_MAX_PACKETS);
     }
