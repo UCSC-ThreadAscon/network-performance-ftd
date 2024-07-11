@@ -8,7 +8,7 @@
 */
 void delayServerSendResponse(otMessage *aRequest,
                              const otMessageInfo *aRequestInfo,
-                             uint64_t delayUs)
+                             DelayResponse *payload)
 {
   otMessage *aResponse = NULL;
   otCoapCode status = OT_COAP_CODE_VALID;
@@ -22,7 +22,7 @@ void delayServerSendResponse(otMessage *aRequest,
                                             status);
   HandleMessageError("coap message init response", aResponse, error);
 
-  addPayload(aResponse, &delayUs, sizeof(uint64_t));
+  addPayload(aResponse, &payload, sizeof(DelayResponse));
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   HandleMessageError("send response", aResponse, error);
@@ -49,6 +49,9 @@ void delayRequestHandler(void* aContext,
       printRequest(aMessage, aMessageInfo);
       otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
 
+      DelayResponse response;
+      response.delayUs = delayUs;
+      response.sequenceNum = sequenceNum;
       delayServerSendResponse(aMessage, aMessageInfo, delayUs);
   }
   else {
