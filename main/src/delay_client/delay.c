@@ -46,18 +46,16 @@ void delayConfirmableResponseCallback(void *aContext,
 
   if (aResult == OT_ERROR_NONE)
   {
+    uint64_t delayUs = 0;
+    getPayload(aMessage, &delayUs);
+    otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+
+    numPacketsReceived += 1;
     if (numPacketsReceived < DELAY_MAX_PACKETS)
     {
-      uint64_t delayUs = 0;
-      getPayload(aMessage, &delayUs);
-
-      otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
-      numPacketsReceived += 1;
-
       delayConfirmableSend(&socket);
     }
-
-    if (numPacketsReceived == 1000)
+    else if (numPacketsReceived == 1000)
     {
       otLogNotePlat("Finished sending 1000 Delay packets.");
     }

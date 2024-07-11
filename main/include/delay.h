@@ -1,3 +1,5 @@
+#pragma once
+
 #include "tight_loop.h"
 #include "server.h"
 #include "time_api.h"
@@ -10,6 +12,20 @@
 #define WAIT_TIME_MS 1000
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
 #define DELAY_MAX_PACKETS 1000
+
+typedef struct DelayRequest
+{
+  uint32_t sequenceNum;
+  uint64_t sent;
+}
+DelayRequest;
+
+typedef struct DelayResponse
+{
+  uint32_t sequenceNum;
+  uint64_t delayUs;
+}
+DelayResponse;
 
 #define PrintTimeSyncError(status)                                          \
   if (status == OT_NETWORK_TIME_UNSYNCHRONIZED) {                           \
