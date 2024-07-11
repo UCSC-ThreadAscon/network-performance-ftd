@@ -4,7 +4,7 @@
 static otSockAddr socket;
 
 /**
- * If the network time isn't synchronized, wait for 1 seconds, then check again.
+ * If the network time isn't synchronized, wait for 1 second, then check again.
  * Repeat this process of checking and waiting until the network time is synchronized,
  * in which you can send the packets.
  */
