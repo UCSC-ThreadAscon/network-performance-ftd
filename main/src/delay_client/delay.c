@@ -41,11 +41,18 @@ void delayConfirmableResponseCallback(void *aContext,
                                       const otMessageInfo *aMessageInfo,
                                       otError aResult)
 {
+  uint32_t numPacketsReceived = 0;
+
   if (aResult == OT_ERROR_NONE)
   {
-    uint64_t delayUs = 0;
-    getPayload(aMessage, &delayUs);
-    otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+    if (numPacketsReceived < DELAY_MAX_PACKETS)
+    {
+      uint64_t delayUs = 0;
+      getPayload(aMessage, &delayUs);
+
+      otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+      numPacketsReceived += 1;
+    }
   }
   else
   {
