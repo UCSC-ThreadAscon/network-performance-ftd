@@ -6,9 +6,9 @@
  * CoAP secure source files can be found at:
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-void delayServerResponse(otMessage *aRequest,
-                         const otMessageInfo *aRequestInfo,
-                         uint64_t delayUs)
+void delayServerSendResponse(otMessage *aRequest,
+                             const otMessageInfo *aRequestInfo,
+                             uint64_t delayUs)
 {
   otMessage *aResponse = NULL;
   otCoapCode status = OT_COAP_CODE_VALID;
@@ -46,7 +46,7 @@ void delayRequestHandler(void* aContext,
       printRequest(aMessage, aMessageInfo);
       otLogNotePlat("Delay: %" PRIu64 " us.", delayUs);
 
-      delayServerResponse(aMessage, aMessageInfo, delayUs);
+      delayServerSendResponse(aMessage, aMessageInfo, delayUs);
   }
   else {
     /**
