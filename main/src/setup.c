@@ -14,6 +14,7 @@
 #include "main.h"
 #include "server.h"
 
+#if (DELAY_CLIENT || DELAY_SERVER)
 #define COMMANDS_LENGTH 2
 
 static const otCliCommand commands[] = {
@@ -30,6 +31,7 @@ void otCliVendorSetUserCommands() {
   }
   return;
 }
+#endif
 
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
 #include "ot_led_strip.h"
