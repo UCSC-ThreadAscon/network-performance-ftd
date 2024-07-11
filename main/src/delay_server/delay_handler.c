@@ -44,7 +44,7 @@ void delayRequestHandler(void* aContext,
       delayUs = received - sent;
 
       printRequest(aMessage, aMessageInfo);
-      otLogNotePlat("Delay: %" PRIu64 " us.", delayUs);
+      otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
 
       delayServerSendResponse(aMessage, aMessageInfo, delayUs);
   }
