@@ -43,7 +43,8 @@ void delayRequestHandler(void* aContext,
 
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
 
-  if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
+  if (status == OT_NETWORK_TIME_SYNCHRONIZED)
+  {
       delayUs = received - sent;
 
       printRequest(aMessage, aMessageInfo);
@@ -52,9 +53,10 @@ void delayRequestHandler(void* aContext,
       DelayResponse response;
       response.delayUs = delayUs;
       response.sequenceNum = sequenceNum;
-      delayServerSendResponse(aMessage, aMessageInfo, delayUs);
+      delayServerSendResponse(aMessage, aMessageInfo, &response);
   }
-  else {
+  else
+  {
     /**
      * Time Sync isn't working. Exit the experiment.
      */
