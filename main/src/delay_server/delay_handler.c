@@ -1,12 +1,5 @@
 #include "server.h"
 
-uint64_t getTimeSent(otMessage *aMessage)
-{
-  uint64_t sent = 0;
-  getPayload(aMessage, (void *) &sent);
-  return sent;
-}
-
 /**
  * This function is based upon the both CoAP and CoAP secure source code,
  * used as a part of the OpenThread codebase. The CoAP and
@@ -42,9 +35,11 @@ void delayRequestHandler(void* aContext,
 {
   uint64_t delayUs = 0;
   uint64_t received = 0;
-  uint64_t sent = getTimeSent(aMessage);
+  uint64_t sent = 0;
 
+  getPayload(aMessage, (void *) &sent);
   otNetworkTimeStatus status = otNetworkTimeGet(OT_INSTANCE, &received);
+
   if (status == OT_NETWORK_TIME_SYNCHRONIZED) {
       delayUs = received - sent;
 
