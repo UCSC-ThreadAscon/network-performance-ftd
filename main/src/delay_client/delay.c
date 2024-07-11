@@ -41,8 +41,19 @@ void delayConfirmableResponseCallback(void *aContext,
                                       const otMessageInfo *aMessageInfo,
                                       otError aResult)
 {
-  defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  delayConfirmableSend(&socket);   // send another request after getting response
+  if (aResult == OT_ERROR_NONE)
+  {
+    uint64_t delayUs = 0;
+    getPayload(aMessage, &delayUs);
+    otLogNotePlat("Delay: %" PRIu64 " us", delayUs);
+  }
+  else
+  {
+    otLogWarnPlat("Response error: %s", otThreadErrorToString(aResult));
+  }
+
+  // Send another request after getting a response.
+  delayConfirmableSend(&socket);
   return;
 }
 
