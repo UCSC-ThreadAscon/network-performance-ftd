@@ -20,9 +20,13 @@ void delayConfirmableSend(otSockAddr *socket)
 
     if (status == OT_NETWORK_TIME_SYNCHRONIZED)
     {
-      DelayRequest payload = {networkTime, sequenceNum};
+      DelayRequest payload;
+      payload.sequenceNum = sequenceNum;
+      payload.sent = networkTime;
+
       request(socket, &payload, DELAY_PACKET_BYTES, DELAY_URI,
               delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
+      sequenceNum += 1;
     }
     else
     {
