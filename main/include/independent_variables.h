@@ -18,6 +18,8 @@
  */
 #pragma once
 
+#include "utilities.h"
+
 #include <sdkconfig.h>
 #include <openthread/logging.h>
 
@@ -28,3 +30,4 @@
 #define LIBASCON_128 5
 
 void printCipherSuite();
+void printTxPower();

@@ -13,3 +13,13 @@ void printCipherSuite()
 #endif
   return;
 }
+
+void printTxPower()
+{
+  int8_t txPower = 0;
+  if (getTxPower(&txPower) != OT_ERROR_NONE)
+  {
+    otLogCritPlat("Failed to get TX Power.");
+  }
+  return;
+}

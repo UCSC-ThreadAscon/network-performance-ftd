@@ -57,6 +57,5 @@ void setTxPower() {
         UnhandledError();
   }
 
-  int8_t currentPower; GetTxPowerOrExit(&currentPower);
   return;
 }

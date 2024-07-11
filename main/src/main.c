@@ -8,6 +8,7 @@ void app_main(void)
 
   PrintDelimiter();
   printCipherSuite();
+  printTxPower();
   PrintDelimiter();
 
   checkConnection(OT_INSTANCE);
