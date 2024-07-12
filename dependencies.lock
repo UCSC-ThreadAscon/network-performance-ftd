@@ -12,11 +12,11 @@ dependencies:
       type: service
     version: 0.1.1
   espressif/led_strip:
-    component_hash: 67d2744208e9c12d8b1992d21c979396c1726e57cb7e35e7c171c515be20f8ea
+    component_hash: fc66f8544851132555bc668475f7b68acd6a211c8075db5ce1951cbfa27dfb88
     source:
       service_url: https://api.components.espressif.com/
       type: service
-    version: 2.5.3
+    version: 2.5.4
   idf:
     component_hash: null
     source:
@@ -25,9 +25,9 @@ dependencies:
   ot_led:
     component_hash: null
     source:
-      path: /Users/simeon/esp/esp-idf/examples/openthread/ot_common_components/ot_led
+      path: /home/simeon/esp/esp-idf/examples/openthread/ot_common_components/ot_led
       type: local
     version: '*'
-manifest_hash: 4b164ba7985e0d3212809104f12db3e1cd787dcfb0f63356ee251239b6f15358
+manifest_hash: 741242916235aa55417cf3acd575cd459bbf5f424eb510e975dad6964800a5ab
 target: esp32h2
 version: 1.0.0
