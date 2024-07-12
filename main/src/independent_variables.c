@@ -33,7 +33,7 @@ void printNetPerfTest()
 #elif PACKET_LOSS_CONFIRMABLE
   otLogNotePlat("Current Test: Packet Loss Confirmable");
 #elif PACKET_LOSS_NONCONFIRMABLE
-  ootLogNotePlat("Current Test: Packet Loss NON-Confirmable");
+  otLogNotePlat("Current Test: Packet Loss NON-Confirmable");
 #elif DELAY_CLIENT
   otLogNotePlat("Current Test: Delay Client (Confirmable)");
 #elif DELAY_SERVER
