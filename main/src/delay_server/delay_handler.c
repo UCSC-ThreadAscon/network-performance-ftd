@@ -1,4 +1,4 @@
-#include "server.h"
+#include "delay_server.h"
 
 /**
  * This function is based upon the both CoAP and CoAP secure source code,
@@ -51,8 +51,10 @@ void delayRequestHandler(void* aContext,
   {
       delayUs = received - sent;
 
+#if CONFIG_EXPERIMENT_DEBUG
       printRequest(aMessage, aMessageInfo);
       otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum, delayUs);
+#endif
 
       delayServerSendResponse(aMessage, aMessageInfo, delayUs, sequenceNum);
   }
@@ -71,7 +73,9 @@ void defaultRequestHandler(void* aContext,
                            otMessage *aMessage,
                            const otMessageInfo *aMessageInfo)
 {
+#if CONFIG_EXPERIMENT_DEBUG
   printRequest(aMessage, aMessageInfo);
+#endif
   sendCoapResponse(aMessage, aMessageInfo);
   return;
 }

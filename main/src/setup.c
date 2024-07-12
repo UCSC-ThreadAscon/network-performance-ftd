@@ -12,7 +12,7 @@
  * CONDITIONS OF ANY KIND, either express or implied.
 */
 #include "main.h"
-#include "server.h"
+#include "delay_server.h"
 
 #if (DELAY_CLIENT || DELAY_SERVER)
 #define COMMANDS_LENGTH 2

@@ -4,7 +4,7 @@
  *
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-#include "server.h"
+#include "delay_server.h"
 
 #include <stdio.h>
 #include <string.h>

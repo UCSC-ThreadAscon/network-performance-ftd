@@ -127,7 +127,7 @@ void request(otSockAddr *socket,
   addPayload(aRequest, payload, payloadSize);
   send(aRequest, &aMessageInfo, responseCallback);
 
-#if COAP_DEBUG
+#if CONFIG_EXPERIMENT_DEBUG
   printMessageSent(socket, payloadSize, type);
 #endif
   return;

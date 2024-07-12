@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tight_loop.h"
-#include "server.h"
+#include "delay_server.h"
 #include "time_api.h"
 #include "average.h"
 

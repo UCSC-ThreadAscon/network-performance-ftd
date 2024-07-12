@@ -5,8 +5,6 @@
 #include "print_macro.h"
 #include "macro.h"
 
-#define COAP_DEBUG CONFIG_DEBUG
-
 /* ---- Common API ---- */
 void checkConnection(otInstance *aInstance);
 void handleError(otError error, char* desc);

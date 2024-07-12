@@ -26,7 +26,9 @@ void plConfirmableSend(otSockAddr *socket)
             plConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
     numPacketsSent += 1;
 
+#if CONFIG_EXPERIMENT_DEBUG
     otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
+#endif
   }
   return;
 }
@@ -65,7 +67,9 @@ void plNonConfirmableMain()
   while (numPacketsSent < PACKET_LOSS_MAX_PACKETS_SENT) {
     plNonConfirmableSend(&socket);
     numPacketsSent += 1;
+#if CONFIG_EXPERIMENT_DEBUG
     otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
+#endif
   }
 
   KEEP_THREAD_ALIVE();

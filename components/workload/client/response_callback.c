@@ -19,7 +19,7 @@ void printPayloadInfo(otMessage *aMessage, const otMessageInfo *aMessageInfo)
   otIp6AddressToString(&(aMessageInfo->mPeerAddr), senderAddr,
                       OT_IP6_ADDRESS_STRING_SIZE);
 
-#if COAP_DEBUG
+#if CONFIG_EXPERIMENT_DEBUG
   otLogNotePlat("Response from %s of size %" PRIu16 " bytes.",
                 senderAddr, payloadLen);
 #endif
@@ -36,7 +36,9 @@ void defaultResponseCallback(void *aContext,
   }
   else 
   {
+#if CONFIG_EXPERIMENT_DEBUG
     printPayloadInfo(aMessage, aMessageInfo);
+#endif
   }
   return;
 }
