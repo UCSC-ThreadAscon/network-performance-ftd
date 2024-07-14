@@ -132,3 +132,38 @@ void request(otSockAddr *socket,
 #endif
   return;
 }
+
+void requestNoRetransmit(otSockAddr *socket,
+                         void *payload,
+                         size_t payloadSize,
+                         const char *uri,
+                         otCoapType type)
+{
+  otMessageInfo aMessageInfo;
+  otMessage *aRequest;
+
+  EmptyMemory(&aMessageInfo, sizeof(otMessageInfo));
+  createMessageInfo(socket, &aMessageInfo);
+
+  aRequest = createCoapMessage();
+
+  createHeaders(aRequest, &aMessageInfo, uri, type);
+  addPayload(aRequest, payload, payloadSize);
+
+  /** Set CoAP TX parameters to disable retransmissions.
+   */
+  otCoapTxParameters parameters;
+  parameters.mMaxRetransmit = 0;
+  parameters.mAckTimeout = 0;
+  parameters.mAckRandomFactorNumerator = 1;
+  parameters.mAckRandomFactorDenominator = 1;
+
+  otError error = otCoapSendRequestWithParameters(OT_INSTANCE, aRequest, &aMessageInfo,
+                                                  NULL, NULL, &parameters);
+  HandleMessageError("send request", aRequest, error);
+
+#if CONFIG_EXPERIMENT_DEBUG
+  printMessageSent(socket, payloadSize, type);
+#endif
+  return;
+}
