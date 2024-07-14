@@ -70,6 +70,7 @@ void plNonConfirmableMain()
 #if CONFIG_EXPERIMENT_DEBUG
     otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
 #endif
+    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
   }
 
   KEEP_THREAD_ALIVE();
