@@ -47,7 +47,6 @@ void tpNonConfirmableMain()
   InitSocket(&socket, SERVER_IP);
   while (true) {
     tpNonConfirmableSend(&socket);
-    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
   }
   KEEP_THREAD_ALIVE();
   return;
