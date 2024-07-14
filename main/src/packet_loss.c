@@ -37,8 +37,8 @@ void plNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_NONCONFIRMABLE_URI,
-          NULL, OT_COAP_TYPE_NON_CONFIRMABLE);
+  requestNoRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
+                      PACKET_LOSS_NONCONFIRMABLE_URI, OT_COAP_TYPE_NON_CONFIRMABLE);
   return;
 }
 
@@ -70,6 +70,7 @@ void plNonConfirmableMain()
 #if CONFIG_EXPERIMENT_DEBUG
     otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
 #endif
+    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
   }
 
   KEEP_THREAD_ALIVE();

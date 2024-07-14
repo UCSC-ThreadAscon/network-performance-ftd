@@ -15,8 +15,8 @@ void tpNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_NONCONFIRMABLE_URI,
-          NULL, OT_COAP_TYPE_NON_CONFIRMABLE);
+  requestNoRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
+                     THROUGHPUT_NONCONFIRMABLE_URI, OT_COAP_TYPE_NON_CONFIRMABLE);
   return;
 }
 
@@ -47,6 +47,7 @@ void tpNonConfirmableMain()
   InitSocket(&socket, SERVER_IP);
   while (true) {
     tpNonConfirmableSend(&socket);
+    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
   }
   KEEP_THREAD_ALIVE();
   return;
