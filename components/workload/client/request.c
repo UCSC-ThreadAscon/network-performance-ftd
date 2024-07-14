@@ -154,9 +154,9 @@ void requestNoRetransmit(otSockAddr *socket,
    */
   otCoapTxParameters parameters;
   parameters.mMaxRetransmit = 0;
-  parameters.mAckTimeout = 0;
-  parameters.mAckRandomFactorNumerator = 1;
-  parameters.mAckRandomFactorDenominator = 1;
+  parameters.mAckTimeout = 2000;
+  parameters.mAckRandomFactorNumerator = 1.5;
+  parameters.mAckRandomFactorDenominator = 1.5;
 
   otError error = otCoapSendRequestWithParameters(OT_INSTANCE, aRequest, &aMessageInfo,
                                                   NULL, NULL, &parameters);
