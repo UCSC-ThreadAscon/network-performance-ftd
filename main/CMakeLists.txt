@@ -1,7 +1,4 @@
-set(delay_server, CONFIG_EXPERIMENT EQUAL 5)
-set(delay_client, CONFIG_EXPERIMENT EQUAL 6)
-
-if(delay_client OR delay_server)
+if((CONFIG_EXPERIMENT EQUAL 5) OR (CONFIG_EXPERIMENT EQUAL 6))
 
   message("---------------------------")
   message("")
