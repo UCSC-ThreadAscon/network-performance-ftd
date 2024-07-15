@@ -45,13 +45,6 @@ void delayConfirmableSend(otSockAddr *socket)
   return;
 }
 
-/**
- * TO-DO:
- *  1. Get the Delay time from the payload, and print out the Delay.
- *  2. Get the client to stop after 1000 packets.
- *  3. Set up a sequence number to map which packet sent which delay.
- *  4. Get the client to print out the average delay after receiving 1000 packets.
- */
 void delayConfirmableResponseCallback(void *aContext,
                                       otMessage *aMessage,
                                       const otMessageInfo *aMessageInfo,
@@ -62,23 +55,35 @@ void delayConfirmableResponseCallback(void *aContext,
     DelayResponse payload; EmptyMemory(&payload, sizeof(DelayResponse));
     getPayload(aMessage, (void *) &payload);
 
-    uint32_t sequenceNum = payload.sequenceNum;
-    DelaysUs[indexDelayUs] = payload.delayUs;
-
-    /** Going to print out the individual delays, along with the average.
-     */
-    otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum,
-                  DelaysUs[indexDelayUs]);
-
-    indexDelayUs += 1;
-    if (indexDelayUs < DELAY_MAX_PACKETS)
+    if (payload.sequenceNum == 0)
     {
+      /**
+       * Skip, as the delay with sequence number 0 seems to often be larger
+       *  than the actual delay.
+       */
+      otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us (going to skip)",
+                    payload.sequenceNum, payload.delayUs);
       delayConfirmableSend(&socket);
     }
-    else if (indexDelayUs == DELAY_MAX_PACKETS)
+    else
     {
-      uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
-      PrintAverageDelay(averageDelayUs);
+      /**
+       * Print out the individual delays too.
+       */
+      DelaysUs[indexDelayUs] = payload.delayUs;
+      otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us",
+                    payload.sequenceNum, DelaysUs[indexDelayUs]);
+
+      indexDelayUs += 1;
+      if (indexDelayUs < DELAY_MAX_PACKETS)
+      {
+        delayConfirmableSend(&socket);
+      }
+      else if (indexDelayUs == DELAY_MAX_PACKETS)
+      {
+        uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
+        PrintAverageDelay(averageDelayUs);
+      }
     }
   }
   else

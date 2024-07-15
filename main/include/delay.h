@@ -11,6 +11,7 @@
 #define DELAY_PACKET_BYTES 8
 #define WAIT_TIME_MS 100
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
+
 #define DELAY_MAX_PACKETS 1000
 
 typedef struct DelayRequest
