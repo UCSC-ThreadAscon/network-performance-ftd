@@ -34,7 +34,9 @@ void delayConfirmableSend(otSockAddr *socket)
     }
     else
     {
+#if CONFIG_EXPERIMENT_DEBUG
       PrintTimeSyncError(status);
+#endif
       vTaskDelay(WAIT_TIME_TICKS);
     }
   }
@@ -63,6 +65,8 @@ void delayConfirmableResponseCallback(void *aContext,
     uint32_t sequenceNum = payload.sequenceNum;
     DelaysUs[indexDelayUs] = payload.delayUs;
 
+    /** Going to print out the individual delays, along with the average.
+     */
     otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us", sequenceNum,
                   DelaysUs[indexDelayUs]);
 

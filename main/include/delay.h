@@ -9,7 +9,7 @@
 #include <openthread/network_time.h> 
 
 #define DELAY_PACKET_BYTES 8
-#define WAIT_TIME_MS 1000
+#define WAIT_TIME_MS 100
 #define WAIT_TIME_TICKS WAIT_TIME_MS / portTICK_PERIOD_MS
 #define DELAY_MAX_PACKETS 1000
 
@@ -29,7 +29,7 @@ DelayResponse;
 
 #define PrintTimeSyncError(status)                                          \
   if (status == OT_NETWORK_TIME_UNSYNCHRONIZED) {                           \
-    otLogCritPlat("The network time is currently unsynchronized.");         \
+    otLogWarnPlat("The network time is currently unsynchronized.");         \
   }                                                                         \
   else if (status == OT_NETWORK_TIME_RESYNC_NEEDED) {                       \
     otLogCritPlat("The network time needs to be resynced.");                \
