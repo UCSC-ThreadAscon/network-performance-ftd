@@ -13,7 +13,7 @@
 
 #define PACKET_LOSS_MAX_PACKETS_SENT 1000
 
-#define NON_CONFIRMABLE_MICROSLEEP_MS 1000
+#define NON_CONFIRMABLE_MICROSLEEP_MS OT_COAP_MIN_ACK_TIMEOUT
 
 void createRandomPayload(uint8_t *buffer);
 void tpConfirmableMain(void);

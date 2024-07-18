@@ -154,7 +154,7 @@ void requestNoRetransmit(otSockAddr *socket,
    */
   otCoapTxParameters parameters;
   parameters.mMaxRetransmit = 0;
-  parameters.mAckTimeout = 1000;
+  parameters.mAckTimeout = OT_COAP_MIN_ACK_TIMEOUT;
   parameters.mAckRandomFactorNumerator = 1;
   parameters.mAckRandomFactorDenominator = 1;
 
