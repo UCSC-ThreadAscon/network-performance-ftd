@@ -24,7 +24,7 @@ void request(otSockAddr *socket,
              otCoapResponseHandler responseCallback,
              otCoapType type);
 
-void requestNoRetransmit(otSockAddr *socket,
+void requestMinimizeRetransmit(otSockAddr *socket,
                          void *payload,
                          size_t payloadSize,
                          const char *uri,

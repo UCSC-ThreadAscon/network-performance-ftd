@@ -13,6 +13,10 @@
 
 #define PACKET_LOSS_MAX_PACKETS_SENT 1000
 
+/** The microsleep has to be no smaller than the MAX_TRANSMIT_WAIT
+ *  time given used in the `requestMinimizeRetransmit()` function
+ * in `request.c`.
+ */
 #define NON_CONFIRMABLE_MICROSLEEP_MS OT_COAP_MIN_ACK_TIMEOUT
 
 void createRandomPayload(uint8_t *buffer);

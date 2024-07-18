@@ -133,11 +133,11 @@ void request(otSockAddr *socket,
   return;
 }
 
-void requestNoRetransmit(otSockAddr *socket,
-                         void *payload,
-                         size_t payloadSize,
-                         const char *uri,
-                         otCoapType type)
+void requestMinimizeRetransmit(otSockAddr *socket,
+                               void *payload,
+                               size_t payloadSize,
+                               const char *uri,
+                               otCoapType type)
 {
   otMessageInfo aMessageInfo;
   otMessage *aRequest;
@@ -151,6 +151,8 @@ void requestNoRetransmit(otSockAddr *socket,
   addPayload(aRequest, payload, payloadSize);
 
   /** Set CoAP TX parameters to minimize the number of possible retransmissions.
+   *  These parameters will set the MAX_TRANSMIT_WAIT time to be exactly
+   *  OT_COAP_MIN_ACK_TIMEOUT every time.
    */
   otCoapTxParameters parameters;
   parameters.mMaxRetransmit = 0;

@@ -15,7 +15,7 @@ void tpNonConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  requestNoRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
+  requestMinimizeRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
                      THROUGHPUT_NONCONFIRMABLE_URI, OT_COAP_TYPE_NON_CONFIRMABLE);
   return;
 }
