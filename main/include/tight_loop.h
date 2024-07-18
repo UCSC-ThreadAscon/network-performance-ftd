@@ -17,7 +17,7 @@
  *  time given used in the `requestMinimizeRetransmit()` function
  * in `request.c`.
  */
-#define NON_CONFIRMABLE_MICROSLEEP_MS OT_COAP_MIN_ACK_TIMEOUT
+#define NON_CONFIRMABLE_MICROSLEEP_MS 100
 
 void createRandomPayload(uint8_t *buffer);
 void tpConfirmableMain(void);
