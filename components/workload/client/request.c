@@ -158,7 +158,7 @@ void requestNoRetransmit(otSockAddr *socket,
   parameters.mAckRandomFactorNumerator = 1;
   parameters.mAckRandomFactorDenominator = 1;
 
-#if NON_CONFIRMABLE_TX_DEBUG
+#if CONFIG_NON_CONFIRMABLE_TX_DEBUG
   otLogNotePlat("The Max Retransmits is: %" PRIu8 "", parameters.mMaxRetransmit);
   otLogNotePlat("The ACK Timeout is: %" PRIu32 "", parameters.mAckTimeout);
   otLogNotePlat("The ACK Random Factor Numerator is: %" PRIu8 "",
