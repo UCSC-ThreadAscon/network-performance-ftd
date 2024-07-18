@@ -25,9 +25,9 @@ dependencies:
   ot_led:
     component_hash: null
     source:
-      path: /home/simeon/esp/esp-idf/examples/openthread/ot_common_components/ot_led
+      path: /Users/simeon/esp/esp-idf/examples/openthread/ot_common_components/ot_led
       type: local
     version: '*'
-manifest_hash: 741242916235aa55417cf3acd575cd459bbf5f424eb510e975dad6964800a5ab
+manifest_hash: 4b164ba7985e0d3212809104f12db3e1cd787dcfb0f63356ee251239b6f15358
 target: esp32h2
 version: 1.0.0
