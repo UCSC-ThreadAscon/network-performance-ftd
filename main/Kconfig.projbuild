@@ -49,4 +49,12 @@ menu "UCSC Thread-ASCON Experiment Workload"
       help
         If on, turns on debugging statements that prints information about
         individual packets sent and received.
+
+    config NON_CONFIRMABLE_TX_DEBUG
+      bool 'Toggles debugging statements to print out the CoAP TX parameters'.
+      default n
+      help
+        If on, the program will print debugging statements which display the
+        CoAP TX parameters used in both the Non-Confirmable Throughput and
+        Packet Loss experiments.
 endmenu

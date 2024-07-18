@@ -150,15 +150,22 @@ void requestNoRetransmit(otSockAddr *socket,
   createHeaders(aRequest, &aMessageInfo, uri, type);
   addPayload(aRequest, payload, payloadSize);
 
-  /** Set CoAP TX parameters to disable retransmissions.
+  /** Set CoAP TX parameters to minimize the number of possible retransmissions.
    */
   otCoapTxParameters parameters;
   parameters.mMaxRetransmit = 0;
-
-  // Default values
   parameters.mAckTimeout = 2000;
-  parameters.mAckRandomFactorNumerator = 3;
-  parameters.mAckRandomFactorDenominator = 2;
+  parameters.mAckRandomFactorNumerator = 1;
+  parameters.mAckRandomFactorDenominator = 1;
+
+#if NON_CONFIRMABLE_TX_DEBUG
+  otLogNotePlat("The Max Retransmits is: %" PRIu8 "", parameters.mMaxRetransmit);
+  otLogNotePlat("The ACK Timeout is: %" PRIu32 "", parameters.mAckTimeout);
+  otLogNotePlat("The ACK Random Factor Numerator is: %" PRIu8 "",
+                parameters.mAckRandomFactorNumerator);
+  otLogNotePlat("The Random Factor Denominator is: %" PRIu8 "",
+                parameters.mAckRandomFactorDenominator);
+#endif
 
   otError error = otCoapSendRequestWithParameters(OT_INSTANCE, aRequest, &aMessageInfo,
                                                   NULL, NULL, &parameters);
