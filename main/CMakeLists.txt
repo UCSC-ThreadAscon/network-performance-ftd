@@ -1,4 +1,4 @@
-if((CONFIG_EXPERIMENT EQUAL 5) OR (CONFIG_EXPERIMENT EQUAL 6))
+if((CONFIG_EXPERIMENT EQUAL 3) OR (CONFIG_EXPERIMENT EQUAL 4))
 
   message("---------------------------")
   message("")
