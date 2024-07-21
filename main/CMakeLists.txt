@@ -2,7 +2,7 @@ if((CONFIG_EXPERIMENT EQUAL 3) OR (CONFIG_EXPERIMENT EQUAL 4))
 
   message("---------------------------------------------------------------------------------")
   message("")
-  message("Building for Delay Client and Server")
+  message("Building for Delay Client and Server.")
   message("")
   message("---------------------------------------------------------------------------------")
 
@@ -13,7 +13,7 @@ else()
 
 message("---------------------------------------------------------------------------------")
   message("")
-  message("Building for Throughput and Packet Loss")
+  message("Building for Throughput and Packet Loss.")
   message("")
   message("---------------------------------------------------------------------------------")
 
