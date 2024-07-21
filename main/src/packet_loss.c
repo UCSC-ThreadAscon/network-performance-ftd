@@ -33,15 +33,6 @@ void plConfirmableSend(otSockAddr *socket)
   return;
 }
 
-void plNonConfirmableSend(otSockAddr *socket) 
-{
-  uint32_t payload = 0;
-  createRandomPayload((uint8_t *) &payload);
-  requestMinimizeRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
-                      PACKET_LOSS_NONCONFIRMABLE_URI, OT_COAP_TYPE_NON_CONFIRMABLE);
-  return;
-}
-
 void plConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
@@ -55,24 +46,6 @@ void plConfirmableMain()
 {
   InitSocket(&socket, SERVER_IP);
   plConfirmableSend(&socket);
-  KEEP_THREAD_ALIVE();
-  return;
-}
-
-void plNonConfirmableMain()
-{
-  static uint32_t numPacketsSent = 0;
-  InitSocket(&socket, SERVER_IP);
-
-  while (numPacketsSent < PACKET_LOSS_MAX_PACKETS_SENT) {
-    plNonConfirmableSend(&socket);
-    numPacketsSent += 1;
-#if CONFIG_EXPERIMENT_DEBUG
-    otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
-#endif
-    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
-  }
-
   KEEP_THREAD_ALIVE();
   return;
 }

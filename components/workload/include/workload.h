@@ -24,12 +24,6 @@ void request(otSockAddr *socket,
              otCoapResponseHandler responseCallback,
              otCoapType type);
 
-void requestMinimizeRetransmit(otSockAddr *socket,
-                         void *payload,
-                         size_t payloadSize,
-                         const char *uri,
-                         otCoapType type);
-
 void addPayload(otMessage *aRequest, void *payload, size_t payloadSize);
 
 /* ---- CoAP Response Handler ---- */

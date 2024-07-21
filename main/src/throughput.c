@@ -11,15 +11,6 @@ void tpConfirmableSend(otSockAddr *socket)
   return;
 }
 
-void tpNonConfirmableSend(otSockAddr *socket)
-{
-  uint32_t payload = 0;
-  createRandomPayload((uint8_t *) &payload);
-  requestMinimizeRetransmit(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES,
-                     THROUGHPUT_NONCONFIRMABLE_URI, OT_COAP_TYPE_NON_CONFIRMABLE);
-  return;
-}
-
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
@@ -38,17 +29,6 @@ void tpConfirmableMain()
 {
   InitSocket(&socket, SERVER_IP);
   tpConfirmableSend(&socket);
-  KEEP_THREAD_ALIVE();
-  return;
-}
-
-void tpNonConfirmableMain()
-{
-  InitSocket(&socket, SERVER_IP);
-  while (true) {
-    tpNonConfirmableSend(&socket);
-    vTaskDelay(NON_CONFIRMABLE_MICROSLEEP_MS / portTICK_PERIOD_MS);
-  }
   KEEP_THREAD_ALIVE();
   return;
 }

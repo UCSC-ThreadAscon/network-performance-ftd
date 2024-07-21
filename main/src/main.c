@@ -36,12 +36,8 @@ void app_main(void)
 
 #if THROUGHPUT_CONFIRMABLE
   tpConfirmableMain();
-#elif THROUGHPUT_NONCONFIRMABLE
-  tpNonConfirmableMain();
 #elif PACKET_LOSS_CONFIRMABLE
   plConfirmableMain();
-#elif PACKET_LOSS_NONCONFIRMABLE
-  plNonConfirmableMain();
 #elif DELAY_CLIENT
   delayConfirmableMain();
 #endif

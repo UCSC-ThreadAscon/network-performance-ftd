@@ -4,28 +4,18 @@
 #include "socket.h"
 
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"
-#define THROUGHPUT_NONCONFIRMABLE_URI "throughput-nonconfirmable"
 #define PACKET_LOSS_CONFIRMABLE_URI "packet-loss-confirmable"
-#define PACKET_LOSS_NONCONFIRMABLE_URI "packet-loss-nonconfirmable"
 #define DELAY_URI "delay-confirmable"
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 
 #define PACKET_LOSS_MAX_PACKETS_SENT 1000
 
-/** The microsleep has to be no smaller than the MAX_TRANSMIT_WAIT
- *  time given used in the `requestMinimizeRetransmit()` function
- * in `request.c`.
- */
-#define NON_CONFIRMABLE_MICROSLEEP_MS 100
-
 void createRandomPayload(uint8_t *buffer);
 void tpConfirmableMain(void);
 void tpNonConfirmableMain(void);
 
 void plConfirmableMain(void);
-void plNonConfirmableMain(void);
-
 void delayConfirmableMain(void);
 
 void tpConfirmableResponseCallback(void *aContext,
