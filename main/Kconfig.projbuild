@@ -19,7 +19,7 @@ menu "UCSC Thread-ASCON Experiment Workload"
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'
-      range -128 127
+      range -24 20
       default 20
       help
           Set the 802.15.4 transmission power (in dBm) for OpenThread.
