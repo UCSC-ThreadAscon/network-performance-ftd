@@ -36,12 +36,9 @@
 #define PrintDelimiter() otLogNotePlat("---------------------------");
 
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
-#define THROUGHPUT_NONCONFIRMABLE (CONFIG_EXPERIMENT == 2)
-#define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 3)
-#define PACKET_LOSS_NONCONFIRMABLE (CONFIG_EXPERIMENT == 4)
-
-#define DELAY_SERVER (CONFIG_EXPERIMENT == 5)
-#define DELAY_CLIENT (CONFIG_EXPERIMENT == 6)
+#define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
+#define DELAY_SERVER (CONFIG_EXPERIMENT == 3)
+#define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
 
 void startMain();
 void networkTimeSyncCallbback(void *aCallbackContext);

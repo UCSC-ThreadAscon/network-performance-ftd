@@ -13,11 +13,9 @@ menu "UCSC Thread-ASCON Experiment Workload"
       help
         Set the flag to '0' to run no experiment (primarily used for debugging purposes).
         Set the flag to '1' to run the Throughput Confirmable experiment.
-        Set the flag to '2' to run the Throughput Non-Confirmable experiment.
-        Set the flag to '3' to run the Packet Loss Confirmable experiment.
-        Set the flag to '4' to run the Packet Loss Non-Confirmable experiment.
-        Set the flag to '5' to run the Delay experiment, with the device acting as the SERVER.
-        Set the flag to '6' to run the Delay experiment, with the device acting as the CLIENT.
+        Set the flag to '2' to run the Packet Loss Confirmable experiment.
+        Set the flag to '3' to run the Delay experiment, with the device acting as the SERVER.
+        Set the flag to '4' to run the Delay experiment, with the device acting as the CLIENT.
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'
