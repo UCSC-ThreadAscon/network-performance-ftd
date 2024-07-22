@@ -95,6 +95,13 @@ void defaultRequestHandler(void* aContext,
   return;
 }
 
+static inline bool connected(otDeviceRole role)
+{
+  return (role == OT_DEVICE_ROLE_CHILD)  ||
+         (role == OT_DEVICE_ROLE_ROUTER) ||
+         (role == OT_DEVICE_ROLE_LEADER);
+}
+
 /**
  * The code for the Delay Server main function comes from the ESP-IDF
  * OpenThread SED state change callback example function:
@@ -102,20 +109,22 @@ void defaultRequestHandler(void* aContext,
  */
 void delay_server_main(otChangedFlags changed_flags, void* ctx)
 {
-    OT_UNUSED_VARIABLE(ctx);
-    otInstance* instance = esp_openthread_get_instance();
-    if (!instance)
-    {
-        return;
-    }
+  OT_UNUSED_VARIABLE(ctx);
+  static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
 
-    otDeviceRole role = otThreadGetDeviceRole(instance);
-    if ((role == OT_DEVICE_ROLE_CHILD) ||
-        (role == OT_DEVICE_ROLE_ROUTER) ||
-        (role == OT_DEVICE_ROLE_LEADER))
-    {
-      startCoapServer(OT_DEFAULT_COAP_PORT);
-      createResource(&experimentRoute, "Delay Confirmable", delayRequestHandler);
-    }
+  otInstance* instance = esp_openthread_get_instance();
+  if (!instance)
+  {
+      return;
+  }
+
+  otDeviceRole role = otThreadGetDeviceRole(instance);
+  if ((connected(role) == true) &&
+      (connected(s_previous_role) == false))
+  {
+    startCoapServer(OT_DEFAULT_COAP_PORT);
+    createResource(&experimentRoute, "Delay Confirmable", delayRequestHandler);
+  }
+  s_previous_role = role;
   return;
 }

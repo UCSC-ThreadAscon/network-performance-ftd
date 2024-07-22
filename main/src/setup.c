@@ -70,7 +70,9 @@ static void ot_task_worker(void *aContext)
      * The set state change callback must be set after the call to
      * `esp_netif_set_default_netif()`.
      */
+#if DELAY_SERVER
     otSetStateChangedCallback(esp_openthread_get_instance(), delay_server_main, NULL);
+#endif
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
     esp_cli_custom_command_init();
