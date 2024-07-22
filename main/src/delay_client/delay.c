@@ -83,6 +83,12 @@ void delayConfirmableResponseCallback(void *aContext,
       {
         uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
         PrintAverageDelay(averageDelayUs);
+
+        /**
+         * The Experiment is over. Restart the device to start the next
+         * trial programmatically.
+         */
+        esp_restart();
       }
     }
   }
