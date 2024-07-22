@@ -12,6 +12,8 @@ void resourceDestructor(otCoapResource *resource);
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
+void delay_server_main(otChangedFlags changed_flags, void* ctx);
+
 void defaultRequestHandler(void* aContext,
                            otMessage *aMessage,
                            const otMessageInfo *aMessageInfo);
@@ -19,6 +21,3 @@ void defaultRequestHandler(void* aContext,
 void delayRequestHandler(void *aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo);
-
-otError expServerStart(void* aContext, uint8_t argsLength, char* aArgs[]);
-otError expServerFree(void* aContext, uint8_t argsLength, char* aArgs[]);

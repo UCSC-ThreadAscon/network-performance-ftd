@@ -14,25 +14,6 @@
 #include "main.h"
 #include "delay_server.h"
 
-#if (DELAY_CLIENT || DELAY_SERVER)
-#define COMMANDS_LENGTH 2
-
-static const otCliCommand commands[] = {
-  {"exp-server-start", expServerStart},
-  {"exp-server-stop", expServerFree}
-};
-
-void otCliVendorSetUserCommands() {
-  otError error = otCliSetUserCommands(commands, COMMANDS_LENGTH, NULL);
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to set custom commands.");
-  } else {
-    otLogNotePlat("Successfully set custom commands.");
-  }
-  return;
-}
-#endif
-
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
 #include "ot_led_strip.h"
 #endif
@@ -81,6 +62,15 @@ static void ot_task_worker(void *aContext)
     // Initialize the esp_netif bindings
     openthread_netif = init_openthread_netif(&config);
     esp_netif_set_default_netif(openthread_netif);
+
+    /**
+     * According to the ESP-IDF OpenThread SED example:
+     * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L187C5-L187C32
+     *
+     * The set state change callback must be set after the call to
+     * `esp_netif_set_default_netif()`.
+     */
+    otSetStateChangedCallback(esp_openthread_get_instance(), delay_server_main, NULL);
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
     esp_cli_custom_command_init();
