@@ -87,6 +87,7 @@ void delayConfirmableResponseCallback(void *aContext,
         /**
          * The Experiment is over. Restart the device to start the next
          * trial programmatically.
+         * https://esp32.com/viewtopic.php?t=4706
          */
         esp_restart();
       }
