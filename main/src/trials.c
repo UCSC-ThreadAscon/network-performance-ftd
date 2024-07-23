@@ -2,7 +2,7 @@
 
 #define NVS_NAMESPACE "nvs_trials"
 #define NVS_TRIALS "trials"
-#define NUM_TRIALS 100
+#define MAX_TRIALS 100
 
 /**
  * This function should run AFTER each experimental trial is complete. The function
@@ -31,6 +31,15 @@ void startNextTrial()
   ESP_ERROR_CHECK(nvs_set_u32(handle, NVS_TRIALS, &numTrials));
 
   nvs_close(handle);
-  esp_restart();
+
+  if (numTrials < MAX_TRIALS)
+  {
+    otLogNotePlat("Trial %" PRIu32 " is now complete.", numTrials);
+    esp_restart();
+  }
+  else
+  {
+    otLogNotePlat("Finished running %d trials for current experiment.", numTrials);
+  }
   return;
 }
