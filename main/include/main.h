@@ -40,5 +40,7 @@
 #define DELAY_SERVER (CONFIG_EXPERIMENT == 3)
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
 
-void startMain();
+void startMain(void);
+void startNextTrial(void);
+
 void networkTimeSyncCallbback(void *aCallbackContext);
