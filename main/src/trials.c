@@ -10,8 +10,11 @@
  *
  * I discovered the existence of the `esp_reset_reason()` function when reading:
  * https://forum.arduino.cc/t/how-to-distinguish-reset-by-power-on-from-reset-by-software-command/1160400/9
+ *
+ * I learned how abotu `esp_restart()` from:
+ * https://esp32.com/viewtopic.php?t=4706
  */
-void startNextTrial()
+void startNextTrial(void)
 {
   uint32_t numTrials = 0;
   nvs_handle_t handle = 0;
@@ -28,7 +31,7 @@ void startNextTrial()
    *  updated number of trials to local storage.
    */
   numTrials += 1;
-  ESP_ERROR_CHECK(nvs_set_u32(handle, NVS_TRIALS, &numTrials));
+  ESP_ERROR_CHECK(nvs_set_u32(handle, NVS_TRIALS, numTrials));
 
   nvs_close(handle);
 
@@ -39,7 +42,8 @@ void startNextTrial()
   }
   else
   {
-    otLogNotePlat("Finished running %d trials for current experiment.", numTrials);
+    otLogNotePlat("Finished running %" PRIu32 " trials for current experiment.",
+                  numTrials);
   }
   return;
 }
