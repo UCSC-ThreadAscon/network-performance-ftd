@@ -6,6 +6,9 @@
  * Records the number of trials done so far in the Delay experiment,
  * and restarts the device after each trial. After NUM_TRIALS trials have
  * been done, the device stops restarting.
+ *
+ * I discovered the existence of the `esp_reset_reason()` function when reading:
+ * https://forum.arduino.cc/t/how-to-distinguish-reset-by-power-on-from-reset-by-software-command/1160400/9
  */
 void startNextTrial()
 {
