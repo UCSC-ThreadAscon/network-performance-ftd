@@ -37,6 +37,16 @@ void delayConfirmableSend(otSockAddr *socket)
 #if CONFIG_EXPERIMENT_DEBUG
       PrintTimeSyncError(status);
 #endif
+    /**
+     * TODO:
+     *  You DO NOT need this. Use the network time callback handler, of
+     *  type `otNetworkTimeSyncCallbackFn()` to only start sending packets
+     *  as soon as the network time has been synchronized.
+     *
+     *  Then, whenever you get even ONE CALL in which `otNetworkTimeGet()`
+     *  that returns an error indicating a time sync problem, you END the
+     *  experiment.
+     */
       vTaskDelay(WAIT_TIME_TICKS);
     }
   }
