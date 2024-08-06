@@ -55,6 +55,7 @@ void startCoapServerCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     coapStart();
+    otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
   }
   s_previous_role = role;
   return;
@@ -98,10 +99,8 @@ static void ot_task_worker(void *aContext)
    */
 #if DELAY_SERVER
   otSetStateChangedCallback(esp_openthread_get_instance(), delayServerMain, NULL);
-  otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), networkTimeSyncCallback, NULL);
 #elif DELAY_CLIENT
   otSetStateChangedCallback(esp_openthread_get_instance(), startCoapServerCallback, NULL);
-  otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
 #endif
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION

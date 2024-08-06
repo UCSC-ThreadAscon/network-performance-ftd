@@ -7,8 +7,9 @@ static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 static uint32_t indexDelayUs;
 
 /**
- * If the network time is synchronized, start the experiment. Otherwise,
- * print a warning message and exit the function.
+ * If the network time isn't synchronized, wait for 100 ms, then check again.
+ * Repeat this process of checking and waiting until the network time is synchronized,
+ * in which you can send the packets.
  */
 void delayConfirmableSend(otSockAddr *socket)
 {
@@ -16,23 +17,30 @@ void delayConfirmableSend(otSockAddr *socket)
   uint64_t networkTime = 0;
   otNetworkTimeStatus status = OT_NETWORK_TIME_UNSYNCHRONIZED;
 
-  status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
-
-  if (status == OT_NETWORK_TIME_SYNCHRONIZED)
+  do
   {
-    DelayRequest payload; EmptyMemory(&payload, sizeof(DelayRequest));
+    status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
 
-    payload.sequenceNum = sequenceNum;
-    payload.sent = networkTime;
+    if (status == OT_NETWORK_TIME_SYNCHRONIZED)
+    {
+      DelayRequest payload; EmptyMemory(&payload, sizeof(DelayRequest));
 
-    request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
-            delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
-    sequenceNum += 1;
+      payload.sequenceNum = sequenceNum;
+      payload.sent = networkTime;
+
+      request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
+              delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
+      sequenceNum += 1;
+    }
+    else
+    {
+#if CONFIG_EXPERIMENT_DEBUG
+      PrintTimeSyncError(status);
+#endif
+      vTaskDelay(WAIT_TIME_TICKS);
+    }
   }
-  else
-  {
-    PrintTimeSyncError(status);
-  }
+  while (status != OT_NETWORK_TIME_SYNCHRONIZED);
 
   return;
 }
