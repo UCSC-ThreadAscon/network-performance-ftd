@@ -74,6 +74,14 @@ static void ot_task_worker(void *aContext)
   otSetStateChangedCallback(esp_openthread_get_instance(), delayServerMain, NULL);
 #endif
 
+  /**
+   * Placing all Network Time Sync callback function next to where I put
+   * all the state change callbacks.
+   */
+#if (DELAY_SERVER || DELAY_CLIENT)
+  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallback, NULL);
+#endif
+
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
   esp_cli_custom_command_init();
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
