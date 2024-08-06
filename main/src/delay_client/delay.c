@@ -117,5 +117,6 @@ void delayConfirmableMain()
 {
   otLogNotePlat("Hello");
   InitSocket(&socket, DELAY_SERVER_IP);
+  delayConfirmableSend(&socket);
   return;
 }
