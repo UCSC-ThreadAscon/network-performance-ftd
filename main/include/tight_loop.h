@@ -12,11 +12,10 @@
 #define PACKET_LOSS_MAX_PACKETS_SENT 1000
 
 void createRandomPayload(uint8_t *buffer);
-void tpConfirmableMain(void);
-void tpNonConfirmableMain(void);
 
+void tpConfirmableMain(void);
 void plConfirmableMain(void);
-void delayConfirmableMain(void);
+void delayConfirmableMain(otChangedFlags changed_flags, void* ctx);
 
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,

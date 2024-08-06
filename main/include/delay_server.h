@@ -12,7 +12,7 @@ void resourceDestructor(otCoapResource *resource);
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
-void delay_server_main(otChangedFlags changed_flags, void* ctx);
+void delayServerMain(otChangedFlags changed_flags, void* ctx);
 
 void defaultRequestHandler(void* aContext,
                            otMessage *aMessage,

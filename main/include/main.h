@@ -44,3 +44,10 @@ void startMain(void);
 void startNextTrial(void);
 
 void networkTimeSyncCallbback(void *aCallbackContext);
+
+inline bool connected(otDeviceRole role)
+{
+  return (role == OT_DEVICE_ROLE_CHILD)  ||
+         (role == OT_DEVICE_ROLE_ROUTER) ||
+         (role == OT_DEVICE_ROLE_LEADER);
+}

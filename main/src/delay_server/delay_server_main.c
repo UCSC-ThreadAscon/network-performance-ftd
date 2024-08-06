@@ -95,19 +95,12 @@ void defaultRequestHandler(void* aContext,
   return;
 }
 
-static inline bool connected(otDeviceRole role)
-{
-  return (role == OT_DEVICE_ROLE_CHILD)  ||
-         (role == OT_DEVICE_ROLE_ROUTER) ||
-         (role == OT_DEVICE_ROLE_LEADER);
-}
-
 /**
  * The code for the Delay Server main function comes from the ESP-IDF
  * OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
-void delay_server_main(otChangedFlags changed_flags, void* ctx)
+void delayServerMain(otChangedFlags changed_flags, void* ctx)
 {
   OT_UNUSED_VARIABLE(ctx);
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
@@ -115,7 +108,7 @@ void delay_server_main(otChangedFlags changed_flags, void* ctx)
   otInstance* instance = esp_openthread_get_instance();
   if (!instance)
   {
-      return;
+    return;
   }
 
   otDeviceRole role = otThreadGetDeviceRole(instance);

@@ -108,10 +108,31 @@ void delayConfirmableResponseCallback(void *aContext,
   return;
 }
 
-void delayConfirmableMain()
+/**
+ * The code for the Delay Confirmable main function comes from the ESP-IDF
+ * OpenThread SED state change callback example function:
+ * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73 
+ */
+void delayConfirmableMain(otChangedFlags changed_flags, void* ctx)
 {
-  InitSocket(&socket, DELAY_SERVER_IP);
-  delayConfirmableSend(&socket);
-  KEEP_THREAD_ALIVE();
+  OT_UNUSED_VARIABLE(ctx);
+  static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
+
+  otInstance* instance = esp_openthread_get_instance();
+  if (!instance)
+  {
+    return;
+  }
+
+  otDeviceRole role = otThreadGetDeviceRole(instance);
+  if ((connected(role) == true) && (connected(s_previous_role) == false))
+  {
+    /** This is where the Delay experiment begins.
+     */
+    InitSocket(&socket, DELAY_SERVER_IP);
+    delayConfirmableSend(&socket);
+  }
+  s_previous_role = role;
+
   return;
 }
