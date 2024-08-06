@@ -129,6 +129,7 @@ void delayConfirmableMain(otChangedFlags changed_flags, void* ctx)
   {
     /** This is where the Delay experiment begins.
      */
+    otLogNotePlat("Hello");
     InitSocket(&socket, DELAY_SERVER_IP);
     delayConfirmableSend(&socket);
   }

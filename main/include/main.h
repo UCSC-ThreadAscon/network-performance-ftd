@@ -43,7 +43,7 @@
 void startMain(void);
 void startNextTrial(void);
 
-void networkTimeSyncCallbback(void *aCallbackContext);
+void networkTimeSyncCallback(void *aCallbackContext);
 
 inline bool connected(otDeviceRole role)
 {

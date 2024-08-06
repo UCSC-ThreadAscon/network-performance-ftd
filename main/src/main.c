@@ -28,7 +28,7 @@ void app_main(void)
   checkConnection(OT_INSTANCE);
 
 #if (DELAY_SERVER || DELAY_CLIENT)
-  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallbback, NULL);
+  otNetworkTimeSyncSetCallback(OT_INSTANCE, networkTimeSyncCallback, NULL);
 #endif
 
 /**
