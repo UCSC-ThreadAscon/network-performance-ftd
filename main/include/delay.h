@@ -30,11 +30,12 @@ DelayResponse;
 
 #define PrintTimeSyncError(status)                                          \
   if (status == OT_NETWORK_TIME_UNSYNCHRONIZED) {                           \
-    otLogWarnPlat("The network time is currently unsynchronized.");         \
+    otLogCritPlat("The network time is currently unsynchronized.");         \
   }                                                                         \
   else if (status == OT_NETWORK_TIME_RESYNC_NEEDED) {                       \
     otLogCritPlat("The network time needs to be resynced.");                \
   }                                                                         \
+  otLogNotePlat("Exiting the experiment.");                                 \
 
 #define PrintDelayResults(index, delayUs)                                         \
   otLogNotePlat("The Delay for the %" PRIu32 "th packet is:", index);             \
