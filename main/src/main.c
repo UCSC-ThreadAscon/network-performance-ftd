@@ -44,6 +44,8 @@ void app_main(void)
   tpConfirmableMain();
 #elif PACKET_LOSS_CONFIRMABLE
   plConfirmableMain();
+#elif DELAY_CLIENT
+  delayConfirmableMain();
 #endif
 
   return;

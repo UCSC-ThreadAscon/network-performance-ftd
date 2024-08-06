@@ -72,8 +72,6 @@ static void ot_task_worker(void *aContext)
    */
 #if DELAY_SERVER
   otSetStateChangedCallback(esp_openthread_get_instance(), delayServerMain, NULL);
-#elif DELAY_CLIENT
-  otSetStateChangedCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
 #endif
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION

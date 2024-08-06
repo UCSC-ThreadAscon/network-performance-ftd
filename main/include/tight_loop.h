@@ -15,7 +15,7 @@ void createRandomPayload(uint8_t *buffer);
 
 void tpConfirmableMain(void);
 void plConfirmableMain(void);
-void delayConfirmableMain(otChangedFlags changed_flags, void* ctx);
+void delayConfirmableMain(void);
 
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,

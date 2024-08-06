@@ -115,25 +115,7 @@ void delayConfirmableResponseCallback(void *aContext,
  */
 void delayConfirmableMain(otChangedFlags changed_flags, void* ctx)
 {
-  OT_UNUSED_VARIABLE(ctx);
-  static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
-
-  otInstance* instance = esp_openthread_get_instance();
-  if (!instance)
-  {
-    return;
-  }
-
-  otDeviceRole role = otThreadGetDeviceRole(instance);
-  if ((connected(role) == true) && (connected(s_previous_role) == false))
-  {
-    /** This is where the Delay experiment begins.
-     */
-    otLogNotePlat("Hello");
-    InitSocket(&socket, DELAY_SERVER_IP);
-    delayConfirmableSend(&socket);
-  }
-  s_previous_role = role;
-
+  otLogNotePlat("Hello");
+  InitSocket(&socket, DELAY_SERVER_IP);
   return;
 }
