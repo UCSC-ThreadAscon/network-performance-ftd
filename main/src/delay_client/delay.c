@@ -113,7 +113,7 @@ void delayConfirmableResponseCallback(void *aContext,
  * OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73 
  */
-void delayConfirmableMain(otChangedFlags changed_flags, void* ctx)
+void delayConfirmableMain()
 {
   otLogNotePlat("Hello");
   InitSocket(&socket, DELAY_SERVER_IP);
