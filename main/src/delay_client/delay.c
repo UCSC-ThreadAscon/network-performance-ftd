@@ -7,9 +7,8 @@ static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 static uint32_t indexDelayUs;
 
 /**
- * If the network time isn't synchronized, wait for 1 second, then check again.
- * Repeat this process of checking and waiting until the network time is synchronized,
- * in which you can send the packets.
+ * If the network time is synchronized, start the experiment. Otherwise,
+ * print a warning message and exit the function.
  */
 void delayConfirmableSend(otSockAddr *socket)
 {
@@ -17,40 +16,23 @@ void delayConfirmableSend(otSockAddr *socket)
   uint64_t networkTime = 0;
   otNetworkTimeStatus status = OT_NETWORK_TIME_UNSYNCHRONIZED;
 
-  do
+  status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
+
+  if (status == OT_NETWORK_TIME_SYNCHRONIZED)
   {
-    status = otNetworkTimeGet(OT_INSTANCE, &networkTime);
+    DelayRequest payload; EmptyMemory(&payload, sizeof(DelayRequest));
 
-    if (status == OT_NETWORK_TIME_SYNCHRONIZED)
-    {
-      DelayRequest payload; EmptyMemory(&payload, sizeof(DelayRequest));
+    payload.sequenceNum = sequenceNum;
+    payload.sent = networkTime;
 
-      payload.sequenceNum = sequenceNum;
-      payload.sent = networkTime;
-
-      request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
-              delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
-      sequenceNum += 1;
-    }
-    else
-    {
-#if CONFIG_EXPERIMENT_DEBUG
-      PrintTimeSyncError(status);
-#endif
-    /**
-     * TODO:
-     *  You DO NOT need this. Use the network time callback handler, of
-     *  type `otNetworkTimeSyncCallbackFn()` to only start sending packets
-     *  as soon as the network time has been synchronized.
-     *
-     *  Then, whenever you get even ONE CALL in which `otNetworkTimeGet()`
-     *  that returns an error indicating a time sync problem, you END the
-     *  experiment.
-     */
-      vTaskDelay(WAIT_TIME_TICKS);
-    }
+    request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
+            delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
+    sequenceNum += 1;
   }
-  while (status != OT_NETWORK_TIME_SYNCHRONIZED);
+  else
+  {
+    PrintTimeSyncError(status);
+  }
 
   return;
 }
@@ -108,12 +90,7 @@ void delayConfirmableResponseCallback(void *aContext,
   return;
 }
 
-/**
- * The code for the Delay Confirmable main function comes from the ESP-IDF
- * OpenThread SED state change callback example function:
- * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73 
- */
-void delayConfirmableMain()
+void delayConfirmableMain(void *aCallbackContext)
 {
   InitSocket(&socket, DELAY_SERVER_IP);
   delayConfirmableSend(&socket);

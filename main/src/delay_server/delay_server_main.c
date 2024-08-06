@@ -112,8 +112,7 @@ void delayServerMain(otChangedFlags changed_flags, void* ctx)
   }
 
   otDeviceRole role = otThreadGetDeviceRole(instance);
-  if ((connected(role) == true) &&
-      (connected(s_previous_role) == false))
+  if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     startCoapServer(OT_DEFAULT_COAP_PORT);
     createResource(&experimentRoute, "Delay Confirmable", delayRequestHandler);
