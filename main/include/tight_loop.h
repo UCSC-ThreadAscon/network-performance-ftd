@@ -16,11 +16,8 @@ void createRandomPayload(uint8_t *buffer);
 void tpConfirmableMain(void);
 void plConfirmableMain(void);
 
-/**
- * The main function for the Delay Client will be a callback that will
- * start the experiment only if the Network Time has been synchronized.
- */
 void delayConfirmableMain(void *aCallbackContext);
+void startDelayClientCallback(otChangedFlags changed_flags, void* ctx);
 
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,

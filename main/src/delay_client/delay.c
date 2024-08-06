@@ -104,3 +104,29 @@ void delayConfirmableMain(void *aCallbackContext)
   delayConfirmableSend(&socket);
   return;
 }
+
+/**
+ * The code for starting the CoAP server when the device has attached to a Thread network
+ * comes from the ESP-IDF OpenThread SED state change callback example function:
+ * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
+ */
+void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
+{
+  OT_UNUSED_VARIABLE(ctx);
+  static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
+
+  otInstance* instance = esp_openthread_get_instance();
+  if (!instance)
+  {
+    return;
+  }
+
+  otDeviceRole role = otThreadGetDeviceRole(instance);
+  if ((connected(role) == true) && (connected(s_previous_role) == false))
+  {
+    coapStart();
+    otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
+  }
+  s_previous_role = role;
+  return;
+}
