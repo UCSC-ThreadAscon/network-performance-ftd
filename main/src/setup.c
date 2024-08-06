@@ -65,11 +65,12 @@ static void ot_task_worker(void *aContext)
   esp_netif_set_default_netif(openthread_netif);
 
   /**
-   * According to the ESP-IDF OpenThread SED example:
+   * In the ESP-IDF OpenThread SED example:
    * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L187C5-L187C32
    *
-   * All set state change callback functions must be set after the call to
-   * `esp_netif_set_default_netif()`.
+   * The set state change callback functions is set after call to
+   * `esp_netif_set_default_netif()`. As a result, I will set all of my
+   * state change callbacks in the same place.
    */
 #if DELAY_SERVER
   otSetStateChangedCallback(esp_openthread_get_instance(), delayServerMain, NULL);
