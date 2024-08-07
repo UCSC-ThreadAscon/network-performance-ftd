@@ -13,6 +13,7 @@
 */
 #include "main.h"
 #include "delay_server.h"
+#include "tight_loop.h"
 
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
 #include "ot_led_strip.h"
@@ -72,7 +73,11 @@ static void ot_task_worker(void *aContext)
    * `esp_netif_set_default_netif()`. As a result, I will set all of my
    * state change callbacks in the same place.
    */
-#if DELAY_SERVER
+#if THROUGHPUT_CONFIRMABLE
+  otSetStateChangedCallback(esp_openthread_get_instance(), tpConfirmableStartCallback, NULL);
+#elif PACKET_LOSS_CONFIRMABLE
+  otSetStateChangedCallback(esp_openthread_get_instance(), plConfirmableStartCallback, NULL);
+#elif DELAY_SERVER
   otSetStateChangedCallback(esp_openthread_get_instance(), delayServerMain, NULL);
 #elif DELAY_CLIENT
   otSetStateChangedCallback(esp_openthread_get_instance(), startDelayClientCallback, NULL);

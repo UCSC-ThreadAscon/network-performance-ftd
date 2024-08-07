@@ -19,23 +19,5 @@ void app_main(void)
   printTimeSyncStatus();
   PrintDelimiter();
 
-  /**
-   * TODO:
-   *  Remove checkConnection(). You don't need it. Your clients should
-   *  start as soon as they are attached to the Thread network by
-   *  using a callback function which is set using `otSetStateChangeCallback()`.
-   */
-  checkConnection(OT_INSTANCE);
-
-#if !DELAY_SERVER
-  coapStart();
-#endif
-
-#if THROUGHPUT_CONFIRMABLE
-  tpConfirmableMain();
-#elif PACKET_LOSS_CONFIRMABLE
-  plConfirmableMain();
-#endif
-
   return;
 }

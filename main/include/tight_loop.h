@@ -13,10 +13,8 @@
 
 void createRandomPayload(uint8_t *buffer);
 
-void tpConfirmableMain(void);
-void plConfirmableMain(void);
-
-void delayConfirmableMain(void *aCallbackContext);
+void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
+void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void startDelayClientCallback(otChangedFlags changed_flags, void* ctx);
 
 void tpConfirmableResponseCallback(void *aContext,
