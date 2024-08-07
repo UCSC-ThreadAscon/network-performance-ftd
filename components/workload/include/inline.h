@@ -39,3 +39,10 @@ static inline void EmptyMemory(void* pointer, size_t size) {
   memset(pointer, 0, size);
   return;
 }
+
+static inline bool connected(otDeviceRole role)
+{
+  return (role == OT_DEVICE_ROLE_CHILD)  ||
+         (role == OT_DEVICE_ROLE_ROUTER) ||
+         (role == OT_DEVICE_ROLE_LEADER);
+}
