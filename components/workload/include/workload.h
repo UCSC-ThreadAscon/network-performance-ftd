@@ -6,7 +6,6 @@
 #include "macro.h"
 
 /* ---- Common API ---- */
-void checkConnection(otInstance *aInstance);
 void handleError(otError error, char* desc);
 void printMeshLocalEid(otInstance *aInstance);
 
