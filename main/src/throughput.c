@@ -27,6 +27,7 @@ void tpConfirmableResponseCallback(void *aContext,
  */
 void tpConfirmableMain()
 {
+  coapStart();
   InitSocket(&socket, SERVER_IP);
   tpConfirmableSend(&socket);
   return;
@@ -54,7 +55,6 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
     /** Start the Throughput experiment as soon as device attaches
      *  to the Thread network.
      */
-    coapStart();
     tpConfirmableMain();
   }
   s_previous_role = role;

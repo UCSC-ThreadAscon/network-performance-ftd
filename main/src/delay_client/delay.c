@@ -100,6 +100,7 @@ void delayConfirmableResponseCallback(void *aContext,
 
 void delayConfirmableMain(void *aCallbackContext)
 {
+  coapStart();
   InitSocket(&socket, DELAY_SERVER_IP);
   delayConfirmableSend(&socket);
   return;
@@ -124,7 +125,6 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    coapStart();
     otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
   }
   s_previous_role = role;

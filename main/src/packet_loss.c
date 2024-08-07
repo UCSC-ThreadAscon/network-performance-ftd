@@ -47,7 +47,6 @@ void plConfirmableMain()
   coapStart();
   InitSocket(&socket, SERVER_IP);
   plConfirmableSend(&socket);
-  KEEP_THREAD_ALIVE();
   return;
 }
 
