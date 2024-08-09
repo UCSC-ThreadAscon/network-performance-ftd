@@ -45,7 +45,10 @@ void printNetPerfTest()
 void printTimeSyncStatus()
 {
 #if CONFIG_OPENTHREAD_TIME_SYNC
-  otLogNotePlat("Time Sync is ON.");
+  otLogNotePlat("Network Time Sync is ON.");
+
+  uint16_t timeSyncPeriod = otNetworkTimeGetSyncPeriod(esp_openthread_get_instance());
+  otLogNotePlat("The Time Sync Period is %" PRIu16 " seconds.", timeSyncPeriod);
 #else
   otLogNotePlat("Time Sync is OFF.");
 #endif
