@@ -42,10 +42,12 @@ void printNetPerfTest()
   return;
 }
 
-void printTimeSyncStatus() {
+void printTimeSyncStatus()
+{
 #if CONFIG_OPENTHREAD_TIME_SYNC
   otLogNotePlat("Time Sync is ON.");
 #else
   otLogNotePlat("Time Sync is OFF.");
 #endif
+  return;
 }
