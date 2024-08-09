@@ -44,8 +44,7 @@ DelayResponse;
 
 #define PrintAverageDelay(avgDelayUs)                                             \
   PrintDelimiter();                                                               \
-  otLogNotePlat("The AVERAGE delay is:");                                         \
-  otLogNotePlat("%" PRIu64 " us, or", avgDelayUs);                                \
+  otLogNotePlat("The AVERAGE delay is: %" PRIu64 " us, or", avgDelayUs);          \
   otLogNotePlat("%.7f ms, or", US_TO_MS((double) avgDelayUs));                    \
   otLogNotePlat("%.7f seconds", US_TO_SECONDS((double) avgDelayUs));              \
   PrintDelimiter();                                                               \
