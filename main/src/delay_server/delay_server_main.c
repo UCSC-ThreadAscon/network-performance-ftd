@@ -1,6 +1,7 @@
 #include "delay_server.h"
 #include "delay.h"
 #include "main.h"
+#include "independent_variables.h"
 
 static otCoapResource experimentRoute;
 
@@ -116,8 +117,11 @@ void delayServerMain(otChangedFlags changed_flags, void* ctx)
   {
     otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), networkTimeSyncCallback, NULL);
 
+    PrintDelimiter();
     startCoapServer(OT_DEFAULT_COAP_PORT);
     createResource(&experimentRoute, "Delay Confirmable", delayRequestHandler);
+    printTimeSyncPeriod();
+    PrintDelimiter();
   }
   s_previous_role = role;
   return;

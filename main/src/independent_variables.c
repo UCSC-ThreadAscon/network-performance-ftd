@@ -46,11 +46,17 @@ void printTimeSyncStatus()
 {
 #if CONFIG_OPENTHREAD_TIME_SYNC
   otLogNotePlat("Network Time Sync is ON.");
-
-  uint16_t timeSyncPeriod = otNetworkTimeGetSyncPeriod(esp_openthread_get_instance());
-  otLogNotePlat("The Time Sync Period is %" PRIu16 " seconds.", timeSyncPeriod);
 #else
   otLogNotePlat("Time Sync is OFF.");
+#endif
+  return;
+}
+
+void printTimeSyncPeriod()
+{
+#if CONFIG_OPENTHREAD_TIME_SYNC
+  uint16_t timeSyncPeriod = otNetworkTimeGetSyncPeriod(esp_openthread_get_instance());
+  otLogNotePlat("The Time Sync Period is %" PRIu16 " seconds.", timeSyncPeriod);
 #endif
   return;
 }

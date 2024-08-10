@@ -34,3 +34,4 @@ void printCipherSuite();
 void printTxPower();
 void printNetPerfTest();
 void printTimeSyncStatus();
+void printTimeSyncPeriod();

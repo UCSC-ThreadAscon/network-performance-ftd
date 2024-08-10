@@ -1,5 +1,6 @@
 #include "delay.h"
 #include "main.h"
+#include "independent_variables.h"
 
 static otSockAddr socket;
 
@@ -100,7 +101,11 @@ void delayConfirmableResponseCallback(void *aContext,
 
 void delayConfirmableMain(void *aCallbackContext)
 {
+  PrintDelimiter();
   coapStart();
+  printTimeSyncPeriod();
+  PrintDelimiter();
+
   InitSocket(&socket, DELAY_SERVER_IP);
   delayConfirmableSend(&socket);
   return;
