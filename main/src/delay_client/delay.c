@@ -120,7 +120,7 @@ void delayConfirmableMain(void *aCallbackContext)
     otLogCritPlat("---------------------------");
     otLogCritPlat("The Network Time Sync status changed while the current experimental trial is running!");
     otLogCritPlat("There is a problem with this particular experimental trial.");
-    otLogCritPlat("Going to restart the experiment.");
+    otLogCritPlat("Going to restart the current experimental trial.");
     otLogCritPlat("---------------------------");
 
     esp_restart();
