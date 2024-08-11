@@ -95,6 +95,13 @@ void delayConfirmableResponseCallback(void *aContext,
   else
   {
     otLogWarnPlat("Response error: %s", otThreadErrorToString(aResult));
+
+    PrintCritDelimiter();
+    otLogCritPlat("Failed to send a Delay packet during the experiment.");
+    otLogCritPlat("Going to restart the current experimental trial.");
+    PrintCritDelimiter();
+
+    esp_restart();
   }
   return;
 }
@@ -117,11 +124,11 @@ void delayConfirmableMain(void *aCallbackContext)
   }
   else
   {
-    otLogCritPlat("---------------------------");
+    PrintCritDelimiter();
     otLogCritPlat("The Network Time Sync status changed while the current experimental trial is running!");
     otLogCritPlat("There is a problem with this particular experimental trial.");
     otLogCritPlat("Going to restart the current experimental trial.");
-    otLogCritPlat("---------------------------");
+    PrintCritDelimiter();
 
     esp_restart();
   }
@@ -147,7 +154,19 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
+    if (role != OT_DEVICE_ROLE_LEADER)
+    {
+      otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);
+    }
+    else
+    {
+      PrintCritDelimiter();
+      otLogCritPlat("Delay Client failed to attach to Thread network lead by the Delay Server.");
+      otLogCritPlat("Going to restart current experimental trial.");
+      PrintCritDelimiter();
+
+      esp_restart();
+    }
   }
   s_previous_role = role;
   return;

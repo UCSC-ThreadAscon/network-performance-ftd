@@ -34,6 +34,7 @@
 #include "openthread/network_time.h"
 
 #define PrintDelimiter() otLogNotePlat("---------------------------");
+#define PrintCritDelimiter() otLogCritPlat("---------------------------");
 
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
