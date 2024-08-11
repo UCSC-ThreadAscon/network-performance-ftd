@@ -97,6 +97,18 @@ void defaultRequestHandler(void* aContext,
 }
 
 /**
+ * If the Network Time Sync status of the server changes at any point during the experiment,
+ * print out a warning so I can investigate whether there is any issues occuring.
+ *
+ * This callback should set only after the server has attached to a Thread network.
+ */
+void serverTimeSyncChangeCallback(void *aCallbackContext)
+{
+  otLogWarnPlat("The Network Time state has changed.");
+  return;
+}
+
+/**
  * The code for the Delay Server main function comes from the ESP-IDF
  * OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
@@ -115,7 +127,7 @@ void delayServerMain(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), networkTimeSyncCallback, NULL);
+    otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), serverTimeSyncChangeCallback, NULL);
 
     PrintDelimiter();
     startCoapServer(OT_DEFAULT_COAP_PORT);
