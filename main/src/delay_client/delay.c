@@ -162,7 +162,7 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintCritDelimiter();
       otLogCritPlat("Delay Client failed to attach to Thread network lead by the Delay Server.");
-      otLogCritPlat("Going to restart current experimental trial.");
+      otLogCritPlat("Going to restart the current experimental trial.");
       PrintCritDelimiter();
 
       esp_restart();
