@@ -101,13 +101,27 @@ void delayConfirmableResponseCallback(void *aContext,
 
 void delayConfirmableMain(void *aCallbackContext)
 {
-  PrintDelimiter();
-  coapStart();
-  printTimeSyncPeriod();
-  PrintDelimiter();
+  static bool trialStarted = false;
 
-  InitSocket(&socket, DELAY_SERVER_IP);
-  delayConfirmableSend(&socket);
+  if (!trialStarted)
+  {
+    trialStarted = true;
+
+    PrintDelimiter();
+    coapStart();
+    printTimeSyncPeriod();
+    PrintDelimiter();
+
+    InitSocket(&socket, DELAY_SERVER_IP);
+    delayConfirmableSend(&socket);
+  }
+  else
+  {
+    otLogCritPlat("---------------------------");
+    otLogCritPlat("The Network Time Sync status changed while the current experimental trial is running!");
+    otLogCritPlat("There is a problem with this particular experimental trial.");
+    otLogCritPlat("---------------------------");
+  }
   return;
 }
 
