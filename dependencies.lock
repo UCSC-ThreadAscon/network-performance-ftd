@@ -10,7 +10,7 @@ dependencies:
       type: service
     version: 1.0.2
   espressif/iperf:
-    component_hash: 7702d184ac1d1708739b000ad0722891563e8a940622c47a1a58c91f62b02838
+    component_hash: 2eb3fb408154a0b5974876242264b263d46537d1c2d22b7ffa9de9e284f09978
     dependencies:
     - name: idf
       require: private
@@ -18,9 +18,9 @@ dependencies:
     source:
       registry_url: https://components.espressif.com/
       type: service
-    version: 0.1.1
+    version: 0.1.2
   espressif/led_strip:
-    component_hash: fc66f8544851132555bc668475f7b68acd6a211c8075db5ce1951cbfa27dfb88
+    component_hash: 28c6509a727ef74925b372ed404772aeedf11cce10b78c3f69b3c66799095e2d
     dependencies:
     - name: idf
       require: private
@@ -28,7 +28,7 @@ dependencies:
     source:
       registry_url: https://components.espressif.com/
       type: service
-    version: 2.5.4
+    version: 2.5.5
   idf:
     source:
       type: idf

@@ -11,7 +11,7 @@ issues: https://github.com/espressif/iperf-cmd/issues
 license: Apache-2.0
 repository: git://github.com/espressif/iperf-cmd.git
 repository_info:
-  commit_sha: 7a5ddbcad0e8a6c76c558a8b7f45fcf32d849ed6
+  commit_sha: 48491004175c569f4566b891d04aec60014276e8
   path: iperf
 url: https://github.com/espressif/iperf-cmd/tree/master/iperf
-version: 0.1.1
+version: 0.1.2
