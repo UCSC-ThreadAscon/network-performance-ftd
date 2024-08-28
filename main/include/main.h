@@ -33,8 +33,13 @@
 #include "openthread/platform/time.h"
 #include "openthread/network_time.h"
 
-#define PrintDelimiter() otLogNotePlat("---------------------------");
-#define PrintCritDelimiter() otLogCritPlat("---------------------------");
+/**
+ * I got the idea to use this specific print statement delimiter
+ * from the ESP Thread Border Router SDK source code:
+ * https://github.com/espressif/esp-thread-br/blob/main/components/esp_ot_br_server/src/esp_br_web.c#L1166
+ */
+#define PrintDelimiter() otLogNotePlat("<===========================================================>");
+#define PrintCritDelimiter() otLogCritPlat("<===========================================================>");
 
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
