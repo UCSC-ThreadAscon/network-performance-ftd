@@ -1,3 +1,7 @@
+#
+# Automatically generated file. DO NOT EDIT.
+# Espressif IoT Development Framework (ESP-IDF) 5.4.0 Project Configuration
+#
 CONFIG_SOC_ADC_SUPPORTED=y
 CONFIG_SOC_ANA_CMPR_SUPPORTED=y
 CONFIG_SOC_DEDICATED_GPIO_SUPPORTED=y
@@ -528,7 +532,7 @@ CONFIG_ESPTOOLPY_MONITOR_BAUD=115200
 # Ascon-OpenThread Encryption
 #
 CONFIG_THREAD_ASCON_CIPHER_SUITE=4
-CONFIG_THREAD_ASCON_HEX_DUMP=0
+CONFIG_THREAD_ASCON_HEX_DUMP=3
 # end of Ascon-OpenThread Encryption
 
 #
