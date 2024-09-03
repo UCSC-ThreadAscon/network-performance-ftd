@@ -48,5 +48,3 @@
 
 void startMain(void);
 void startNextTrial(void);
-
-void networkTimeSyncCallback(void *aCallbackContext);
