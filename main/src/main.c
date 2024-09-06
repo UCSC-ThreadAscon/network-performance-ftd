@@ -19,5 +19,7 @@ void app_main(void)
   printTimeSyncStatus();
   PrintDelimiter();
 
+  printNetworkKey();
+
   return;
 }

@@ -35,3 +35,4 @@ void printTxPower();
 void printNetPerfTest();
 void printTimeSyncStatus();
 void printTimeSyncPeriod();
+void printNetworkKey();

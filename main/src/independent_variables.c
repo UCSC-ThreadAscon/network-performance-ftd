@@ -60,3 +60,13 @@ void printTimeSyncPeriod()
 #endif
   return;
 }
+
+void printNetworkKey()
+{
+  otNetworkKey key;
+  EmptyMemory(&key, sizeof(otNetworkKey));
+
+  otThreadGetNetworkKey(esp_openthread_get_instance(), &key);
+  otDumpNotePlat("Thread Network Key:", key.m8, OT_NETWORK_KEY_SIZE);
+  return;
+}
