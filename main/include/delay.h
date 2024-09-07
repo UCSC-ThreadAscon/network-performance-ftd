@@ -42,6 +42,10 @@ DelayResponse;
   otLogNotePlat("%.7f ms, or", US_TO_MS((double) delayUs));                       \
   otLogNotePlat("%.7f seconds", US_TO_SECONDS((double) delayUs));                 \
 
+/**
+ * I found that doubles have 15 digits of precision from:
+ * https://stackoverflow.com/a/2386882/6621292
+ */
 #define PrintAverageDelay(avgDelayUs)                                             \
   PrintDelimiter();                                                               \
   otLogNotePlat("The AVERAGE delay is: %.15f us, or", avgDelayUs);                \
