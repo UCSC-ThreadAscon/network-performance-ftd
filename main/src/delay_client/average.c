@@ -12,14 +12,14 @@ uint64_t add(uint64_t num1, uint64_t num2)
   return sum;
 }
 
-uint64_t average(uint64_t *array, int length)
+double average(uint64_t *array, int length)
 {
-  uint64_t average = 0;
+  uint64_t sum = 0;
 
   for (int i = 0; i < length; i++) {
-    average = add(average, array[i]);
+    sum = add(sum, array[i]);
   }
 
-  average /= length;
+  double average = ((double) sum) / ((double) length);
   return average;
 }

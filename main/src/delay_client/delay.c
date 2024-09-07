@@ -82,7 +82,7 @@ void delayConfirmableResponseCallback(void *aContext,
       }
       else if (indexDelayUs == DELAY_MAX_PACKETS)
       {
-        uint64_t averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
+        double averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
         PrintAverageDelay(averageDelayUs);
 
         /** The current experimental trial is over. If need be, start the
