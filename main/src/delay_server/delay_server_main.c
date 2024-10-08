@@ -74,17 +74,6 @@ void delayRequestHandler(void* aContext,
   return;
 }
 
-void defaultRequestHandler(void* aContext,
-                           otMessage *aMessage,
-                           const otMessageInfo *aMessageInfo)
-{
-#if CONFIG_EXPERIMENT_DEBUG
-  printRequest(aMessage, aMessageInfo);
-#endif
-  sendCoapResponse(aMessage, aMessageInfo);
-  return;
-}
-
 /**
  * If the Network Time Sync status of the server changes at any point during the experiment,
  * print out a warning so I can investigate whether there is any issues occuring.

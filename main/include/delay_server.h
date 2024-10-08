@@ -6,10 +6,6 @@
 
 void delayServerMain(otChangedFlags changed_flags, void* ctx);
 
-void defaultRequestHandler(void* aContext,
-                           otMessage *aMessage,
-                           const otMessageInfo *aMessageInfo);
-
 void delayRequestHandler(void *aContext,
                          otMessage *aMessage,
                          const otMessageInfo *aMessageInfo);
