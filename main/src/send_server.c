@@ -13,6 +13,18 @@ static otCoapResource sendRoute;
  */
 static bool sendPackets = false;
 
+void getSendServerBool() {
+  return sendPackets;
+}
+
+void sendServerRequestHandler(void* aContext,
+                              otMessage *aMessage,
+                              const otMessageInfo *aMessageInfo)
+{
+  sendPackets = !sendPackets;
+  return;
+}
+
 /**
  * The code for this  function comes from the ESP-IDF
  * OpenThread SED state change callback example function:
@@ -34,21 +46,10 @@ void startSendServer(otChangedFlags changed_flags, void* ctx)
   {
     PrintDelimiter();
     startCoapServer(OT_DEFAULT_COAP_PORT);
-    createResource(&sendRoute, "'Send server'", SEND_SERVER_URI, defaultRequestHandler);
+    createResource(&sendRoute, "'Send server'", SEND_SERVER_URI, sendServerRequestHandler);
     printTimeSyncPeriod();
     PrintDelimiter();
   }
   s_previous_role = role;
-  return;
-}
-
-void defaultRequestHandler(void* aContext,
-                           otMessage *aMessage,
-                           const otMessageInfo *aMessageInfo)
-{
-#if CONFIG_EXPERIMENT_DEBUG
-  printRequest(aMessage, aMessageInfo);
-#endif
-  sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
