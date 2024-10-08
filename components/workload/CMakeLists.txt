@@ -1,4 +1,6 @@
-idf_component_register(SRCS "./client/request.c"
+idf_component_register(SRCS "./server/server.c"
+                            "./server/print_packet.c"
+                            "./client/request.c"
                             "./client/response_callback.c"
                             "./common/common.c"
                             "./common/coap_common.c"

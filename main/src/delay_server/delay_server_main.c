@@ -131,7 +131,7 @@ void delayServerMain(otChangedFlags changed_flags, void* ctx)
 
     PrintDelimiter();
     startCoapServer(OT_DEFAULT_COAP_PORT);
-    createResource(&experimentRoute, "Delay Confirmable", delayRequestHandler);
+    createResource(&experimentRoute, "Delay Confirmable", DELAY_URI, delayRequestHandler);
     printTimeSyncPeriod();
     PrintDelimiter();
   }

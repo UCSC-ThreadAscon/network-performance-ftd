@@ -4,12 +4,7 @@
  *
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-#include "delay_server.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <inttypes.h>
+#include "workload.h"
 
 /**
  * This function is a modified version of `HandleRequest()` from the OpenThread CLI
@@ -51,12 +46,13 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 
 otError createResource(otCoapResource *resource,
                        const char *resourceName,
+                       const char *uri,
                        otCoapRequestHandler requestHandler)
 {
   resource->mNext = NULL;
   resource->mContext = NULL;
   resource->mHandler = requestHandler;
-  resource->mUriPath = DELAY_URI;
+  resource->mUriPath = uri;
 
   otCoapAddResource(OT_INSTANCE, resource);
   otLogNotePlat("Created %s server at '%s'.", resourceName, resource->mUriPath);

@@ -25,6 +25,16 @@ void request(otSockAddr *socket,
 
 void addPayload(otMessage *aRequest, void *payload, size_t payloadSize);
 
+/* ---- CoAP Server API ---- */
+otError createResource(otCoapResource *resource,
+                       const char *resourceName,
+                       const char *uri,
+                       otCoapRequestHandler requestHandler);
+
+void resourceDestructor(otCoapResource *resource);
+void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
+void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
+
 /* ---- CoAP Response Handler ---- */
 void defaultResponseCallback(void *aContext,
                              otMessage *aMessage,
