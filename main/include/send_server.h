@@ -1,7 +1,7 @@
 #pragma once
 
-#include "workload.h"
+#include "main.h"
 
 void startSendServer(otChangedFlags changed_flags, void* ctx);
 
-void getSendServerBool();
+bool getSendServerBool();

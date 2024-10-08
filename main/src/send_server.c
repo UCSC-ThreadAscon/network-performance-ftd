@@ -13,7 +13,7 @@ static otCoapResource sendRoute;
  */
 static bool sendPackets = false;
 
-void getSendServerBool() {
+bool getSendServerBool() {
   return sendPackets;
 }
 
