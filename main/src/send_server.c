@@ -47,7 +47,6 @@ void startSendServer(otChangedFlags changed_flags, void* ctx)
     PrintDelimiter();
     startCoapServer(OT_DEFAULT_COAP_PORT);
     createResource(&sendRoute, "'Send server'", SEND_SERVER_URI, sendServerRequestHandler);
-    printTimeSyncPeriod();
     PrintDelimiter();
   }
   s_previous_role = role;

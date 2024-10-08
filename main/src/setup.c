@@ -13,6 +13,7 @@
 */
 #include "main.h"
 #include "delay_server.h"
+#include "send_server.h"
 #include "tight_loop.h"
 
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
@@ -73,6 +74,9 @@ static void ot_task_worker(void *aContext)
    * `esp_netif_set_default_netif()`. As a result, I will set all of my
    * state change callbacks in the same place.
    */
+#if (THROUGHPUT_CONFIRMABLE || PACKET_LOSS_CONFIRMABLE)
+  otSetStateChangedCallback(esp_openthread_get_instance(), startSendServer, NULL);
+#endif
 #if THROUGHPUT_CONFIRMABLE
   otSetStateChangedCallback(esp_openthread_get_instance(), tpConfirmableStartCallback, NULL);
 #elif PACKET_LOSS_CONFIRMABLE
