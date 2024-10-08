@@ -48,8 +48,6 @@ void startSendServer(otChangedFlags changed_flags, void* ctx)
     startCoapServer(OT_DEFAULT_COAP_PORT);
     createResource(&sendRoute, "'Send server'", SEND_SERVER_URI, sendServerRequestHandler);
     PrintDelimiter();
-
-    assert(sendPackets == false);
   }
   s_previous_role = role;
   return;
