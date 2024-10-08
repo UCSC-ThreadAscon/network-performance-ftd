@@ -66,3 +66,14 @@ void resourceDestructor(otCoapResource *resource)
   free(resource);
   return;
 }
+
+void startCoapServer(uint16_t port) {
+  otError error = otCoapStart(OT_INSTANCE, port);
+
+  if (error != OT_ERROR_NONE) {
+    otLogCritPlat("Failed to start COAP server.");
+  } else {
+    otLogNotePlat("Started CoAP server at port %d.", port);
+  }
+  return;
+}

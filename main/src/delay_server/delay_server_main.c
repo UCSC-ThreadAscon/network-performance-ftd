@@ -5,17 +5,6 @@
 
 static otCoapResource experimentRoute;
 
-void startCoapServer(uint16_t port) {
-  otError error = otCoapStart(OT_INSTANCE, port);
-
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to start COAP server.");
-  } else {
-    otLogNotePlat("Started CoAP server at port %d.", port);
-  }
-  return;
-}
-
 /**
  * This function is based upon the both CoAP and CoAP secure source code,
  * used as a part of the OpenThread codebase. The CoAP and
