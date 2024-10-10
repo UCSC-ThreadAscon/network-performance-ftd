@@ -12,7 +12,7 @@
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 
-#define SAMPLE_SIZE_PACKETS 1000
+#define MAX_PACKETS 1000
 
 void createRandomPayload(uint8_t *buffer);
 
