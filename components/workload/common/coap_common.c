@@ -13,7 +13,7 @@ void coapStart() {
     otLogCritPlat("Failed to start COAP socket.");
   }
   else {
-    otLogNotePlat("Started CoAP socket at port %d.", COAP_SERVER_PORT);
+    otLogNotePlat("Started CoAP socket at port %d.", COAP_SOCK_PORT);
   }
   return;
 }
