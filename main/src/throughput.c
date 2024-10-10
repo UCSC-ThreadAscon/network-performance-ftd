@@ -1,9 +1,12 @@
 #include "tight_loop.h"
+#include "main.h"
 
 #define THROUGHPUT_START_SERVER_URI "throughput-start"
 
 static otSockAddr socket;
 static otCoapResource throughputStartServer;
+
+static uint32_t packetsSent = 0;
 
 void tpConfirmableSend(otSockAddr *socket)
 {
@@ -11,6 +14,8 @@ void tpConfirmableSend(otSockAddr *socket)
   createRandomPayload((uint8_t *) &payload);
   request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
+
+  packetsSent += 1;
   return;
 }
 
@@ -20,7 +25,10 @@ void tpConfirmableResponseCallback(void *aContext,
                                    otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  tpConfirmableSend(&socket); // send a request after getting a response.
+
+  if (packetsSent < MAX_PACKETS_SENT) {
+    tpConfirmableSend(&socket); // send a request after getting a response.
+  }
   return;
 }
 
@@ -34,6 +42,8 @@ void throughputStartServerRequestHandler(void* aContext,
 {
   coapStart();
   InitSocket(&socket, SERVER_IP);
+
+  packetsSent = 0;
   tpConfirmableSend(&socket);
   return;
 }

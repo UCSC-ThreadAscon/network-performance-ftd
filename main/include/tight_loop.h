@@ -9,7 +9,7 @@
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 
-#define PACKET_LOSS_MAX_PACKETS_SENT 1000
+#define MAX_PACKETS_SENT 1000
 
 void createRandomPayload(uint8_t *buffer);
 
