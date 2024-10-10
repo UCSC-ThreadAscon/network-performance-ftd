@@ -69,7 +69,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
      *  experiment as soon as the border router sends a CoAP request to the route.
      */
     PrintDelimiter();
-    startCoapServer(START_SERVER_SOCK_PORT);
+    startCoapServer(START_SERVER_PORT);
     createResource(&throughputStartServer, "Throughput Experiment Start Server",
                     THROUGHPUT_START_SERVER_URI, NULL);
     PrintDelimiter();
