@@ -1,6 +1,9 @@
 #include "tight_loop.h"
 
+#define THROUGHPUT_START_SERVER_URI "throughput-start"
+
 static otSockAddr socket;
+static otCoapResource throughputStartServer;
 
 void tpConfirmableSend(otSockAddr *socket)
 {
@@ -22,10 +25,12 @@ void tpConfirmableResponseCallback(void *aContext,
 }
 
 /**
- * Create the socket, and send the first CoAP Confirmable Request.
- * All subsequent requests will be sent by the response handler.
+ * Send 1000 Confirmable CoAP requests in a tight loop as soon as the border
+ * router sends a packet to the "/throughput-start" route.
  */
-void tpConfirmableMain()
+void throughputStartServerRequestHandler(void* aContext,
+                                         otMessage *aMessage,
+                                         const otMessageInfo *aMessageInfo)
 {
   coapStart();
   InitSocket(&socket, SERVER_IP);
@@ -52,10 +57,14 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    /** Start the Throughput experiment as soon as device attaches
-     *  to the Thread network.
+    /** Set up the CoAP route that will start sending packets for the throughput
+     *  experiment as soon as the border router sends a CoAP request to the route.
      */
-    tpConfirmableMain();
+    PrintDelimiter();
+    startCoapServer(OT_DEFAULT_COAP_PORT);
+    createResource(&throughputStartServer, "Throughput Experiment Start Server",
+                    THROUGHPUT_START_SERVER_URI, NULL);
+    PrintDelimiter();
   }
   s_previous_role = role;
   return;
