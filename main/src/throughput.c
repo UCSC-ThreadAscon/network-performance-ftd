@@ -47,7 +47,7 @@ void throughputStartServerRequestHandler(void* aContext,
 }
 
 /**
- * The code for the Delay Server main function comes from the ESP-IDF
+ * The code for the Throughput Server start callback comes from the ESP-IDF
  * OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
