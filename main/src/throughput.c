@@ -24,7 +24,7 @@ void tpConfirmableResponseCallback(void *aContext,
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
 
-  if (packetsSent < MAX_PACKETS_SENT) {
+  if (packetsSent < SAMPLE_SIZE_PACKETS) {
     tpConfirmableSend(&socket); // send a request after getting a response.
   }
   return;

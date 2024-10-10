@@ -7,7 +7,7 @@
  *      --------------------------
  *      Number of Expected Packets
  *
- * where the number of expected packets is MAX_PACKETS_SENT.
+ * where the number of expected packets is SAMPLE_SIZE_PACKETS.
  */
 #include "tight_loop.h"
 
@@ -17,7 +17,7 @@ void plConfirmableSend(otSockAddr *socket)
 {
   static uint32_t numPacketsSent = 0;
 
-  if (numPacketsSent < MAX_PACKETS_SENT)
+  if (numPacketsSent < SAMPLE_SIZE_PACKETS)
   {
     uint32_t payload = 0;
     createRandomPayload((uint8_t *) &payload);
