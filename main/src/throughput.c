@@ -83,7 +83,7 @@ void tpConfirmableMain()
   InitSocket(&socket, SERVER_IP);
 
   PrintDelimiter();
-  otLogNotePlat("Starting the throughput experiment trial!");
+  otLogNotePlat("Starting the throughput experimental trial!");
   PrintDelimiter();
 
   startTime = getTimevalNow();
