@@ -65,7 +65,7 @@ void tpConfirmableResponseCallback(void *aContext,
       otLogNotePlat("%.7f bytes/us.", throughputUs);
       otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
       otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
-      otLogNotePlat("Number of packets sent: %" PRIu32 "", packetNum);
+      otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetNum);
       PrintDelimiter();
 
       startNextTrial();
