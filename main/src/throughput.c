@@ -9,15 +9,6 @@ static uint32_t totalBytes;
 static struct timeval startTime;
 static struct timeval endTime;
 
-static inline void resetStaticVariables()
-{
-  packetNum = 0;
-  totalBytes = 0;
-  EmptyMemory(&startTime, sizeof(struct timeval));
-  EmptyMemory(&endTime, sizeof(struct timeval));
-  return;
-}
-
 void tpConfirmableSend(otSockAddr *socket)
 {
   uint32_t payload = 0;
@@ -48,13 +39,13 @@ void tpConfirmableResponseCallback(void *aContext,
   if (packetNum < MAX_PACKETS)
   {
     packetNum += 1;
-    totalBytes += getPayloadLength(aMessage);
+    totalBytes += TIGHT_LOOP_PAYLOAD_BYTES;
 
     if (packetNum == MAX_PACKETS)
     {
       /** The throughput formula is:
        *
-       *      MAX_PACKETS * PAYLOAD_SIZE_BYTES
+       *           MAX_PACKETS * PAYLOAD_SIZE_BYTES
        *      -----------------------------------------   bytes/time
        *                    t_end - t_start
        * 
@@ -91,7 +82,6 @@ void tpConfirmableMain()
   coapStart();
   InitSocket(&socket, SERVER_IP);
 
-  resetStaticVariables();
   otLogNotePlat("Starting the throughput experiment trial!");
 
   startTime = getTimevalNow();
