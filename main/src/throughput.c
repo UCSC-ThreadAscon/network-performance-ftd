@@ -50,14 +50,6 @@ void tpConfirmableResponseCallback(void *aContext,
     packetNum += 1;
     totalBytes += getPayloadLength(aMessage);
 
-    if (packetNum == 1)
-    {
-      otLogNotePlat(
-        "Received the first packet! Starting the throughput experiment trial!"
-      );
-      startTime = getTimevalNow();
-    }
-
     if (packetNum == MAX_PACKETS)
     {
       /** The throughput formula is:
@@ -100,6 +92,9 @@ void tpConfirmableMain()
   InitSocket(&socket, SERVER_IP);
 
   resetStaticVariables();
+  otLogNotePlat("Starting the throughput experiment trial!");
+
+  startTime = getTimevalNow();
   tpConfirmableSend(&socket);
   return;
 }
