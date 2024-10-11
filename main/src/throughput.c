@@ -34,7 +34,16 @@ void tpConfirmableResponseCallback(void *aContext,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult)
 {
-  defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
+  if (aResult != OT_ERROR_NONE)
+  {
+    PrintCritDelimiter();
+    otLogCritPlat("Failed to send a packet during the experimental trial.");
+    otLogCritPlat("There is a problem with this particular experimental trial.");
+    otLogCritPlat("Going to restart the current experimental trial.");
+    PrintCritDelimiter();
+
+    esp_restart();
+  }
 
   if (packetNum < MAX_PACKETS)
   {
@@ -44,7 +53,7 @@ void tpConfirmableResponseCallback(void *aContext,
     if (packetNum == 1)
     {
       otLogNotePlat(
-        "Received the first packet! Starting the Throughput Experimental Trial!"
+        "Received the first packet! Starting the throughput experiment trial!"
       );
       startTime = getTimevalNow();
     }
