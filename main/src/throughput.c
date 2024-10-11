@@ -2,7 +2,6 @@
 #include "main.h"
 
 static otSockAddr socket;
-static otCoapResource throughputStartServer;
 
 static uint32_t packetsSent = 0;
 
@@ -30,13 +29,7 @@ void tpConfirmableResponseCallback(void *aContext,
   return;
 }
 
-/**
- * Send 1000 Confirmable CoAP requests in a tight loop as soon as the border
- * router sends a packet to the "/throughput-start" route.
- */
-void throughputStartServerRequestHandler(void* aContext,
-                                         otMessage *aMessage,
-                                         const otMessageInfo *aMessageInfo)
+void tpConfirmableMain()
 {
   coapStart();
   InitSocket(&socket, SERVER_IP);
@@ -65,14 +58,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    /** Set up the CoAP route that will start sending packets for the throughput
-     *  experiment as soon as the border router sends a CoAP request to the route.
-     */
-    PrintDelimiter();
-    startCoapServer(START_SERVER_PORT);
-    createResource(&throughputStartServer, "Throughput Experiment Start Server",
-                    THROUGHPUT_START_SERVER_URI, NULL);
-    PrintDelimiter();
+    tpConfirmableMain();
   }
   s_previous_role = role;
   return;
