@@ -4,7 +4,7 @@
 
 static otSockAddr socket;
 
-static uint32_t packetNum;
+static uint32_t packetsAcked;
 static uint32_t totalBytes;
 static struct timeval startTime;
 static struct timeval endTime;
@@ -34,12 +34,12 @@ void tpConfirmableResponseCallback(void *aContext,
     esp_restart();
   }
 
-  if (packetNum < MAX_PACKETS)
+  if (packetsAcked < MAX_PACKETS)
   {
-    packetNum += 1;
+    packetsAcked += 1;
     totalBytes += TIGHT_LOOP_PAYLOAD_BYTES;
 
-    if (packetNum == MAX_PACKETS)
+    if (packetsAcked == MAX_PACKETS)
     {
       /** The throughput formula is:
        *
@@ -65,7 +65,7 @@ void tpConfirmableResponseCallback(void *aContext,
       otLogNotePlat("%.7f bytes/us.", throughputUs);
       otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
       otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
-      otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetNum);
+      otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetsAcked);
       PrintDelimiter();
 
       startNextTrial();
