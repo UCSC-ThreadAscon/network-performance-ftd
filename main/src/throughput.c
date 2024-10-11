@@ -68,6 +68,7 @@ void tpConfirmableResponseCallback(void *aContext,
       otLogNotePlat("Number of packets sent: %" PRIu32 "", packetNum);
       PrintDelimiter();
 
+      startNextTrial();
       esp_restart();
     }
   }
@@ -81,7 +82,9 @@ void tpConfirmableMain()
   coapStart();
   InitSocket(&socket, SERVER_IP);
 
+  PrintDelimiter();
   otLogNotePlat("Starting the throughput experiment trial!");
+  PrintDelimiter();
 
   startTime = getTimevalNow();
   tpConfirmableSend(&socket);
