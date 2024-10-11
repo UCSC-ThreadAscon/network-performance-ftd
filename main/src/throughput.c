@@ -15,8 +15,6 @@ void tpConfirmableSend(otSockAddr *socket)
   createRandomPayload((uint8_t *) &payload);
   request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
-
-  packetNum += 1;
   return;
 }
 
@@ -67,6 +65,7 @@ void tpConfirmableResponseCallback(void *aContext,
       otLogNotePlat("%.7f bytes/us.", throughputUs);
       otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
       otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
+      otLogNotePlat("Number of packets sent: %" PRIu32 "", packetNum);
       PrintDelimiter();
 
       esp_restart();
