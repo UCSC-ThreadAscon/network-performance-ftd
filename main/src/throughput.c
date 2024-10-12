@@ -2,6 +2,8 @@
 #include "time_api.h"
 #include "main.h"
 
+#define EXPECTED_TOTAL_BYTES 4000
+
 static otSockAddr socket;
 
 static uint32_t packetsAcked;
@@ -43,6 +45,11 @@ void tpConfirmableResponseCallback(void *aContext,
 
     if (packetsAcked == MAX_PACKETS)
     {
+      /* Check that 4000 total bytes (i.e. 4 bytes * 1000 packets)
+         have been received.
+       */
+      assert(totalBytes == EXPECTED_TOTAL_BYTES);
+
       /** The throughput formula is:
        *
        *           MAX_PACKETS * PAYLOAD_SIZE_BYTES
