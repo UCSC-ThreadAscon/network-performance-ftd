@@ -11,7 +11,7 @@
  * I discovered the existence of the `esp_reset_reason()` function when reading:
  * https://forum.arduino.cc/t/how-to-distinguish-reset-by-power-on-from-reset-by-software-command/1160400/9
  *
- * I learned how abotu `esp_restart()` from:
+ * I learned about the `esp_restart()` function from:
  * https://esp32.com/viewtopic.php?t=4706
  */
 void startNextTrial(void)
