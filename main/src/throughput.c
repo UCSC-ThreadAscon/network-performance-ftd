@@ -27,56 +27,53 @@ void tpConfirmableResponseCallback(void *aContext,
 {
   if (aResult != OT_ERROR_NONE)
   {
-    PrintCritDelimiter();
-    otLogCritPlat("Failed to send a packet during the experimental trial.");
-    otLogCritPlat("There is a problem with this particular experimental trial.");
-    otLogCritPlat("Going to restart the current experimental trial.");
-    PrintCritDelimiter();
-
-    esp_restart();
+    otLogWarnPlat("Failed to transmit CoAP request. Reason: %s",
+                  otThreadErrorToString(aResult));
   }
-
-  if (packetsAcked < MAX_PACKETS)
+  else
   {
-    packetsAcked += 1;
-    totalBytes += TIGHT_LOOP_PAYLOAD_BYTES;
-
-    if (packetsAcked == MAX_PACKETS)
+    if (packetsAcked < MAX_PACKETS)
     {
-      /* Check that 4000 total bytes (i.e. 4 bytes * 1000 packets)
-         have been received.
-       */
-      assert(totalBytes == EXPECTED_TOTAL_BYTES);
+      packetsAcked += 1;
+      totalBytes += TIGHT_LOOP_PAYLOAD_BYTES;
 
-      /** The throughput formula is:
-       *
-       *           MAX_PACKETS * PAYLOAD_SIZE_BYTES
-       *      -----------------------------------------   bytes/time
-       *                    t_end - t_start
-       * 
-       */
-      endTime = getTimevalNow();
+      if (packetsAcked == MAX_PACKETS)
+      {
+        /* Check that 4000 total bytes (i.e. 4 bytes * 1000 packets)
+          have been received.
+        */
+        assert(totalBytes == EXPECTED_TOTAL_BYTES);
 
-      double denominatorUs = timeDiffUs(startTime, endTime);
-      double denominatorMs = US_TO_MS(denominatorUs);
-      double denominatorSecs = US_TO_SECONDS(denominatorUs);
+        /** The throughput formula is:
+         *
+         *           MAX_PACKETS * PAYLOAD_SIZE_BYTES
+         *      -----------------------------------------   bytes/time
+         *                    t_end - t_start
+         * 
+         */
+        endTime = getTimevalNow();
 
-      double throughputSecs = totalBytes / denominatorSecs;
-      double throughputMs = totalBytes / denominatorMs;
-      double throughputUs = totalBytes / denominatorUs;
+        double denominatorUs = timeDiffUs(startTime, endTime);
+        double denominatorMs = US_TO_MS(denominatorUs);
+        double denominatorSecs = US_TO_SECONDS(denominatorUs);
 
-      PrintDelimiter();
-      otLogNotePlat("The throughput is:");
-      otLogNotePlat("%.7f bytes/second, or", throughputSecs);
-      otLogNotePlat("%.7f bytes/ms, or", throughputMs);
-      otLogNotePlat("%.7f bytes/us.", throughputUs);
-      otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
-      otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
-      otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetsAcked);
-      PrintDelimiter();
+        double throughputSecs = totalBytes / denominatorSecs;
+        double throughputMs = totalBytes / denominatorMs;
+        double throughputUs = totalBytes / denominatorUs;
 
-      startNextTrial();
-      return;
+        PrintDelimiter();
+        otLogNotePlat("The throughput is:");
+        otLogNotePlat("%.7f bytes/second, or", throughputSecs);
+        otLogNotePlat("%.7f bytes/ms, or", throughputMs);
+        otLogNotePlat("%.7f bytes/us.", throughputUs);
+        otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
+        otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
+        otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetsAcked);
+        PrintDelimiter();
+
+        startNextTrial();
+        return;
+      }
     }
   }
 
