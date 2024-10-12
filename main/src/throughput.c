@@ -17,8 +17,6 @@ void tpConfirmableSend(otSockAddr *socket)
   createRandomPayload((uint8_t *) &payload);
   request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
-
-  packetsAcked += 1;
   return;
 }
 
