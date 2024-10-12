@@ -69,6 +69,7 @@ void tpConfirmableResponseCallback(void *aContext,
       PrintDelimiter();
 
       startNextTrial();
+      return;
     }
   }
 
