@@ -69,7 +69,6 @@ void tpConfirmableResponseCallback(void *aContext,
       PrintDelimiter();
 
       startNextTrial();
-      esp_restart();
     }
   }
 
