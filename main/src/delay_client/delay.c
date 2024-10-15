@@ -161,7 +161,7 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
     else
     {
       PrintCritDelimiter();
-      otLogCritPlat("Delay Client failed to attach to Thread network lead by the Delay Server.");
+      otLogCritPlat("Delay Client failed to attach to the Thread network lead by the Delay Server.");
       otLogCritPlat("Going to restart the current experimental trial.");
       PrintCritDelimiter();
 

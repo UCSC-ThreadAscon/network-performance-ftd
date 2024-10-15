@@ -121,7 +121,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
     else
     {
       PrintCritDelimiter();
-      otLogCritPlat("FTD failed to attach to Thread network lead by the Border Router.");
+      otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
       otLogCritPlat("Going to restart the current experimental trial.");
       PrintCritDelimiter();
 
