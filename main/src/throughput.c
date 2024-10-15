@@ -40,7 +40,7 @@ void tpConfirmableResponseCallback(void *aContext,
       if (packetsAcked == MAX_PACKETS)
       {
         /* Check that 4000 total bytes (i.e. 4 bytes * 1000 packets)
-          have been received.
+           have been received.
         */
         assert(totalBytes == EXPECTED_TOTAL_BYTES);
 
