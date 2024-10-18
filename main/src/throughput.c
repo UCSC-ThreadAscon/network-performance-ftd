@@ -61,12 +61,16 @@ void tpConfirmableResponseCallback(void *aContext,
         double throughputMs = totalBytes / denominatorMs;
         double throughputUs = totalBytes / denominatorUs;
 
+        /**
+         * I found that doubles have 15 digits of precision from:
+         * https://stackoverflow.com/a/2386882/6621292
+         */
         PrintDelimiter();
         otLogNotePlat("The throughput is:");
-        otLogNotePlat("%.7f bytes/second, or", throughputSecs);
-        otLogNotePlat("%.7f bytes/ms, or", throughputMs);
-        otLogNotePlat("%.7f bytes/us.", throughputUs);
-        otLogNotePlat("Duration: %.7f seconds", denominatorSecs);
+        otLogNotePlat("%.15f bytes/second, or", throughputSecs);
+        otLogNotePlat("%.15f bytes/ms, or", throughputMs);
+        otLogNotePlat("%.15f bytes/us.", throughputUs);
+        otLogNotePlat("Duration: %.15f seconds", denominatorSecs);
         otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
         otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetsAcked);
         PrintDelimiter();
