@@ -32,6 +32,3 @@ struct timeval getTimevalNow();
 struct timeval getFutureTimeval(uint64_t seconds);
 uint64_t timeDiffMs(struct timeval tv1, struct timeval tv2);
 uint64_t timeDiffUs(struct timeval tv1, struct timeval tv2);
-struct timeval randomTime(struct timeval tv1, struct timeval tv2);
-
-int compareTimevals(const void* ptr1, const void* ptr2);
