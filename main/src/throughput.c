@@ -27,8 +27,13 @@ void tpConfirmableResponseCallback(void *aContext,
 {
   if (aResult != OT_ERROR_NONE)
   {
-    otLogWarnPlat("Failed to transmit CoAP request. Reason: %s",
+    PrintCritDelimiter();
+    otLogCritPlat("Failed to transmit the CoAP request. Reason: %s",
                   otThreadErrorToString(aResult));
+    otLogCritPlat("Going to restart the current experimental trial.");
+    PrintCritDelimiter();
+
+    esp_restart();
   }
   else
   {
