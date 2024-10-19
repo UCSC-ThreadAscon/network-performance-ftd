@@ -53,13 +53,15 @@ void tpConfirmableResponseCallback(void *aContext,
          */
         endTime = getTimevalNow();
 
-        double denominatorUs = timeDiffUs(startTime, endTime);
-        double denominatorMs = US_TO_MS(denominatorUs);
-        double denominatorSecs = US_TO_SECONDS(denominatorUs);
+        uint64_t usElapsed = timeDiffUs(startTime, endTime);
 
-        double throughputSecs = totalBytes / denominatorSecs;
-        double throughputMs = totalBytes / denominatorMs;
-        double throughputUs = totalBytes / denominatorUs;
+        double denominatorUs = (double) usElapsed;
+        double denominatorMs = US_TO_MS((double) denominatorUs);
+        double denominatorSecs = US_TO_SECONDS((double) denominatorUs);
+
+        double throughputSecs = (double) totalBytes / denominatorSecs;
+        double throughputMs = (double) totalBytes / denominatorMs;
+        double throughputUs = (double) totalBytes / denominatorUs;
 
         /**
          * I found that doubles have 15 digits of precision from:
@@ -70,7 +72,17 @@ void tpConfirmableResponseCallback(void *aContext,
         otLogNotePlat("%.15f bytes/second, or", throughputSecs);
         otLogNotePlat("%.15f bytes/ms, or", throughputMs);
         otLogNotePlat("%.15f bytes/us.", throughputUs);
-        otLogNotePlat("Duration: %.15f seconds", denominatorSecs);
+
+        PrintDelimiter();
+        otLogNotePlat("Time Elapsed:");
+        otLogNotePlat("%.15f seconds.", denominatorSecs);
+        otLogNotePlat("%.15f ms, or", denominatorMs);
+        otLogNotePlat("%" PRIu64 " us.", usElapsed);
+        otLogNotePlat("Start Timestamp: %" PRIu64 "", toUs(startTime));
+        otLogNotePlat("End Timestamp: %" PRIu64 "", toUs(endTime));
+        PrintDelimiter();
+
+        PrintDelimiter();
         otLogNotePlat("Total Received: %" PRIu32 " bytes", totalBytes);
         otLogNotePlat("Number of packets sent and ACKed: %" PRIu32 "", packetsAcked);
         PrintDelimiter();
