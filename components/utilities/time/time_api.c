@@ -33,18 +33,13 @@ struct timeval getFutureTimeval(uint64_t seconds)
 }
 
 /**
- * The code to find the duration of time between two timevals comes from:
- * https://github.com/espressif/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L117
- *
  * This function assumes that "tv2" occurs later than "tv1". The function
- * returns the time elapsed starting at "tv1" to "tv2" in milliseconds.
-*/
-uint64_t timeDiffMs(struct timeval tv1, struct timeval tv2)
-{
-  return (tv2.tv_sec - tv1.tv_sec) * 1000 + (tv2.tv_usec - tv1.tv_usec) / 1000;
-}
-
+ * returns the time elapsed starting at "tv1" to "tv2" in microseconds.
+ */
 uint64_t timeDiffUs(struct timeval tv1, struct timeval tv2)
 {
-  return toUs(tv2) - toUs(tv1);
+  uint64_t endUs = toUs(tv2);
+  uint64_t startUs = toUs(tv1);
+  assert(endUs >= startUs);
+  return endUs - startUs;
 }

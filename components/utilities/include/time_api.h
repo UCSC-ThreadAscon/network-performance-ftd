@@ -32,5 +32,4 @@ uint64_t toUs(struct timeval time);
 struct timeval getTimevalNow();
 struct timeval getFutureTimeval(uint64_t seconds);
 
-uint64_t timeDiffMs(struct timeval tv1, struct timeval tv2);
 uint64_t timeDiffUs(struct timeval tv1, struct timeval tv2);
