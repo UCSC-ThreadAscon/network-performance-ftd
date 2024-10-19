@@ -22,17 +22,6 @@ struct timeval getTimevalNow()
 }
 
 /**
- * What will be the timestamp "[insert number here]" seconds from now?
-*/
-struct timeval getFutureTimeval(uint64_t seconds)
-{
-  struct timeval tvFuture;
-  gettimeofday(&tvFuture, NULL);
-  tvFuture.tv_sec += seconds;
-  return tvFuture;
-}
-
-/**
  * This function assumes that "tv2" occurs later than "tv1". The function
  * returns the time elapsed starting at "tv1" to "tv2" in microseconds.
  */
