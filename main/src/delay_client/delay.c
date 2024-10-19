@@ -60,7 +60,7 @@ void delayConfirmableResponseCallback(void *aContext,
     {
       /**
        * Skip, as the delay with sequence number 0 seems to often be larger
-       *  than the actual delay.
+       * than the actual delay.
        */
       otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us (going to skip)",
                     payload.sequenceNum, payload.delayUs);
