@@ -36,12 +36,6 @@ DelayResponse;
     otLogwarnPlat("The network time needs to be resynced.");                \
   }                                                                         \
 
-#define PrintDelayResults(index, delayUs)                                         \
-  otLogNotePlat("The Delay for the %" PRIu32 "th packet is:", index);             \
-  otLogNotePlat("%" PRIu64 " us, or", delayUs);                                   \
-  otLogNotePlat("%.7f ms, or", US_TO_MS((double) delayUs));                       \
-  otLogNotePlat("%.7f seconds", US_TO_SECONDS((double) delayUs));                 \
-
 /**
  * I found that doubles have 15 digits of precision from:
  * https://stackoverflow.com/a/2386882/6621292
