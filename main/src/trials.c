@@ -2,7 +2,7 @@
 
 #define NVS_NAMESPACE "nvs_trials"
 #define NVS_TRIALS "trials"
-#define MAX_TRIALS 1000
+#define MAX_TRIALS 1
 
 /**
  * This function should run AFTER each experimental trial is complete. The function
