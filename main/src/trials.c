@@ -10,6 +10,10 @@
  * If the FTD has just powered on, then the number of trials in NVS will be reset to 0.
  * Otherwise (if there was a software reset), the number of trials will be unchanged.
  *
+ * I learned that calling "nvs_open()" with the "NVS_READWRITE" flag creates a new
+ * namespace (if the namespace does not exist) from:
+ * https://www.esp32.com/viewtopic.php?t=32000#p109551
+ *
  * I discovered the existence of the `esp_reset_reason()` function when reading:
  * https://forum.arduino.cc/t/how-to-distinguish-reset-by-power-on-from-reset-by-software-command/1160400/9
  */
