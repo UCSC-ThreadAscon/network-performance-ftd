@@ -77,6 +77,7 @@ void tpConfirmableResponseCallback(void *aContext,
         otLogNotePlat("%.15f bytes/second, or", throughputSecs);
         otLogNotePlat("%.15f bytes/ms, or", throughputMs);
         otLogNotePlat("%.15f bytes/us.", throughputUs);
+        PrintDelimiter();
 
         PrintDelimiter();
         otLogNotePlat("Time Elapsed:");
