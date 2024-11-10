@@ -47,4 +47,5 @@
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
 
 void startMain(void);
+void resetTrials(void);
 void startNextTrial(void);
