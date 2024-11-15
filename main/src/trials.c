@@ -70,7 +70,7 @@ void startNextTrial(void)
   }
   else
   {
-    otLogNotePlat("Finished running %" PRIu32 " trials for current experiment.",
+    otLogNotePlat("Finished running %" PRIu32 " trials for the current experiment.",
                   numTrials);
   }
   return;
