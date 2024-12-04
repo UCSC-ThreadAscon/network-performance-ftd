@@ -109,7 +109,7 @@ void tpConfirmableMain()
   InitSocket(&socket, SERVER_IP);
 
   PrintDelimiter();
-  otLogNotePlat("Starting the throughput experimental trial!");
+  otLogNotePlat("Starting the Throughput Confirmable experimental trial!");
   PrintDelimiter();
 
   startTime = getTimevalNow();
@@ -118,8 +118,8 @@ void tpConfirmableMain()
 }
 
 /**
- * The code for the Throughput Server start callback function comes from the ESP-IDF
- * OpenThread SED state change callback example function:
+ * The code for the Throughput Confirmable Server start callback function comes 
+ * from the ESP-IDF OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
 void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
