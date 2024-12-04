@@ -1,7 +1,7 @@
 #pragma once
 
 #include "utilities.h"
-#include "workload.h"
+#include "coap_workload.h"
 
 #include <stdio.h>
 #include <unistd.h>

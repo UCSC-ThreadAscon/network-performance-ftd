@@ -1,6 +1,6 @@
 #pragma once
 
-#include "workload.h"
+#include "coap_workload.h"
 #include "socket.h"
 
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"

@@ -4,7 +4,7 @@
  * CoAP secure source files can be found at:
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-#include "workload.h"
+#include "coap_workload.h"
 
 void coapStart() {
   otError error = otCoapStart(OT_INSTANCE, COAP_SOCK_PORT);

@@ -4,7 +4,7 @@
  * CoAP secure source files can be found at:
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-#include "workload.h"
+#include "coap_workload.h"
 
 otMessage* createCoapMessage()
 {

@@ -1,5 +1,5 @@
 #include "hexdump.h"
-#include "workload.h"
+#include "coap_workload.h"
 
 void printHexDump(otLogHexDumpInfo *aInfo) {
   otError error = OT_ERROR_NONE;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "workload.h"
+#include "coap_workload.h"
 #include "tight_loop.h"
 #include "delay.h"
 

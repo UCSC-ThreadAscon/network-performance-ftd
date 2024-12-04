@@ -1,6 +1,6 @@
 #pragma once
 
-#include "workload.h"
+#include "coap_workload.h"
 
 #define DELAY_SERVER_IP CONFIG_DELAY_SERVER_IP_ADDRESS
 #define SERVER_IP CONFIG_SERVER_IP_ADDRESS
