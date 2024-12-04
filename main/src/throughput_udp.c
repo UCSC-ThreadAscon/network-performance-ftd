@@ -29,8 +29,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    if (role != OT_DEVICE_ROLE_LEADER)
-    {
+    if (role != OT_DEVICE_ROLE_LEADER) {
       tpUdpMain();
     }
     else
