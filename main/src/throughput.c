@@ -105,8 +105,6 @@ void tpConfirmableResponseCallback(void *aContext,
 
 void tpConfirmableMain()
 {
-  resetTrials();
-
   coapStart();
   InitSocket(&socket, SERVER_IP);
 

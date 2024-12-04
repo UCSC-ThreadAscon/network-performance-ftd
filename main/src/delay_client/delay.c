@@ -115,7 +115,6 @@ void delayConfirmableMain(void *aCallbackContext)
     trialStarted = true;
 
     PrintDelimiter();
-    resetTrials();
     coapStart();
     printTimeSyncPeriod();
     PrintDelimiter();
