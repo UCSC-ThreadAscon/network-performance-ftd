@@ -3,6 +3,10 @@
 #include "main.h"
 
 void tpUdpMain(void) {
+  PrintDelimiter();
+  resetTrials();
+  otLogNotePlat("Starting the Throughput UDP experimental trial!");
+  PrintDelimiter();
   return;
 }
 

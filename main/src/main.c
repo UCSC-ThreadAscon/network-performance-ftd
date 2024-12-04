@@ -10,7 +10,6 @@
 
 void app_main(void)
 {
-  resetTrials();
   startMain();
 
   PrintDelimiter();
