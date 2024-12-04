@@ -26,9 +26,9 @@ menu "UCSC Thread-ASCON Experiment Workload"
           The recommended TX power values are 20 dBm, 9 dBm, 0 dBm, and -24 dBm.
 
     config SERVER_IP_ADDRESS
-      string 'IP address of the CoAP server.'
+      string 'IP address of the CoAP or UDP server.'
       help
-          Sets the IPv6 address of the server to establish a CoAP connection with.
+          Sets the IPv6 address of the server to establish a CoAP or UDP connection with.
 
     config DELAY_SERVER_IP_ADDRESS
       string 'The IP Address of the CoAP server for the delay test.'
