@@ -45,6 +45,7 @@
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
 #define DELAY_SERVER (CONFIG_EXPERIMENT == 3)
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
+#define THROUGHPUT_UDP (CONFIG_EXPERIMENT == 5)
 
 void startMain(void);
 void resetTrials(void);
