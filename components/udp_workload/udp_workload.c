@@ -19,9 +19,8 @@ void udpCreateSocket(otUdpSocket *socket,
   return;
 }
 
-void udpSendPacket(otUdpSocket *socket,
-                   void* payload,
-                   uint16_t payloadLength) {
+void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength)
+{
   otMessageInfo aMessageInfo;
   aMessageInfo.mSockAddr = socket->mSockName.mAddress;
   aMessageInfo.mSockPort = socket->mSockName.mPort;

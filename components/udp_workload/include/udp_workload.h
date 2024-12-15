@@ -6,3 +6,4 @@
 #define UDP_DEST_PORT 12345
 
 void udpCreateSocket(otUdpSocket *socket, otSockAddr *sockAddr);
+void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength);
