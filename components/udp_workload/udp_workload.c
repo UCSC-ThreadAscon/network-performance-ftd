@@ -18,3 +18,26 @@ void udpCreateSocket(otUdpSocket *socket,
   otLogNotePlat("Created UDP Socket at port %d.", sockAddr->mPort);
   return;
 }
+
+void udpSendPacket(otUdpSocket *socket,
+                   void* payload,
+                   uint16_t payloadLength) {
+  otMessageInfo aMessageInfo;
+  aMessageInfo.mSockAddr = socket->mSockName.mAddress;
+  aMessageInfo.mSockPort = socket->mSockName.mPort;
+  aMessageInfo.mPeerPort = UDP_DEST_PORT;
+  aMessageInfo.mHopLimit = 0;  // default
+
+  otIp6Address *peerAddr = &(aMessageInfo.mPeerAddr);
+  handleError(otIp6AddressFromString(CONFIG_SERVER_IP_ADDRESS, peerAddr),
+              "Failed to parse UDP server IP address string to bytes.");
+
+  otMessage *aMessage = otUdpNewMessage(OT_INSTANCE, NULL);
+
+  otError error = otMessageAppend(aMessage, payload, payloadLength);
+  HandleMessageError("Failed to append payload to UDP message.", aMessage, error);
+
+  error = otUdpSend(OT_INSTANCE, socket, aMessage, &aMessageInfo);
+  HandleMessageError("Failed to send UDP message", aMessage, error);
+  return;
+}
