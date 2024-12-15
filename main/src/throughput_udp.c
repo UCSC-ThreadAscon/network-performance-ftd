@@ -10,17 +10,15 @@
  *  1. Create the UDP socket.
  *  2. Send UDP packets infinitely to the server.
  */
-
+static otUdpSocket socket;
+static otSockAddr sockAddr;
 
 void tpUdpMain(void) {
-  otUdpSocket socket;
-  otSockAddr sockAddr;
-
   EmptyMemory(&socket, sizeof(otUdpSocket));
   EmptyMemory(&sockAddr, sizeof(otSockAddr));
 
   resetTrials();
-  // udpCreateSocket(&socket, &sockAddr);
+  udpCreateSocket(&socket, &sockAddr);
 
   PrintDelimiter();
   otLogNotePlat("Starting the Throughput UDP experiment trial!");
@@ -31,15 +29,15 @@ void tpUdpMain(void) {
    * will never be freed. The data in these two variables are needed by
    * the OpenThread worker thread.
    */
-  while (true) {
+  // while (true) {
     // uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
     // EmptyMemory(&payload, sizeof(payload));
     // createRandomPayload(payload);
 
     // udpSend(&socket, payload, sizeof(payload));
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
+    // vTaskDelay(5000 / portTICK_PERIOD_MS);
     // otLogNotePlat("Sent UDP packet.");
-  }
+  // }
   return;
 }
 
