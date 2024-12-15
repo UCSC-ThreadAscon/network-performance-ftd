@@ -20,7 +20,7 @@ void tpUdpMain(void) {
   EmptyMemory(&sockAddr, sizeof(otSockAddr));
 
   resetTrials();
-  udpCreateSocket(&socket, &sockAddr);
+  // udpCreateSocket(&socket, &sockAddr);
 
   PrintDelimiter();
   otLogNotePlat("Starting the Throughput UDP experiment trial!");
