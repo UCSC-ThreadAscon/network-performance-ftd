@@ -12,9 +12,9 @@ void udpCreateSocket(otUdpSocket *socket,
   sockAddr->mPort = UDP_SOURCE_PORT;
 
   handleError(otUdpOpen(OT_INSTANCE, socket, NULL, NULL), "Failed to create UDP socket.");
+  handleError(otUdpBind(OT_INSTANCE, socket, sockAddr, OT_NETIF_THREAD),
+              "Failed to bind MLEID and UDP port to socket.");
 
-  char *errorString = sprintf("Failed to bind MLEID and port %d to socket.",
-                              sockAddr->mPort);
-  handleError(otUdpBind(OT_INSTANCE, socket, sockAddr, OT_NETIF_THREAD), errorString);
+  otLogNotePlat("Created UDP Socket at port %d.", sockAddr->mPort);
   return;
 }

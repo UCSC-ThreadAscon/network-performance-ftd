@@ -1,9 +1,9 @@
 #include "tight_loop.h"
 #include "time_api.h"
 #include "main.h"
+#include "udp_workload.h"
 
 #include <openthread/logging.h>
-#include <openthread/udp.h>
 
 /**
  * TODO:
@@ -13,10 +13,27 @@
 
 
 void tpUdpMain(void) {
-  PrintDelimiter();
+  otUdpSocket socket;
+  otSockAddr sockAddr;
+
+  EmptyMemory(&socket, sizeof(otUdpSocket));
+  EmptyMemory(&sockAddr, sizeof(otSockAddr));
+
   resetTrials();
+  udpCreateSocket(&socket, &sockAddr);
+
+  PrintDelimiter();
   otLogNotePlat("Starting the Throughput UDP experiment trial!");
   PrintDelimiter();
+
+  /**
+   * You need to infinite loop so that data in `socket` and `sockAddr`
+   * will never be freed. The data in these two variables are needed by
+   * the OpenThread worker thread.
+   */
+  while (true) {
+    vTaskDelay(500 / portTICK_PERIOD_MS);
+  }
   return;
 }
 
