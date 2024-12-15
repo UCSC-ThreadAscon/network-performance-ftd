@@ -29,15 +29,15 @@ void tpUdpMain(void) {
    * will never be freed. The data in these two variables are needed by
    * the OpenThread worker thread.
    */
-  while (true) {
-    // uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
-    // EmptyMemory(&payload, sizeof(payload));
-    // createRandomPayload(payload);
+  // while (true) {
+    uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
+    EmptyMemory(&payload, sizeof(payload));
+    createRandomPayload(payload);
 
-    // udpSend(&socket, payload, sizeof(payload));
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-    // otLogNotePlat("Sent UDP packet.");
-  }
+    udpSend(&socket, payload, sizeof(payload));
+    // vTaskDelay(5000 / portTICK_PERIOD_MS);
+    otLogNotePlat("Sent UDP packet.");
+  // }
   return;
 }
 
