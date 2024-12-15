@@ -2,6 +2,16 @@
 #include "time_api.h"
 #include "main.h"
 
+#include <openthread/logging.h>
+#include <openthread/udp.h>
+
+/**
+ * TODO:
+ *  1. Create the UDP socket.
+ *  2. Send UDP packets infinitely to the server.
+ */
+
+
 void tpUdpMain(void) {
   PrintDelimiter();
   resetTrials();

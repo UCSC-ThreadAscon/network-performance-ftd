@@ -7,6 +7,12 @@
 #define MS_TO_TICKS(ms) ms / portTICK_PERIOD_MS
 #define MS_TO_MICRO(ms) ms * 1000
 
+#define handleError(error, desc)                                        \
+  if (error != OT_ERROR_NONE) {                                         \
+    otLogCritPlat("%s error: %s", desc, otThreadErrorToString(error));  \
+    return;                                                             \
+  }                                                                     \
+
 #define HandleMessageError(desc, aMessage, error)       \
   if (error != OT_ERROR_NONE) {                         \
     otMessageFree(aMessage);                            \
