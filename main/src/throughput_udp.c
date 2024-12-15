@@ -5,7 +5,7 @@
 void tpUdpMain(void) {
   PrintDelimiter();
   resetTrials();
-  otLogNotePlat("Starting the Throughput UDP experimental trial!");
+  otLogNotePlat("Starting the Throughput UDP experiment trial!");
   PrintDelimiter();
   return;
 }
@@ -36,7 +36,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintCritDelimiter();
       otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
-      otLogCritPlat("Going to restart the current experimental trial.");
+      otLogCritPlat("Going to restart the current experiment trial.");
       PrintCritDelimiter();
 
       esp_restart();

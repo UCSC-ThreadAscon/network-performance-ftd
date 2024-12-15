@@ -30,7 +30,7 @@ void tpConfirmableResponseCallback(void *aContext,
     PrintCritDelimiter();
     otLogCritPlat("Failed to transmit the CoAP request. Reason: %s",
                   otThreadErrorToString(aResult));
-    otLogCritPlat("Going to restart the current experimental trial.");
+    otLogCritPlat("Going to restart the current experiment trial.");
     PrintCritDelimiter();
 
     esp_restart();
@@ -110,7 +110,7 @@ void tpConfirmableMain()
   InitSocket(&socket, SERVER_IP);
 
   PrintDelimiter();
-  otLogNotePlat("Starting the Throughput Confirmable experimental trial!");
+  otLogNotePlat("Starting the Throughput Confirmable experiment trial!");
   PrintDelimiter();
 
   startTime = getTimevalNow();
@@ -145,7 +145,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintCritDelimiter();
       otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
-      otLogCritPlat("Going to restart the current experimental trial.");
+      otLogCritPlat("Going to restart the current experiment trial.");
       PrintCritDelimiter();
 
       esp_restart();

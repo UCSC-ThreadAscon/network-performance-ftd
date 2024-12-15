@@ -85,7 +85,7 @@ void delayConfirmableResponseCallback(void *aContext,
         double averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
         PrintAverageDelay(averageDelayUs);
 
-        /** The current experimental trial is over. If need be, start the
+        /** The current experiment trial is over. If need be, start the
          *  next trial.
          */
         startNextTrial();
@@ -98,7 +98,7 @@ void delayConfirmableResponseCallback(void *aContext,
 
     PrintCritDelimiter();
     otLogCritPlat("Failed to send a Delay packet during the experiment.");
-    otLogCritPlat("Going to restart the current experimental trial.");
+    otLogCritPlat("Going to restart the current experiment trial.");
     PrintCritDelimiter();
 
     esp_restart();
@@ -126,9 +126,9 @@ void delayConfirmableMain(void *aCallbackContext)
   else
   {
     PrintCritDelimiter();
-    otLogCritPlat("The Network Time Sync status changed while the current experimental trial is running!");
-    otLogCritPlat("There is a problem with this particular experimental trial.");
-    otLogCritPlat("Going to restart the current experimental trial.");
+    otLogCritPlat("The Network Time Sync status changed while the current experiment trial is running!");
+    otLogCritPlat("There is a problem with this particular experiment trial.");
+    otLogCritPlat("Going to restart the current experiment trial.");
     PrintCritDelimiter();
 
     esp_restart();
@@ -163,7 +163,7 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintCritDelimiter();
       otLogCritPlat("Delay Client failed to attach to the Thread network lead by the Delay Server.");
-      otLogCritPlat("Going to restart the current experimental trial.");
+      otLogCritPlat("Going to restart the current experiment trial.");
       PrintCritDelimiter();
 
       esp_restart();
