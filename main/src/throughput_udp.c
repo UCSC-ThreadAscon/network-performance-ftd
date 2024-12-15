@@ -11,14 +11,14 @@
  *  2. Send UDP packets infinitely to the server.
  */
 static otUdpSocket socket;
-static otSockAddr sockAddr;
+static otSockAddr destAddr;
 
 void tpUdpMain(void) {
   EmptyMemory(&socket, sizeof(otUdpSocket));
-  EmptyMemory(&sockAddr, sizeof(otSockAddr));
+  EmptyMemory(&destAddr, sizeof(otSockAddr));
 
   resetTrials();
-  udpCreateSocket(&socket, &sockAddr);
+  udpCreateSocket(&socket, &destAddr);
 
   PrintDelimiter();
   otLogNotePlat("Starting the Throughput UDP experiment trial!");

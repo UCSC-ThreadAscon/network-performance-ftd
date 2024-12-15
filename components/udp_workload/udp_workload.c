@@ -6,17 +6,22 @@
  * with the address defined by the macro `CONFIG_SERVER_IP_ADDRESS`.
  */
 void udpCreateSocket(otUdpSocket *socket,
-                     otSockAddr *sockAddr)
+                     otSockAddr *destAddr)
 {
   if (!otUdpIsOpen(OT_INSTANCE, socket)) {
     handleError(otUdpOpen(OT_INSTANCE, socket, NULL, NULL), "Failed to create UDP socket.");
 
-    sockAddr->mAddress = *otThreadGetMeshLocalEid(OT_INSTANCE);
-    sockAddr->mPort = UDP_SOURCE_PORT;
-    handleError(otUdpBind(OT_INSTANCE, socket, sockAddr, OT_NETIF_THREAD),
-                "Failed to bind MLEID and UDP port to socket.");
+  otIp6Address destIp;
+  EmptyMemory(&destIp, sizeof(otIp6Address));
+  handleError(otIp6AddressFromString(CONFIG_SERVER_IP_ADDRESS, &destIp),
+              "Failed to parse UDP server IP address string to bytes.");
 
-    otLogNotePlat("Created UDP Socket at port %d.", sockAddr->mPort);    
+  destAddr->mAddress = destIp;
+  destAddr->mPort = UDP_DEST_PORT;
+  handleError(otUdpConnect(OT_INSTANCE, socket, destAddr),
+              "Failed to connect UDP socket to server.");
+
+  otLogNotePlat("Connected to UDP Server at port %d.", destAddr->mPort);    
   }
   else {
     otLogWarnPlat("UDP Socket is already open.");
@@ -28,14 +33,7 @@ void udpCreateSocket(otUdpSocket *socket,
 void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength)
 {
   otMessageInfo aMessageInfo;
-  aMessageInfo.mSockAddr = socket->mSockName.mAddress;
-  aMessageInfo.mSockPort = socket->mSockName.mPort;
-  aMessageInfo.mPeerPort = UDP_DEST_PORT;
-  aMessageInfo.mHopLimit = 0;  // default
-
-  otIp6Address *peerAddr = &(aMessageInfo.mPeerAddr);
-  handleError(otIp6AddressFromString(CONFIG_SERVER_IP_ADDRESS, peerAddr),
-              "Failed to parse UDP server IP address string to bytes.");
+  EmptyMemory(&aMessageInfo, sizeof(otMessageInfo));
 
   otMessage *aMessage = otUdpNewMessage(OT_INSTANCE, NULL);
 
