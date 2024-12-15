@@ -35,7 +35,7 @@ void tpUdpMain(void) {
     createRandomPayload(payload);
 
     udpSend(&socket, payload, sizeof(payload));
-    // vTaskDelay(5000 / portTICK_PERIOD_MS);
+  //   vTaskDelay(5000 / portTICK_PERIOD_MS);
     otLogNotePlat("Sent UDP packet.");
   // }
   return;
