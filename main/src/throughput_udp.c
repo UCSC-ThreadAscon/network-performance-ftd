@@ -8,8 +8,6 @@
 #define STACK_SIZE 10240
 #define TASK_PRIORITY 5
 
-#define MICRO_SLEEP_MS 100
-
 /**
  * TODO:
  *  1. Create the UDP socket.
@@ -27,6 +25,7 @@ void tpUdpMain(void *taskParameters) {
 
   PrintDelimiter();
   otLogNotePlat("Starting the Throughput UDP experiment trial!");
+  otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
   PrintDelimiter();
 
   while (true) {
@@ -35,7 +34,7 @@ void tpUdpMain(void *taskParameters) {
     createRandomPayload(payload);
 
     udpSend(&socket, payload, sizeof(payload));
-    vTaskDelay(MS_TO_TICKS(MICRO_SLEEP_MS));
+    vTaskDelay(MS_TO_TICKS(UDP_MICRO_SLEEP_MS));
   }
   return;
 }
