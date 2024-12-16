@@ -8,6 +8,8 @@
 #define STACK_SIZE 10240
 #define TASK_PRIORITY 5
 
+#define MICRO_SLEEP_MS 100
+
 /**
  * TODO:
  *  1. Create the UDP socket.
@@ -33,7 +35,7 @@ void tpUdpMain(void *taskParameters) {
     createRandomPayload(payload);
 
     udpSend(&socket, payload, sizeof(payload));
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
+    vTaskDelay(MS_TO_TICKS(MICRO_SLEEP_MS));
     otLogNotePlat("Sent UDP packet.");
   }
   return;
@@ -58,20 +60,8 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    if (role != OT_DEVICE_ROLE_LEADER)
-    {
-      xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                  TASK_PRIORITY, NULL);
-    }
-    else
-    {
-      PrintCritDelimiter();
-      otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
-      otLogCritPlat("Going to restart the current experiment trial.");
-      PrintCritDelimiter();
-
-      esp_restart();
-    }
+    xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+                TASK_PRIORITY, NULL);
   }
   s_previous_role = role;
   return;
