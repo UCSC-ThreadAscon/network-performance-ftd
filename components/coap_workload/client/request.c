@@ -16,12 +16,12 @@ otMessage* createCoapMessage()
   return newMessage;
 }
 
-void createMessageInfo(otSockAddr *aSocket, otMessageInfo *aMessageInfo)
+void createMessageInfo(otSockAddr *aSockAddr, otMessageInfo *aMessageInfo)
 {
   aMessageInfo->mHopLimit = 0;  // default
 
-  aMessageInfo->mPeerAddr = aSocket->mAddress;
-  aMessageInfo->mPeerPort = aSocket->mPort;
+  aMessageInfo->mPeerAddr = aSockAddr->mAddress;
+  aMessageInfo->mPeerPort = aSockAddr->mPort;
 
   aMessageInfo->mSockAddr = *otThreadGetMeshLocalEid(OT_INSTANCE);
   aMessageInfo->mSockPort = COAP_SOCK_PORT;
@@ -78,13 +78,13 @@ void send(otMessage *aRequest,
   otLogNotePlat("Sent a %s message of %d bytes to %s.",         \
                 coapTypeString, payloadSize, destString);       \
 
-void printMessageSent(otSockAddr *socket,
+void printMessageSent(otSockAddr *sockAddr,
                       size_t payloadSize,
                       otCoapType type)
 {
   char destString[OT_IP6_ADDRESS_STRING_SIZE];
 
-  otIp6AddressToString(&(socket->mAddress),
+  otIp6AddressToString(&(sockAddr->mAddress),
                        destString,
                        OT_IP6_ADDRESS_STRING_SIZE);
 
@@ -108,7 +108,7 @@ void printMessageSent(otSockAddr *socket,
   return;
 }
 
-void request(otSockAddr *socket,
+void request(otSockAddr *sockAddr,
              void *payload,
              size_t payloadSize,
              const char *uri,
@@ -119,7 +119,7 @@ void request(otSockAddr *socket,
   otMessage *aRequest;
 
   EmptyMemory(&aMessageInfo, sizeof(otMessageInfo));
-  createMessageInfo(socket, &aMessageInfo);
+  createMessageInfo(sockAddr, &aMessageInfo);
 
   aRequest = createCoapMessage();
 
@@ -128,7 +128,7 @@ void request(otSockAddr *socket,
   send(aRequest, &aMessageInfo, responseCallback);
 
 #if CONFIG_EXPERIMENT_DEBUG
-  printMessageSent(socket, payloadSize, type);
+  printMessageSent(sockAddr, payloadSize, type);
 #endif
   return;
 }

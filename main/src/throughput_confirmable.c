@@ -4,18 +4,18 @@
 
 #define EXPECTED_TOTAL_BYTES 4000
 
-static otSockAddr socket;
+static otSockAddr sockAddr;
 
 static uint32_t packetsAcked;
 static uint32_t totalBytes;
 static struct timeval startTime;
 static struct timeval endTime;
 
-void tpConfirmableSend(otSockAddr *socket)
+void tpConfirmableSend(otSockAddr *sockAddr)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
+  request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
@@ -99,7 +99,7 @@ void tpConfirmableResponseCallback(void *aContext,
     }
   }
 
-  tpConfirmableSend(&socket);
+  tpConfirmableSend(&sockAddr);
   return;
 }
 
@@ -107,14 +107,14 @@ void tpConfirmableMain()
 {
   resetTrials();
   coapStart();
-  InitSocket(&socket, SERVER_IP);
+  InitSockAddr(&sockAddr, SERVER_IP);
 
   PrintDelimiter();
   otLogNotePlat("Starting the Throughput Confirmable experiment trial!");
   PrintDelimiter();
 
   startTime = getTimevalNow();
-  tpConfirmableSend(&socket);
+  tpConfirmableSend(&sockAddr);
   return;
 }
 

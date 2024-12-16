@@ -2,7 +2,7 @@
 #include "main.h"
 #include "independent_variables.h"
 
-static otSockAddr socket;
+static otSockAddr sockAddr;
 
 static uint64_t DelaysUs[DELAY_MAX_PACKETS];
 static uint32_t indexDelayUs;
@@ -12,7 +12,7 @@ static uint32_t indexDelayUs;
  * Repeat this process of checking and waiting until the network time is synchronized,
  * in which you can send the packets.
  */
-void delayConfirmableSend(otSockAddr *socket)
+void delayConfirmableSend(otSockAddr *sockAddr)
 {
   static uint32_t sequenceNum = 0;
   uint64_t networkTime = 0;
@@ -29,7 +29,7 @@ void delayConfirmableSend(otSockAddr *socket)
       payload.sequenceNum = sequenceNum;
       payload.sent = networkTime;
 
-      request(socket, &payload, sizeof(DelayRequest), DELAY_URI,
+      request(sockAddr, &payload, sizeof(DelayRequest), DELAY_URI,
               delayConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
       sequenceNum += 1;
     }
@@ -64,7 +64,7 @@ void delayConfirmableResponseCallback(void *aContext,
        */
       otLogNotePlat("Packet %" PRIu32 " has Delay: %" PRIu64 " us (going to skip)",
                     payload.sequenceNum, payload.delayUs);
-      delayConfirmableSend(&socket);
+      delayConfirmableSend(&sockAddr);
     }
     else
     {
@@ -78,7 +78,7 @@ void delayConfirmableResponseCallback(void *aContext,
       indexDelayUs += 1;
       if (indexDelayUs < DELAY_MAX_PACKETS)
       {
-        delayConfirmableSend(&socket);
+        delayConfirmableSend(&sockAddr);
       }
       else if (indexDelayUs == DELAY_MAX_PACKETS)
       {
@@ -120,8 +120,8 @@ void delayConfirmableMain(void *aCallbackContext)
     printTimeSyncPeriod();
     PrintDelimiter();
 
-    InitSocket(&socket, DELAY_SERVER_IP);
-    delayConfirmableSend(&socket);
+    InitSockAddr(&sockAddr, DELAY_SERVER_IP);
+    delayConfirmableSend(&sockAddr);
   }
   else
   {
