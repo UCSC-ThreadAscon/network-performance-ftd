@@ -1,3 +1,11 @@
+/**
+ * The UDP API is based on the example code given in the OpenThread source code:
+ * https://github.com/openthread/openthread/blob/main/src/cli/cli_udp.cpp
+ * https://github.com/jwhui/openthread/blob/405de3cb14c62c56faa79ecde45e16e29a7ecb15/src/cli/cli_udp_example.cpp
+ *
+ * In addition, I got the idea to use `otUdpConnect()` from:
+ * https://groups.google.com/g/openthread-users/c/7PAiNorSnBg/m/m3yqM9sRCgAJ
+ */
 #include "udp_workload.h"
 #include "inline.h"
 
