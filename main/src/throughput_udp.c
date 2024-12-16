@@ -36,7 +36,6 @@ void tpUdpMain(void *taskParameters) {
 
     udpSend(&socket, payload, sizeof(payload));
     vTaskDelay(MS_TO_TICKS(MICRO_SLEEP_MS));
-    otLogNotePlat("Sent UDP packet.");
   }
   return;
 }
