@@ -5,6 +5,9 @@
 
 #include <openthread/logging.h>
 
+#define STACK_SIZE 10240
+#define TASK_PRIORITY 5
+
 /**
  * TODO:
  *  1. Create the UDP socket.
@@ -13,7 +16,7 @@
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
-void tpUdpMain(void) {
+void tpUdpMain(void *taskParameters) {
   EmptyMemory(&socket, sizeof(otUdpSocket));
   EmptyMemory(&destAddr, sizeof(otSockAddr));
 
@@ -24,20 +27,15 @@ void tpUdpMain(void) {
   otLogNotePlat("Starting the Throughput UDP experiment trial!");
   PrintDelimiter();
 
-  /**
-   * You need to infinite loop so that data in `socket` and `sockAddr`
-   * will never be freed. The data in these two variables are needed by
-   * the OpenThread worker thread.
-   */
-  // while (true) {
+  while (true) {
     uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
     EmptyMemory(&payload, sizeof(payload));
     createRandomPayload(payload);
 
     udpSend(&socket, payload, sizeof(payload));
-  //   vTaskDelay(5000 / portTICK_PERIOD_MS);
+    vTaskDelay(5000 / portTICK_PERIOD_MS);
     otLogNotePlat("Sent UDP packet.");
-  // }
+  }
   return;
 }
 
@@ -60,8 +58,10 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    if (role != OT_DEVICE_ROLE_LEADER) {
-      tpUdpMain();
+    if (role != OT_DEVICE_ROLE_LEADER)
+    {
+      xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+                  TASK_PRIORITY, NULL);
     }
     else
     {
