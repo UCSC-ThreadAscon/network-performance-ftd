@@ -5,6 +5,3 @@
 
 #define COAP_SERVER_PORT OT_DEFAULT_COAP_PORT
 #define COAP_SOCK_PORT OT_DEFAULT_COAP_PORT
-
-#define BATTERY_URI "battery"
-#define EVENT_URI "event"

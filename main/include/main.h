@@ -1,7 +1,7 @@
 #pragma once
 
 #include "utilities.h"
-#include "workload.h"
+#include "coap_workload.h"
 
 #include <stdio.h>
 #include <unistd.h>
@@ -45,6 +45,7 @@
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
 #define DELAY_SERVER (CONFIG_EXPERIMENT == 3)
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
+#define THROUGHPUT_UDP (CONFIG_EXPERIMENT == 5)
 
 void startMain(void);
 void resetTrials(void);

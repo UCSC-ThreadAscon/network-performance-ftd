@@ -2,10 +2,10 @@
 
 #define NVS_NAMESPACE "nvs_trials"
 #define NVS_TRIALS "trials"
-#define MAX_TRIALS 1000
+#define MAX_TRIALS 1
 
 /**
- * This function should run BEFORE the experimental trial begins.
+ * This function should run BEFORE the experiment trial begins.
  * 
  * If the FTD has just powered on, then the number of trials in NVS will be reset to 0.
  * Otherwise (if there was a software reset), the number of trials will be unchanged.
@@ -38,7 +38,7 @@ void resetTrials(void)
 }
 
 /**
- * This function should run AFTER each experimental trial is complete. The function
+ * This function should run AFTER each experiment trial is complete. The function
  * records the numbers of trials done so far, and restarts the device.
  *
  * I discovered the existence of the `esp_reset_reason()` function when reading:

@@ -4,18 +4,18 @@
 
 #define EXPECTED_TOTAL_BYTES 4000
 
-static otSockAddr socket;
+static otSockAddr sockAddr;
 
 static uint32_t packetsAcked;
 static uint32_t totalBytes;
 static struct timeval startTime;
 static struct timeval endTime;
 
-void tpConfirmableSend(otSockAddr *socket)
+void tpConfirmableSend(otSockAddr *sockAddr)
 {
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
-  request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
+  request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
           tpConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
@@ -30,7 +30,7 @@ void tpConfirmableResponseCallback(void *aContext,
     PrintCritDelimiter();
     otLogCritPlat("Failed to transmit the CoAP request. Reason: %s",
                   otThreadErrorToString(aResult));
-    otLogCritPlat("Going to restart the current experimental trial.");
+    otLogCritPlat("Going to restart the current experiment trial.");
     PrintCritDelimiter();
 
     esp_restart();
@@ -99,29 +99,28 @@ void tpConfirmableResponseCallback(void *aContext,
     }
   }
 
-  tpConfirmableSend(&socket);
+  tpConfirmableSend(&sockAddr);
   return;
 }
 
 void tpConfirmableMain()
 {
   resetTrials();
-
   coapStart();
-  InitSocket(&socket, SERVER_IP);
+  InitSockAddr(&sockAddr, SERVER_IP);
 
   PrintDelimiter();
-  otLogNotePlat("Starting the throughput experimental trial!");
+  otLogNotePlat("Starting the Throughput Confirmable experiment trial!");
   PrintDelimiter();
 
   startTime = getTimevalNow();
-  tpConfirmableSend(&socket);
+  tpConfirmableSend(&sockAddr);
   return;
 }
 
 /**
- * The code for the Throughput Server start callback function comes from the ESP-IDF
- * OpenThread SED state change callback example function:
+ * The code for the Throughput Confirmable Server start callback function comes 
+ * from the ESP-IDF OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
 void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
@@ -146,7 +145,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintCritDelimiter();
       otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
-      otLogCritPlat("Going to restart the current experimental trial.");
+      otLogCritPlat("Going to restart the current experiment trial.");
       PrintCritDelimiter();
 
       esp_restart();

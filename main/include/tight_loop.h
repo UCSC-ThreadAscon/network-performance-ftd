@@ -1,7 +1,7 @@
 #pragma once
 
-#include "workload.h"
-#include "socket.h"
+#include "coap_workload.h"
+#include "sockAddr.h"
 
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"
 #define PACKET_LOSS_CONFIRMABLE_URI "packet-loss-confirmable"
@@ -18,21 +18,22 @@ void createRandomPayload(uint8_t *buffer);
 void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void startDelayClientCallback(otChangedFlags changed_flags, void* ctx);
+void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx);
 
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult);
-void tpConfirmableSend(otSockAddr *socket);
+void tpConfirmableSend(otSockAddr *sockAddr);
 
 void plConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult);
-void plConfirmableSend(otSockAddr *socket);
+void plConfirmableSend(otSockAddr *sockAddr);
 
 void delayConfirmableResponseCallback(void *aContext,
                                       otMessage *aMessage,
                                       const otMessageInfo *aMessageInfo,
                                       otError aResult);
-void delayConfirmableSend(otSockAddr *socket);
+void delayConfirmableSend(otSockAddr *sockAddr);

@@ -4,7 +4,7 @@
  *
  * https://github.com/UCSC-ThreadAscon/openthread/tree/main/src/cli
 */
-#include "workload.h"
+#include "coap_workload.h"
 
 /**
  * This function is a modified version of `HandleRequest()` from the OpenThread CLI
