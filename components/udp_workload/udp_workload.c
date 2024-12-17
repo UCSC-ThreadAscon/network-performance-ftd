@@ -50,5 +50,9 @@ void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength)
 
   error = otUdpSend(OT_INSTANCE, socket, aMessage, &aMessageInfo);
   HandleMessageError("Failed to send UDP message", aMessage, error);
+
+#if CONFIG_EXPERIMENT_DEBUG
+  otLogNotePlat("Sent a UDP packet with a length of %" PRIu16 " bytes.", payloadLength);
+#endif
   return;
 }

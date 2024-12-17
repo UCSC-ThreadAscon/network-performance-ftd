@@ -74,9 +74,9 @@ void send(otMessage *aRequest,
 #define ACK_STRING "Acknowledgement"
 #define RESET_STRING "Reset"
 
-#define PrintMessage(coapTypeString, payloadSize, destString)   \
-  otLogNotePlat("Sent a %s message of %d bytes to %s.",         \
-                coapTypeString, payloadSize, destString);       \
+#define PrintMessage(coapTypeString, payloadSize, destString)                 \
+  otLogNotePlat("Sent a %s message with a length of %d bytes to %s.",         \
+                coapTypeString, payloadSize, destString);                     \
 
 void printMessageSent(otSockAddr *sockAddr,
                       size_t payloadSize,
