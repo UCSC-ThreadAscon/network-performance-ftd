@@ -6,17 +6,16 @@
 #include "macro.h"
 
 /* ---- Common API ---- */
-void handleError(otError error, char* desc);
 void printMeshLocalEid(otInstance *aInstance);
 
 /** ---- CoAP Common API ---- */
 uint16_t getPayloadLength(const otMessage *aMessage);
 void getPayload(const otMessage *aMessage, void* buffer);
-otSockAddr createSocket(const char *recvAddrString);
+otSockAddr createSockAddr(const char *recvAddrString);
 void coapStart(void);
 
 /* ---- CoAP Client API ---- */
-void request(otSockAddr *socket,
+void request(otSockAddr *sockAddr,
              void *payload,
              size_t payloadSize,
              const char *uri,

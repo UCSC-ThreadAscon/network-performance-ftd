@@ -5,4 +5,4 @@ idf_component_register(SRCS "pollperiod.c"
                             "sleep.c"
                             "./time/time_api.c"
                     INCLUDE_DIRS "include"
-                    REQUIRES "openthread" "workload" "esp_timer")
+                    REQUIRES "openthread" "coap_workload" "esp_timer")

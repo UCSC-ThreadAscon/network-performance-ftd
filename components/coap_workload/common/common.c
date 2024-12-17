@@ -1,16 +1,8 @@
-#include "workload.h"
+#include "coap_workload.h"
 
 #include <openthread/thread.h>
 #include <openthread/platform/radio.h>
 #include <assert.h>
-
-void handleError(otError error, char* desc)
-{
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("%s error: %s", desc, otThreadErrorToString(error));
-  }
-  return;
-}
 
 uint16_t getPayloadLength(const otMessage *aMessage) {
   return otMessageGetLength(aMessage) - otMessageGetOffset(aMessage);

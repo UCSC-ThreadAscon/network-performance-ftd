@@ -11,9 +11,9 @@
  */
 #include "tight_loop.h"
 
-static otSockAddr socket;
+static otSockAddr sockAddr;
 
-void plConfirmableSend(otSockAddr *socket)
+void plConfirmableSend(otSockAddr *sockAddr)
 {
   static uint32_t numPacketsSent = 0;
 
@@ -22,7 +22,7 @@ void plConfirmableSend(otSockAddr *socket)
     uint32_t payload = 0;
     createRandomPayload((uint8_t *) &payload);
 
-    request(socket, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_CONFIRMABLE_URI, 
+    request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_CONFIRMABLE_URI, 
             plConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
     numPacketsSent += 1;
 
@@ -39,14 +39,14 @@ void plConfirmableResponseCallback(void *aContext,
                                    otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  plConfirmableSend(&socket);   // send another request after getting a response.
+  plConfirmableSend(&sockAddr);   // send another request after getting a response.
 }
 
 void plConfirmableMain()
 {
   coapStart();
-  InitSocket(&socket, SERVER_IP);
-  plConfirmableSend(&socket);
+  InitSockAddr(&sockAddr, SERVER_IP);
+  plConfirmableSend(&sockAddr);
   return;
 }
 
