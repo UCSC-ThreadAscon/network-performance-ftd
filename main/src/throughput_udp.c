@@ -8,11 +8,6 @@
 #define STACK_SIZE 10240
 #define TASK_PRIORITY 5
 
-/**
- * TODO:
- *  1. Create the UDP socket.
- *  2. Send UDP packets infinitely to the server.
- */
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
