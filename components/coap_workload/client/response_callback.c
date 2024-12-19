@@ -6,7 +6,6 @@
  * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap_secure.cpp#L814
 */
 #include "coap_workload.h"
-#include "sleep.h"
 
 void printPayloadInfo(otMessage *aMessage, const otMessageInfo *aMessageInfo)
 {
