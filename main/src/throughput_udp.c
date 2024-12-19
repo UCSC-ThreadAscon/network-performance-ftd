@@ -16,6 +16,24 @@ static otSockAddr destAddr;
 static bool sendPackets;
 TaskHandle_t tpUdpMainTask;
 
+void tpUdpMain(void *taskParameters) {
+  PrintDelimiter();
+  otLogNotePlat("Sending UDP packets to the Border Router.");
+  otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
+  PrintDelimiter();
+
+  while (true) {
+    uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
+    EmptyMemory(&payload, sizeof(payload));
+    createRandomPayload(payload);
+
+    udpSend(&socket, payload, sizeof(payload));
+    vTaskDelay(MS_TO_TICKS(UDP_MICRO_SLEEP_MS));
+  }
+  return;
+}
+
+
 void toggleSendUdpPackets(void *aContext,
                           otMessage *aMessage,
                           const otMessageInfo *aMessageInfo) 
@@ -36,23 +54,6 @@ void toggleSendUdpPackets(void *aContext,
     vTaskDelete(tpUdpMainTask);
   }
 
-  return;
-}
-
-void tpUdpMain(void *taskParameters) {
-  PrintDelimiter();
-  otLogNotePlat("Sending UDP packets to the Border Router.");
-  otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
-  PrintDelimiter();
-
-  while (true) {
-    uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
-    EmptyMemory(&payload, sizeof(payload));
-    createRandomPayload(payload);
-
-    udpSend(&socket, payload, sizeof(payload));
-    vTaskDelay(MS_TO_TICKS(UDP_MICRO_SLEEP_MS));
-  }
   return;
 }
 
