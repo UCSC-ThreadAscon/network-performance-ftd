@@ -77,7 +77,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     startCoapServer(OT_DEFAULT_COAP_PORT);
-    createResource(&server, "Throughput UDP Start Server", "throughput-udp",
+    createResource(&server, "Throughput UDP Start", "throughput-udp",
                    toggleSendUdpPackets);
 
     udpCreateSocket(&socket, &destAddr);
