@@ -54,6 +54,7 @@ void toggleSendUdpPackets(void *aContext,
     vTaskDelete(tpUdpMainTask);
   }
 
+  sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
 
