@@ -29,7 +29,7 @@ void udpCreateSocket(otUdpSocket *socket,
   handleError(otUdpConnect(OT_INSTANCE, socket, destAddr),
               "Failed to connect UDP socket to server.");
 
-  otLogNotePlat("Set up UDP Socket to send packets to the Border Router.");    
+  otLogNotePlat("Connected to UDP Server at port %d.", destAddr->mPort);    
   }
   else {
     otLogWarnPlat("UDP Socket is already open.");
