@@ -11,13 +11,13 @@
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
-void tpUdpMain(void *taskParameters) {
-  udpCreateSocket(&socket, &destAddr);
+TaskHandle_t tpUdpMainTask;
 
-  PrintDelimiter();
-  otLogNotePlat("Starting the Throughput UDP experiment trial!");
-  otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
-  PrintDelimiter();
+void tpUdpMain(void *taskParameters) {
+  EmptyMemory(&socket, sizeof(otUdpSocket));
+  EmptyMemory(&destAddr, sizeof(otSockAddr));
+
+  udpCreateSocket(&socket, &destAddr);
 
   while (true) {
     uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
@@ -41,17 +41,39 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
 
   otInstance* instance = esp_openthread_get_instance();
-  if (!instance)
-  {
-    return;
-  }
+  if (!instance) { return; }
 
   otDeviceRole role = otThreadGetDeviceRole(instance);
-  if ((connected(role) == true) && (connected(s_previous_role) == false))
+  bool justAttached = connected(role) && (!connected(s_previous_role));
+  bool justDisconnected = (!connected(role)) && connected(s_previous_role);
+
+  if (justAttached)
   {
+    PrintDelimiter();
+    otLogNotePlat("Just attached to the Thread network.");
+    otLogNotePlat("Starting to send UDP packets in a tight loop.");
+    otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
+    PrintDelimiter();
+
     xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-          TASK_PRIORITY, NULL);
+                TASK_PRIORITY, &tpUdpMainTask);
   }
+  else if (justDisconnected)
+  {
+    PrintWarnDelimiter();
+    otLogWarnPlat("Disconnected from the Thread network. Going to stop sending UDP packets.");
+    PrintWarnDelimiter();
+
+    vTaskDelete(tpUdpMainTask);
+
+    otError error = otUdpClose(instance, &socket);
+    if (error != OT_ERROR_NONE) {
+      PrintCritDelimiter();
+      otLogCritPlat("Failed to close UDP socket. Restarting device.");
+      PrintCritDelimiter();
+    }
+  }
+
   s_previous_role = role;
   return;
 }
