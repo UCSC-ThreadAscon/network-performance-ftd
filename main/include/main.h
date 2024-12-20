@@ -40,6 +40,7 @@
  */
 #define PrintDelimiter() otLogNotePlat("<===========================================================>");
 #define PrintCritDelimiter() otLogCritPlat("<===========================================================>");
+#define PrintWarnDelimiter() otLogWarnPlat("<===========================================================>");
 
 #define THROUGHPUT_CONFIRMABLE (CONFIG_EXPERIMENT == 1)
 #define PACKET_LOSS_CONFIRMABLE (CONFIG_EXPERIMENT == 2)
