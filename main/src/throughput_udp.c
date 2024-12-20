@@ -12,10 +12,6 @@ static otUdpSocket socket;
 static otSockAddr destAddr;
 
 void tpUdpMain(void *taskParameters) {
-  EmptyMemory(&socket, sizeof(otUdpSocket));
-  EmptyMemory(&destAddr, sizeof(otSockAddr));
-
-  resetTrials();
   udpCreateSocket(&socket, &destAddr);
 
   PrintDelimiter();
