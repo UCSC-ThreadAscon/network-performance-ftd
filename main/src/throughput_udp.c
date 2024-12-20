@@ -11,6 +11,8 @@
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
+TaskHandle_t tpUdpMainTask;
+
 void tpUdpMain(void *taskParameters) {
   EmptyMemory(&socket, sizeof(otUdpSocket));
   EmptyMemory(&destAddr, sizeof(otSockAddr));
@@ -51,16 +53,18 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     otLogNotePlat("Just attached to the Thread network.");
     otLogNotePlat("Starting to send UDP packets in a tight loop.");
     otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
+    PrintDelimiter();
 
     xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                TASK_PRIORITY, NULL);
-    PrintDelimiter();
+                TASK_PRIORITY, &tpUdpMainTask);
   }
   else if (justDisconnected)
   {
     PrintWarnDelimiter();
     otLogWarnPlat("Disconnected from the Thread network. Going to stop sending UDP packets.");
     PrintWarnDelimiter();
+
+    vTaskDelete(tpUdpMainTask);
 
     otError error = otUdpClose(instance, &socket);
     if (error != OT_ERROR_NONE) {
