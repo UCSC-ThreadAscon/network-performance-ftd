@@ -12,10 +12,6 @@ static otUdpSocket socket;
 static otSockAddr destAddr;
 
 void tpUdpMain(void *taskParameters) {
-  EmptyMemory(&socket, sizeof(otUdpSocket));
-  EmptyMemory(&destAddr, sizeof(otSockAddr));
-
-  resetTrials();
   udpCreateSocket(&socket, &destAddr);
 
   PrintDelimiter();
@@ -54,7 +50,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                TASK_PRIORITY, NULL);
+          TASK_PRIORITY, NULL);
   }
   s_previous_role = role;
   return;
