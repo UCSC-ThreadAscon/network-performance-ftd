@@ -53,8 +53,21 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                TASK_PRIORITY, NULL);
+    if (role != OT_DEVICE_ROLE_LEADER)
+    {
+      xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+            TASK_PRIORITY, NULL);
+    }
+    else
+    {
+      PrintCritDelimiter();
+      otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
+      otLogCritPlat("Border Router needs to be present in order to establish UDP connection.");
+      otLogCritPlat("Going to restart the FTD.");
+      PrintCritDelimiter();
+
+      esp_restart();
+    }
   }
   s_previous_role = role;
   return;
