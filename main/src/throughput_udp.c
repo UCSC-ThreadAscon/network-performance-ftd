@@ -49,14 +49,26 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
 
   if (justAttached)
   {
-    PrintDelimiter();
-    otLogNotePlat("Just attached to the Thread network.");
-    otLogNotePlat("Starting to send UDP packets in a tight loop.");
-    otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
-    PrintDelimiter();
+    if (role != OT_DEVICE_ROLE_LEADER)
+    {
+      PrintDelimiter();
+      otLogNotePlat("Just attached to the Thread network.");
+      otLogNotePlat("Starting to send UDP packets in a tight loop.");
+      otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
+      PrintDelimiter();
 
-    xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                TASK_PRIORITY, &tpUdpMainTask);
+      xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+                  TASK_PRIORITY, &tpUdpMainTask);
+    }
+    else
+    {
+      otError error = otThreadBecomeDetached(instance);
+      if (error != OT_ERROR_NONE) {
+        PrintCritDelimiter();
+        otLogCritPlat("Failed to properly detach from Thread Network. Restarting device.");
+        PrintCritDelimiter();
+      }
+    }
   }
   else if (justDisconnected)
   {
