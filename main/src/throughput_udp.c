@@ -62,12 +62,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     }
     else
     {
-      otError error = otThreadBecomeDetached(instance);
-      if (error != OT_ERROR_NONE) {
-        PrintCritDelimiter();
-        otLogCritPlat("Failed to properly detach from Thread Network. Restarting device.");
-        PrintCritDelimiter();
-      }
+      esp_restart();
     }
   }
   else if (justDisconnected)
