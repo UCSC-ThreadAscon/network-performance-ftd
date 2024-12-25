@@ -3,6 +3,7 @@
 #include "main.h"
 #include "udp_workload.h"
 
+#include <openthread/thread_ftd.h>
 #include <openthread/logging.h>
 
 #define STACK_SIZE 10240
@@ -40,16 +41,16 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
   OT_UNUSED_VARIABLE(ctx);
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
 
-  otInstance* instance = esp_openthread_get_instance();
-  if (!instance) { return; }
+  if (!OT_INSTANCE) { return; }
+  otDeviceRole role = otThreadGetDeviceRole(OT_INSTANCE);
 
-  otDeviceRole role = otThreadGetDeviceRole(instance);
   bool justAttached = connected(role) && (!connected(s_previous_role));
   bool justDisconnected = (!connected(role)) && connected(s_previous_role);
 
   if (justAttached)
   {
-    if (role != OT_DEVICE_ROLE_LEADER)
+    otError error = otThreadBecomeLeader(OT_INSTANCE);
+    if (error == OT_ERROR_NONE)
     {
       PrintDelimiter();
       otLogNotePlat("Just attached to the Thread network.");
@@ -62,6 +63,11 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     }
     else
     {
+      PrintCritDelimiter();
+      otLogCritPlat("Failed to become the Leader of the Thread Network.");
+      otLogCritPlat("Going to restart.");
+      PrintCritDelimiter();
+
       esp_restart();
     }
   }
@@ -73,7 +79,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
 
     vTaskDelete(tpUdpMainTask);
 
-    otError error = otUdpClose(instance, &socket);
+    otError error = otUdpClose(OT_INSTANCE, &socket);
     if (error != OT_ERROR_NONE) {
       PrintCritDelimiter();
       otLogCritPlat("Failed to close UDP socket. Restarting device.");
