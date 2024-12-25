@@ -39,7 +39,8 @@ void plConfirmableResponseCallback(void *aContext,
                                    otError aResult)
 {
   defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  plConfirmableSend(&sockAddr);   // send another request after getting a response.
+  plConfirmableSend(&sockAddr);   // Send another request after getting a response.
+  return;
 }
 
 void plConfirmableMain()
@@ -69,9 +70,6 @@ void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    /** Start the Packet Loss experiment as soon as device attaches
-     *  to the Thread network.
-     */
     plConfirmableMain();
   }
   s_previous_role = role;
