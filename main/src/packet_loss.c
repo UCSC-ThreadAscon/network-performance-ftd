@@ -1,35 +1,45 @@
 /**
- * For packet loss, the FTD sends 1000 packet, and the Border Router counts
- * how many packets it has received from the FTD. The Border Router then calculates
- * the packet loss as:
+ * The FTD sends 1000 packets, the Border Router ACKs each packed received, and given
+ * how many packed have been packed, the FTD calculates the packet loss.
  *
- *      Number of Packets Received
+ * The FTD calculates the packet loss as:
+ *
+ *       Number of Packets ACKED
  *      --------------------------
  *      Number of Expected Packets
  *
  * where the number of expected packets is MAX_PACKETS.
  */
 #include "tight_loop.h"
+#include "main.h"
 
 static otSockAddr sockAddr;
+static uint32_t numAcked;
+
+void printPacketLoss()
+{
+  uint32_t numPacketsLost = MAX_PACKETS - numAcked;
+  double packetLoss = ((double) numPacketsLost) / MAX_PACKETS;
+
+  PrintDelimiter();
+  otLogNotePlat("Acknowledged: %" PRIu32 " packets", numAcked);
+  otLogNotePlat("Packets Lost: %" PRIu32 " packets", numPacketsLost);
+  otLogNotePlat("Expected: %d packets", MAX_PACKETS);
+  otLogNotePlat("Packet Loss Ratio: %.3f", packetLoss);
+  PrintDelimiter();
+  return;
+}
 
 void plConfirmableSend(otSockAddr *sockAddr)
 {
-  static uint32_t numPacketsSent = 0;
-
-  if (numPacketsSent < MAX_PACKETS)
-  {
-    uint32_t payload = 0;
-    createRandomPayload((uint8_t *) &payload);
-
-    request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_CONFIRMABLE_URI, 
-            plConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
-    numPacketsSent += 1;
+  uint32_t payload = 0;
+  createRandomPayload((uint8_t *) &payload);
+  request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, PACKET_LOSS_CONFIRMABLE_URI, 
+          plConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
 
 #if CONFIG_EXPERIMENT_DEBUG
-    otLogNotePlat("Number of Packets Sent: %" PRIu32 "", numPacketsSent);
+  otLogNotePlat("Number of requests sent: %" PRIu32 "", numPacketsSent);
 #endif
-  }
   return;
 }
 
@@ -38,8 +48,29 @@ void plConfirmableResponseCallback(void *aContext,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult)
 {
-  defaultResponseCallback(aContext, aMessage, aMessageInfo, aResult);
-  plConfirmableSend(&sockAddr);   // send another request after getting a response.
+  if (aResult == OT_ERROR_NONE)
+  {
+    numAcked += 1;
+
+    if (numAcked == MAX_PACKETS)
+    {
+      // No packet loss.
+      printPacketLoss();
+      startNextTrial();
+    }
+    else
+    {
+      assert(numAcked < MAX_PACKETS);
+      plConfirmableSend(&sockAddr);
+    }
+  }
+  else
+  {
+    // Packet loss has occured.
+    printPacketLoss();
+    startNextTrial();
+  }
+  return;
 }
 
 void plConfirmableMain()
@@ -61,17 +92,11 @@ void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
 
   otInstance* instance = esp_openthread_get_instance();
-  if (!instance)
-  {
-    return;
-  }
+  if (!instance) { return; }
 
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    /** Start the Packet Loss experiment as soon as device attaches
-     *  to the Thread network.
-     */
     plConfirmableMain();
   }
   s_previous_role = role;
