@@ -1,5 +1,5 @@
 /**
- * For packet loss, the FTD sends 1000 packet, and the Border Router counts
+ * For packet loss, the FTD sends 1000 packets, and the Border Router counts
  * how many packets it has received from the FTD. The Border Router then calculates
  * the packet loss as:
  *
