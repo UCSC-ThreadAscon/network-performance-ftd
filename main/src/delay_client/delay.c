@@ -4,7 +4,7 @@
 
 static otSockAddr sockAddr;
 
-static uint64_t DelaysUs[DELAY_MAX_PACKETS];
+static uint64_t DelaysUs[MAX_PACKETS];
 static uint32_t indexDelayUs;
 
 /**
@@ -76,13 +76,13 @@ void delayConfirmableResponseCallback(void *aContext,
                     payload.sequenceNum, DelaysUs[indexDelayUs]);
 
       indexDelayUs += 1;
-      if (indexDelayUs < DELAY_MAX_PACKETS)
+      if (indexDelayUs < MAX_PACKETS)
       {
         delayConfirmableSend(&sockAddr);
       }
-      else if (indexDelayUs == DELAY_MAX_PACKETS)
+      else if (indexDelayUs == MAX_PACKETS)
       {
-        double averageDelayUs = average(DelaysUs, DELAY_MAX_PACKETS);
+        double averageDelayUs = average(DelaysUs, MAX_PACKETS);
         PrintAverageDelay(averageDelayUs);
 
         /** The current experiment trial is over. If need be, start the
