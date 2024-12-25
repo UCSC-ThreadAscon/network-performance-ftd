@@ -56,7 +56,7 @@ void plConfirmableResponseCallback(void *aContext,
     {
       // No packet loss.
       printPacketLoss();
-      esp_restart();
+      startNextTrial();
     }
     else
     {
@@ -68,7 +68,7 @@ void plConfirmableResponseCallback(void *aContext,
   {
     // Packet loss has occured.
     printPacketLoss();
-    esp_restart();
+    startNextTrial();
   }
   return;
 }
