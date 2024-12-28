@@ -75,6 +75,7 @@ void plConfirmableResponseCallback(void *aContext,
 
 void plConfirmableMain()
 {
+  resetTrials();
   coapStart();
   InitSockAddr(&sockAddr, SERVER_IP);
   plConfirmableSend(&sockAddr);
