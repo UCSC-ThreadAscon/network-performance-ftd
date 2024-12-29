@@ -52,7 +52,7 @@ void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintDelimiter();
       otLogNotePlat("Just attached to the Thread network as the Leader.");
-      otLogNotePlat("Starting to send UDP packets in a tight loop.");
+      otLogNotePlat("Starting to send UDP packets in a tight loop for the Packet Loss UDP Experiment.");
       otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
       PrintDelimiter();
 

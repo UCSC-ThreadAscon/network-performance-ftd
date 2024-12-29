@@ -9,7 +9,7 @@ menu "UCSC Thread-ASCON Experiment Workload"
     config EXPERIMENT
       int 'The network performance experiment to run.'
       default 0
-      range 0 5
+      range 0 6
       help
         Set the flag to '0' to run no experiment (primarily used for debugging purposes).
         Set the flag to '1' to run the Throughput Confirmable experiment.

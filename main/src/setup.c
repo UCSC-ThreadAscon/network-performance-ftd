@@ -83,6 +83,8 @@ static void ot_task_worker(void *aContext)
   otSetStateChangedCallback(esp_openthread_get_instance(), startDelayClientCallback, NULL);
 #elif THROUGHPUT_UDP
   otSetStateChangedCallback(esp_openthread_get_instance(), tpUdpStartCallback, NULL);
+#elif PACKET_LOSS_UDP
+  otSetStateChangedCallback(esp_openthread_get_instance(), tpUdpStartCallback, NULL);
 #endif
 
 #if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
