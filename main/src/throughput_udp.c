@@ -14,8 +14,7 @@ static otSockAddr destAddr;
 
 TaskHandle_t tpUdpMainTask;
 
-void tpUdpMain(void *taskParameters)
-{
+void tpUdpMain(void *taskParameters) {
   EmptyMemory(&socket, sizeof(otUdpSocket));
   EmptyMemory(&destAddr, sizeof(otSockAddr));
 
