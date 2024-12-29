@@ -59,7 +59,7 @@ void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
       otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
       PrintDelimiter();
 
-      xTaskCreate(plUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+      xTaskCreate(plUdpMain, "pl_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
                   TASK_PRIORITY, &plUdpMainTask);
     }
     else
