@@ -12,9 +12,9 @@
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
-TaskHandle_t tpUdpMainTask;
+TaskHandle_t plUdpMainTask;
 
-void tpUdpMain(void *taskParameters)
+void plUdpMain(void *taskParameters)
 {
   EmptyMemory(&socket, sizeof(otUdpSocket));
   EmptyMemory(&destAddr, sizeof(otSockAddr));
@@ -33,11 +33,11 @@ void tpUdpMain(void *taskParameters)
 }
 
 /**
- * The code for the Throughput UDP Server start callback function comes from the ESP-IDF
+ * The code for the Packet Loss UDP Server start callback function comes from the ESP-IDF
  * OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
-void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
+void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
 {
   OT_UNUSED_VARIABLE(ctx);
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
@@ -59,8 +59,8 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
       otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
       PrintDelimiter();
 
-      xTaskCreate(tpUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
-                  TASK_PRIORITY, &tpUdpMainTask);
+      xTaskCreate(plUdpMain, "tp_udp_main", STACK_SIZE, xTaskGetCurrentTaskHandle(),
+                  TASK_PRIORITY, &plUdpMainTask);
     }
     else
     {
@@ -78,7 +78,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     otLogWarnPlat("Disconnected from the Thread network. Going to stop sending UDP packets.");
     PrintWarnDelimiter();
 
-    vTaskDelete(tpUdpMainTask);
+    vTaskDelete(plUdpMainTask);
 
     otError error = otUdpClose(OT_INSTANCE, &socket);
     if (error != OT_ERROR_NONE) {
