@@ -6,6 +6,8 @@
 #include <openthread/thread_ftd.h>
 #include <openthread/logging.h>
 
+#define PL_UDP_MAX_PACKETS 1000 * 1000
+
 static otUdpSocket socket;
 static otSockAddr destAddr;
 
@@ -18,7 +20,8 @@ void plUdpMain(void *taskParameters)
 
   udpCreateSocket(&socket, &destAddr);
 
-  while (true) {
+  for (uint32_t i = 0; i < PL_UDP_MAX_PACKETS; i++)
+  {
     uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
     EmptyMemory(&payload, sizeof(payload));
     createRandomPayload(payload);
@@ -26,6 +29,13 @@ void plUdpMain(void *taskParameters)
     udpSend(&socket, payload, sizeof(payload));
     vTaskDelay(MS_TO_TICKS(UDP_MICRO_SLEEP_MS));
   }
+
+  PrintDelimiter();
+  otLogNotePlat("Finished sending %d UDP packets.", PL_UDP_MAX_PACKETS);
+  otLogNotePlat("Packet Loss UDP Experiment is complete.");
+  PrintDelimiter();
+
+  vTaskDelete(NULL);
   return;
 }
 
@@ -52,7 +62,8 @@ void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     {
       PrintDelimiter();
       otLogNotePlat("Just attached to the Thread network as the Leader.");
-      otLogNotePlat("Starting to send UDP packets in a tight loop for the Packet Loss UDP Experiment.");
+      otLogNotePlat("Sendning %d UDP packets for the Packet Loss UDP Experiment.",
+                    PL_UDP_MAX_PACKETS);
       otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
       PrintDelimiter();
 
