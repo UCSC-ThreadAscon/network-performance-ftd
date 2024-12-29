@@ -13,7 +13,7 @@
 
 #define MAX_PACKETS 1000
 
-#define UDP_MICRO_SLEEP_MS 50
+#define UDP_MICRO_SLEEP_MS 60
 
 void createRandomPayload(uint8_t *buffer);
 
