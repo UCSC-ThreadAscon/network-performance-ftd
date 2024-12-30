@@ -44,6 +44,10 @@ void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength)
   EmptyMemory(&aMessageInfo, sizeof(otMessageInfo));
 
   otMessage *aMessage = otUdpNewMessage(OT_INSTANCE, NULL);
+  if (aMessage == NULL)
+  {
+    otLogCritPlat("The message is NULL.");
+  }
 
   otError error = otMessageAppend(aMessage, payload, payloadLength);
   HandleMessageError("Failed to append payload to UDP message.", aMessage, error);
