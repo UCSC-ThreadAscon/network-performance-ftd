@@ -46,7 +46,8 @@ void udpSend(otUdpSocket *socket, void* payload, uint16_t payloadLength)
   otMessage *aMessage = otUdpNewMessage(OT_INSTANCE, NULL);
   if (aMessage == NULL)
   {
-    otLogCritPlat("The message is NULL.");
+    otLogWarnPlat("Failed to allocate message buffers for new UDP message.");
+    return;
   }
 
   otError error = otMessageAppend(aMessage, payload, payloadLength);
