@@ -6,7 +6,7 @@
 #include <openthread/thread_ftd.h>
 #include <openthread/logging.h>
 
-#define PL_UDP_MAX_PACKETS 1000 * 1000
+#define PL_UDP_MAX_PACKETS 1000000  // "1000 * 1000" packets
 
 static otUdpSocket socket;
 static otSockAddr destAddr;
@@ -57,8 +57,7 @@ void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
 
   if (justAttached)
   {
-    otError error = otThreadBecomeLeader(OT_INSTANCE);
-    if (error == OT_ERROR_NONE)
+    if (role != OT_DEVICE_ROLE_LEADER)
     {
       PrintDelimiter();
       otLogNotePlat("Just attached to the Thread network as the Leader.");
@@ -73,7 +72,7 @@ void plUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     else
     {
       PrintCritDelimiter();
-      otLogCritPlat("Failed to become the Leader of the Thread Network.");
+      otLogCritPlat("Failed to join Thread Network lead by the Border Router.");
       otLogCritPlat("Going to restart.");
       PrintCritDelimiter();
 
