@@ -13,7 +13,7 @@
 
 #define MAX_PACKETS 1000
 
-#define UDP_MICRO_SLEEP_MS 60
+#define UDP_MICRO_SLEEP_MS 80
 
 #define STACK_SIZE 10240
 #define TASK_PRIORITY 5
