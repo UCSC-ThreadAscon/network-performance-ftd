@@ -25,7 +25,7 @@ void printPacketLoss()
   otLogNotePlat("Acknowledged: %" PRIu32 " packets", numAcked);
   otLogNotePlat("Packets Lost: %" PRIu32 " packets", numPacketsLost);
   otLogNotePlat("Expected: %d packets", MAX_PACKETS);
-  otLogNotePlat("Packet Loss Ratio: %.3f", packetLoss);
+  otLogNotePlat("Packet Loss Ratio: %.15f", packetLoss);
   PrintDelimiter();
   return;
 }
