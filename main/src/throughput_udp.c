@@ -21,7 +21,8 @@ void tpUdpMain(void *taskParameters)
 
   udpCreateSocket(&socket, &destAddr);
 
-  while (true) {
+  while (true)
+  {
     uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
     EmptyMemory(&payload, sizeof(payload));
     createRandomPayload(payload);
