@@ -32,7 +32,7 @@ void plUdpMain(void *taskParameters)
 
   PrintDelimiter();
   otLogNotePlat("Finished sending %d UDP packets.", PL_UDP_MAX_PACKETS);
-  otLogNotePlat("Packet Loss UDP Experiment is complete.");
+  otLogNotePlat("The Packet Loss UDP Experiment is complete.");
   PrintDelimiter();
 
   vTaskDelete(NULL);
