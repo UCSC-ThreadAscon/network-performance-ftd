@@ -21,7 +21,8 @@ void tpUdpMain(void *taskParameters)
 
   udpCreateSocket(&socket, &destAddr);
 
-  while (true) {
+  while (true)
+  {
     uint8_t payload[TIGHT_LOOP_PAYLOAD_BYTES];
     EmptyMemory(&payload, sizeof(payload));
     createRandomPayload(payload);
@@ -50,11 +51,10 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
 
   if (justAttached)
   {
-    otError error = otThreadBecomeLeader(OT_INSTANCE);
-    if (error == OT_ERROR_NONE)
+    if (role != OT_DEVICE_ROLE_LEADER)
     {
       PrintDelimiter();
-      otLogNotePlat("Just attached to the Thread network as the Leader.");
+      otLogNotePlat("Just attached to the Thread network lead by the Border Router.");
       otLogNotePlat("Starting to send UDP packets in a tight loop for the Throughput UDP experiment.");
       otLogNotePlat("The micro sleep is set at %d ms.", UDP_MICRO_SLEEP_MS);
       PrintDelimiter();
@@ -65,7 +65,7 @@ void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx)
     else
     {
       PrintCritDelimiter();
-      otLogCritPlat("Failed to become the Leader of the Thread Network.");
+      otLogCritPlat("Failed to join Thread Network lead by the Border Router.");
       otLogCritPlat("Going to restart.");
       PrintCritDelimiter();
 
