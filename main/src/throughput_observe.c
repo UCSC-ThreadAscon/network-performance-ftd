@@ -2,7 +2,26 @@
 #include "time_api.h"
 #include "main.h"
 
-// static otCoapResource route;
+static otCoapResource route;
+
+#define RESOURCE_NAME "Throughput Observe Experiment"
+#define URI "throughput-observe"
+
+void tpObserveRequestHandler(void *aContext,
+                             otMessage *aMessage,
+                             const otMessageInfo *aMessageInfo)
+{
+  printRequest(aMessage, aMessageInfo);
+  sendCoapResponse(aMessage, aMessageInfo);
+  return;
+}
+
+void tpObserveStartServer(void)
+{
+  startCoapServer(OT_DEFAULT_COAP_PORT);
+  createResource(&route, RESOURCE_NAME, URI, tpObserveRequestHandler);
+  return;
+}
 
 /**
  * The code for the Experimental Setup server  start callback function comes from
