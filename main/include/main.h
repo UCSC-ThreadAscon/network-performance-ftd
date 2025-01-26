@@ -2,7 +2,6 @@
 
 #include "utilities.h"
 #include "coap_workload.h"
-#include "leader_weight.h"
 
 #include <stdio.h>
 #include <unistd.h>

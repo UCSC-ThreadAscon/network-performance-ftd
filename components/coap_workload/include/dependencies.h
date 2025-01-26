@@ -12,6 +12,7 @@
 #include "openthread/logging.h"
 #include "openthread/tasklet.h"
 #include "openthread/coap_secure.h"
+#include "openthread/thread_ftd.h"
 
 #include <stdio.h>
 #include <string.h>

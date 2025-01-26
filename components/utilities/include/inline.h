@@ -41,3 +41,24 @@ static inline bool connected(otDeviceRole role)
          (role == OT_DEVICE_ROLE_ROUTER) ||
          (role == OT_DEVICE_ROLE_LEADER);
 }
+
+/**
+ * Sets the Leader Weight to be the maximum on the server.
+ */
+static inline void SetMaxLeaderWeight()
+{
+  otThreadSetLocalLeaderWeight(OT_INSTANCE, UINT8_MAX);
+  otLogNotePlat("Set leader weight to %d.", UINT8_MAX);
+  return;
+}
+
+/**
+ * Sets the Leader Weight to be the minimum on the client that the Border Router or
+ * Delay server will always be the leader.
+ */
+static inline void SetMinLeaderWeight()
+{
+  otThreadSetLocalLeaderWeight(OT_INSTANCE, 0);
+  otLogNotePlat("Set leader weight to %d.", 0);
+  return;
+}

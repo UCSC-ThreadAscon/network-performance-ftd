@@ -2,7 +2,6 @@
 
 #include "coap_workload.h"
 #include "sockAddr.h"
-#include "leader_weight.h"
 
 #include <openthread/thread_ftd.h>
 
