@@ -52,3 +52,10 @@
 void startMain(void);
 void resetTrials(void);
 void startNextTrial(void);
+
+/**
+ * Sets the Leader Weight to be the maximum on the server.
+ */
+#define SET_MAX_LEADER_WEIGHT()                             \
+  otThreadSetLocalLeaderWeight(OT_INSTANCE, UINT8_MAX);     \
+  otLogNotePlat("Set leader weight to %d.", UINT8_MAX);     \

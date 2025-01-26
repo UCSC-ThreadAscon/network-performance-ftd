@@ -152,6 +152,8 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
     return;
   }
 
+  SET_MIN_LEADER_WEIGHT();
+
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {

@@ -102,6 +102,8 @@ void delayServerMain(otChangedFlags changed_flags, void* ctx)
     return;
   }
 
+  SET_MAX_LEADER_WEIGHT();
+
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
