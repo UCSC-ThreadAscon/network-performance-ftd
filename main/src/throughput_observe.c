@@ -2,7 +2,7 @@
 #include "time_api.h"
 #include "main.h"
 
-static otCoapResource route;
+// static otCoapResource route;
 
 /**
  * The code for the Experimental Setup server  start callback function comes from
@@ -11,5 +11,33 @@ static otCoapResource route;
  */
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
 {
+  OT_UNUSED_VARIABLE(ctx);
+  static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
+
+  if (!OT_INSTANCE) { return; }
+  otDeviceRole role = otThreadGetDeviceRole(OT_INSTANCE);
+
+  if ((connected(role) == true) && (connected(s_previous_role) == false))
+  {
+    printNetworkKey();
+
+    otError error = otThreadBecomeLeader(OT_INSTANCE);
+    if (error == OT_ERROR_NONE)
+    {
+      otLogNotePlat("Successfully attached to the Thread Network as the leader.");
+    }
+    else
+    {
+      PrintCritDelimiter();
+      otLogCritPlat("Failed to become the Leader of the Thread Network.");
+      otLogCritPlat("Reason: %s", otThreadErrorToString(error));
+      otLogCritPlat("Going to restart.");
+      PrintCritDelimiter();
+
+      esp_restart();
+    }
+
+    otLogNotePlat("Going to set up the server for the Throughput Observe experiment.");
+  }
   return;
 }
