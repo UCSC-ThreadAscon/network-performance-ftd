@@ -152,11 +152,11 @@ void startDelayClientCallback(otChangedFlags changed_flags, void* ctx)
     return;
   }
 
-  SET_MIN_LEADER_WEIGHT();
-
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
+    SET_MIN_LEADER_WEIGHT();
+
     if (role != OT_DEVICE_ROLE_LEADER)
     {
       otNetworkTimeSyncSetCallback(esp_openthread_get_instance(), delayConfirmableMain, NULL);

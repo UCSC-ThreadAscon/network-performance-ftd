@@ -2,6 +2,7 @@
 
 #include "coap_workload.h"
 #include "sockAddr.h"
+#include "leader_weight.h"
 
 #include <openthread/thread_ftd.h>
 
@@ -14,14 +15,6 @@
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 
 #define MAX_PACKETS 1000
-
-/**
- * Sets the Leader Weight to be the minimum on the client that the Border Router or
- * Delay server will always be the leader.
- */
-#define SET_MIN_LEADER_WEIGHT()                     \
-  otThreadSetLocalLeaderWeight(OT_INSTANCE, 0);     \
-  otLogNotePlat("Set leader weight to %d.", 0);     \
 
 void createRandomPayload(uint8_t *buffer);
 
