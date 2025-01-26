@@ -21,9 +21,10 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
   {
     printNetworkKey();
 
+    // Set leader weight to max to guarantee that device will be leader.
     otThreadSetLocalLeaderWeight(OT_INSTANCE, UINT8_MAX);
-    otError error = otThreadBecomeLeader(OT_INSTANCE);
 
+    otError error = otThreadBecomeLeader(OT_INSTANCE);
     if (error == OT_ERROR_NONE)
     {
       otLogNotePlat("Successfully attached to the Thread Network as the leader.");
