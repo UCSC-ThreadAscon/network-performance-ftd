@@ -20,23 +20,6 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     printNetworkKey();
-
-    otError error = otThreadBecomeLeader(OT_INSTANCE);
-    if (error == OT_ERROR_NONE)
-    {
-      otLogNotePlat("Successfully attached to the Thread Network as the leader.");
-    }
-    else
-    {
-      PrintCritDelimiter();
-      otLogCritPlat("Failed to become the Leader of the Thread Network.");
-      otLogCritPlat("Reason: %s", otThreadErrorToString(error));
-      otLogCritPlat("Going to restart.");
-      PrintCritDelimiter();
-
-      esp_restart();
-    }
-
     otLogNotePlat("Going to set up the server for the Throughput Observe experiment.");
   }
   return;
