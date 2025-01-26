@@ -23,6 +23,7 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
 
     // Set leader weight to max to guarantee that device will be leader.
     otThreadSetLocalLeaderWeight(OT_INSTANCE, UINT8_MAX);
+    otLogNotePlat("Set leader weight to %d to guarantee Leader status.", UINT8_MAX);
 
     otError error = otThreadBecomeLeader(OT_INSTANCE);
     if (error == OT_ERROR_NONE)
