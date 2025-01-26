@@ -14,6 +14,7 @@
 #include "main.h"
 #include "delay_server.h"
 #include "tight_loop.h"
+#include "observe.h"
 
 #if CONFIG_OPENTHREAD_STATE_INDICATOR_ENABLE
 #include "ot_led_strip.h"
