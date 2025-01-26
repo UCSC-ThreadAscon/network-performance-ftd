@@ -21,8 +21,6 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
   {
     printNetworkKey();
 
-    SetMaxLeaderWeight();
-
     otError error = otThreadBecomeLeader(OT_INSTANCE);
     if (error == OT_ERROR_NONE)
     {

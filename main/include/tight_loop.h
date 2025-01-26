@@ -3,8 +3,6 @@
 #include "coap_workload.h"
 #include "sockAddr.h"
 
-#include <openthread/thread_ftd.h>
-
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"
 #define PACKET_LOSS_CONFIRMABLE_URI "packet-loss-confirmable"
 #define DELAY_URI "delay-confirmable"

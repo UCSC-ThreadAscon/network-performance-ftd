@@ -98,8 +98,6 @@ void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    SetMinLeaderWeight();
-
     if (role != OT_DEVICE_ROLE_LEADER)
     {
       plConfirmableMain();
