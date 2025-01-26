@@ -13,19 +13,11 @@
 
 #define MAX_PACKETS 1000
 
-#define UDP_MICRO_SLEEP_MS 10
-#define UDP_MAX_PACKETS 4000000
-
-#define STACK_SIZE 10240
-#define TASK_PRIORITY 5
-
 void createRandomPayload(uint8_t *buffer);
 
 void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void startDelayClientCallback(otChangedFlags changed_flags, void* ctx);
-void tpUdpStartCallback(otChangedFlags changed_flags, void* ctx);
-void plUdpStartCallback(otChangedFlags changed_flags, void* ctx);
 
 void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
