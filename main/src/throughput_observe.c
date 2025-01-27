@@ -33,7 +33,7 @@ void tpObserveRequestHandler(void *aContext,
 {
   const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
 
-  if (observeOption != NULL)
+  if (observeOption != NULL)  // is a CoAP observe GET request.
   {
     uint64_t token = 0;
     memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
@@ -41,10 +41,6 @@ void tpObserveRequestHandler(void *aContext,
   
     memcpy(&requestBytes, aMessage, INITIAL_REQUEST_SIZE);
     memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
-  }
-  else
-  {
-    otLogNotePlat("CoAP request is NOT observe.");
   }
 
   sendCoapResponse(aMessage, aMessageInfo);
