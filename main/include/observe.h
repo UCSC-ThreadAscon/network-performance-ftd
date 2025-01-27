@@ -26,4 +26,7 @@ typedef struct NotificationCallbackArgs
 }
 NotificationCallbackArgs;
 
+void startSendNotifications(NotificationCallbackArgs *args);
+void stopSendNotifications();
+
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);

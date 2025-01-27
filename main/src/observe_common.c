@@ -18,7 +18,7 @@ void sendNotificationCallback(NotificationCallbackArgs *args)
 /**
  * https://github.com/espressif/esp-idf/blob/master/examples/openthread/ot_sleepy_device/light_sleep/main/esp_ot_sleepy_device.c#L168-L178
  */
-void startSendNotifs(NotificationCallbackArgs *args)
+void startSendNotifications(NotificationCallbackArgs *args)
 {
   const esp_timer_create_args_t timer_args = {
     .name = "send_observe_notification",
@@ -30,5 +30,11 @@ void startSendNotifs(NotificationCallbackArgs *args)
 
   ESP_ERROR_CHECK(esp_timer_create(&timer_args, &timer));
   ESP_ERROR_CHECK(esp_timer_start_periodic(timer, notificationIntervalUs));
+  return;
+}
+
+void stopSendNotifications()
+{
+  ESP_ERROR_CHECK(esp_timer_stop(timer));
   return;
 }
