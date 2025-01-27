@@ -10,6 +10,12 @@ static otCoapResource route;
 #define URI "throughput-observe"
 
 /**
+ * https://datatracker.ietf.org/doc/html/rfc7641#section-2
+ */
+#define OBSERVE_SUBSCRIBE 0
+#define OBSERVE_CANCEL 1
+
+/**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
  *
  * We will assume that the GET request will be not bigger than the maximum frame size
@@ -17,8 +23,18 @@ static otCoapResource route;
  *
  * This assumption should be reasonable since the GET request should not carry any payload.
  */
-uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
-otMessageInfo requestInfo;
+static uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
+static otMessageInfo requestInfo;
+
+static bool brSubscribed;
+
+uint64_t getToken(otMessage *aMessage)
+{
+  uint64_t token = 0;
+  memcpy(&token, otCoapMessageGetToken(aMessage),
+         otCoapMessageGetTokenLength(aMessage));
+  return token;
+}
 
 /**
  * TO-DO:
@@ -34,12 +50,26 @@ void tpObserveRequestHandler(void *aContext,
 
   if (observeOption != NULL)  // is a CoAP observe GET request.
   {
-    uint64_t token = 0;
-    memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
-    otLogNotePlat("Received CoAP Observe request with token %llx.", token);
-  
-    memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
-    memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+    if (!brSubscribed)
+    {
+      if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
+      {
+        memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
+        memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+        otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
+        brSubscribed = true;
+      }
+    }
+    else // brSubscribed == true
+    {
+      if (observeOption->mNumber == OBSERVE_CANCEL)
+      {
+        otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
+        EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
+        EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
+        brSubscribed = false;
+      }
+    }
   }
 
   sendCoapResponse(aMessage, aMessageInfo);
