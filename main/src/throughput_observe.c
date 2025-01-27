@@ -48,27 +48,21 @@ void tpObserveRequestHandler(void *aContext,
 {
   const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
 
-  if (observeOption != NULL)  // is a CoAP observe GET request.
+  if (observeOption != NULL)
   {
-    if (!brSubscribed)
+    if ((!brSubscribed) && (observeOption->mNumber == OBSERVE_SUBSCRIBE))
     {
-      if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
-      {
-        memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
-        memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
-        otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
-        brSubscribed = true;
-      }
+      memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
+      memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+      otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
+      brSubscribed = true;
     }
-    else // brSubscribed == true
+    else if ((brSubscribed) && (observeOption->mNumber == OBSERVE_CANCEL))
     {
-      if (observeOption->mNumber == OBSERVE_CANCEL)
-      {
-        otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
-        EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
-        EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
-        brSubscribed = false;
-      }
+      otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
+      EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
+      EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
+      brSubscribed = false;
     }
   }
 
