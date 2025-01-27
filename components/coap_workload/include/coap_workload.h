@@ -34,6 +34,9 @@ void resourceDestructor(otCoapResource *resource);
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
+/** ---- CoAP Observe API ---- */
+void sendNotification(otMessage *aRequest, const otMessageInfo *aRequestInfo);
+
 otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue);
 
 void startCoapServer(uint16_t port);

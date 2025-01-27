@@ -44,17 +44,6 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   return;
 }
 
-/**
- * This function is a modified version of `HandleRequest()` from the OpenThread CLI
- * Secure CoAP source code:
- * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap_secure.cpp#L814
-*/
-void sendObservableResponse(otMessage *aRequest,
-                            const otMessageInfo *aRequestInfo)
-{
-
-}
-
 otError createResource(otCoapResource *resource,
                        const char *resourceName,
                        const char *uri,
