@@ -6,9 +6,6 @@
 
 static otCoapResource route;
 
-#define RESOURCE_NAME "Throughput Observe Experiment"
-#define URI "throughput-observe"
-
 /**
  * https://datatracker.ietf.org/doc/html/rfc7641#section-2
  */
@@ -88,7 +85,8 @@ void tpObserveRequestHandler(void *aContext,
 void tpObserveStartServer(void)
 {
   startCoapServer(OT_DEFAULT_COAP_PORT);
-  createResource(&route, RESOURCE_NAME, URI, tpObserveRequestHandler);
+  createResource(&route, THROUGHPUT_OBSERVE_NAME, THROUGHPUT_OBSERVE_URI,
+                 tpObserveRequestHandler);
   return;
 }
 
