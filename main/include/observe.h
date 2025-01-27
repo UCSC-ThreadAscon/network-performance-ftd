@@ -1,7 +1,6 @@
 #pragma once
 
-#include "coap_workload.h"
-#include "sockAddr.h"
+#include "tight_loop.h"
 #include "independent_variables.h"
 
 #include <openthread/thread_ftd.h>
@@ -19,5 +18,12 @@
 #define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
 
 #define NOTIFICATION_INTERVAL_SECONDS 60
+
+typedef struct NotificationCallbackArgs
+{
+  uint8_t *requestBytes;
+  otMessageInfo *requestInfo;
+}
+NotificationCallbackArgs;
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
