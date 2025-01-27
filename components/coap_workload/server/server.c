@@ -78,18 +78,28 @@ void startCoapServer(uint16_t port) {
   return;
 }
 
-const otCoapOption *coapGetOption(otMessage *aMessage, uint16_t optionNum)
+/**
+ * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L1086
+ */
+otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t optionValue)
 {
+  otError error = OT_ERROR_NONE;
+
   otCoapOptionIterator iterator;
   EmptyMemory(&iterator, sizeof(otCoapOptionIterator));
- 
-  otError error = otCoapOptionIteratorInit(&iterator, aMessage);
-  if (error != OT_ERROR_NONE) {
-    otLogCritPlat("Failed to create Options Iterator for CoAP Request.");
-    return NULL;
+  
+  error = otCoapOptionIteratorInit(&iterator, aMessage);
+  if (error == OT_ERROR_NONE)
+  {
+    const otCoapOption *option =
+      otCoapOptionIteratorGetFirstOptionMatching(&iterator, optionType);
+    
+    if (option != NULL)
+    {
+      optionValue = 0;
+      error = otCoapOptionIteratorGetOptionUintValue(&iterator, &optionValue);
+    }
   }
 
-  const otCoapOption *option =
-    otCoapOptionIteratorGetFirstOptionMatching(&iterator, optionNum);
-  return option;
+  return error;
 }

@@ -50,6 +50,8 @@ void tpObserveRequestHandler(void *aContext,
 
   if (observeOption != NULL)
   {
+    otLogNotePlat("Observe Value: %" PRIu16 ".", observeOption->mNumber);
+
     if (!brSubscribed)
     {
       if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
@@ -61,7 +63,7 @@ void tpObserveRequestHandler(void *aContext,
       }
       else
       {
-        otLogWarnPlat("Received cancellation from token %llx when NOT subscribed",
+        otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
                       getToken(aMessage));
       }
     }
@@ -76,7 +78,7 @@ void tpObserveRequestHandler(void *aContext,
       }
       else
       {
-        otLogWarnPlat("Received subscription request from token %llx when already subscribed",
+        otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
                       getToken(aMessage));
       }
     }
