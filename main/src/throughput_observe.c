@@ -9,22 +9,25 @@ static otCoapResource route;
 
 /**
  * TO-DO:
- * Go through all the options in the CoAP response, and find out whether or not
- * the CoAP request is an observable GET request.
+ * 1. When receiving an observe option, print out the token.
+ * 2. Send notifications to the client every minute.
+ * 3. Stop sending packets when the client does a cancellation.
  */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
 {
-  printRequest(aMessage, aMessageInfo);
-
   const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
-  if (observeOption != NULL) {
-    otLogNotePlat("Observe Option mNumber: %" PRIu16 ".", observeOption->mNumber);
-    otLogNotePlat("Observe Option mLength: %" PRIu16 ".", observeOption->mLength);
+
+  if (observeOption != NULL)
+  {
+    uint64_t token = 0;
+    memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
+    otLogNotePlat("Received CoAP Observe request with token %llx.", token);
   }
-  else {
-    otLogWarnPlat("Observe option is NOT in response.");
+  else
+  {
+    otLogNotePlat("CoAP request is NOT observe.");
   }
 
   sendCoapResponse(aMessage, aMessageInfo);
