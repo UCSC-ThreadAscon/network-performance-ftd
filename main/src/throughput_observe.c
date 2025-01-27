@@ -7,12 +7,6 @@
 static otCoapResource route;
 
 /**
- * https://datatracker.ietf.org/doc/html/rfc7641#section-2
- */
-#define OBSERVE_SUBSCRIBE 0
-#define OBSERVE_CANCEL 1
-
-/**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
  *
  * We will assume that the GET request will be not bigger than the maximum frame size

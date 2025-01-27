@@ -35,7 +35,10 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
 /** ---- CoAP Observe API ---- */
-void sendNotification(otMessage *aRequest, const otMessageInfo *aRequestInfo);
+void sendNotification(otMessage *aRequest,
+                      const otMessageInfo *aRequestInfo,
+                      void* payload,
+                      size_t payloadSize);
 
 otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue);
 
