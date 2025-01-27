@@ -77,3 +77,18 @@ void startCoapServer(uint16_t port) {
   }
   return;
 }
+
+void coapGetOption(otMessage *aMessage, uint16_t optionNum)
+{
+  otCoapOptionIterator iterator;
+  EmptyMemory(&iterator, sizeof(otCoapOptionIterator));
+ 
+  handleError(otCoapOptionIteratorInit(&iterator, aMessage),
+              "CoAP Options Iterator Init");
+
+  otCoapOption *option = otCoapOptionIteratorGetFirstOptionMatching(&iterator, optionNum);
+  if (option == NULL) {
+    otLogCritPlat("Failed to get option %" PRIu16 " in CoAP Request", optionNum);
+  }
+  return option;
+}
