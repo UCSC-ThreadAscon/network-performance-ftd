@@ -13,8 +13,7 @@ static otCoapResource route;
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
  *
  * We will assume that the GET request will be not bigger than the maximum frame size
- * of a single, unfragmented, 802.15.4 packet of 127 bytes:
- * https://openthread.io/reference/group/radio-types#anonymous-enum-11
+ * of a single, unfragmented, 802.15.4 packet of 127 bytes.
  *
  * This assumption should be reasonable since the GET request should not carry any payload.
  */
