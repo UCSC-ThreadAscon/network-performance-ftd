@@ -5,12 +5,12 @@
  * Throughput Independent Variables:
  *  - Cipher Suite (4)
  *  - TX Power (3)
- *  - Confirmable/Non-Confirmable (2)
+ *  - Confirmable/Observable (2)
  *
  * Packet Loss Independent Variables:
  *  - Cipher Suite (4)
  *  - TX Power (3)
- *  - Confirmable/Non-Confirmable (2)
+ *  - Confirmable/Observable (2)
  *
  * Delay Independent Variables:
  *  - Cipher Suite (4)
