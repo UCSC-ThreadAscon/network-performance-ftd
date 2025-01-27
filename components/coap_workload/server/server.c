@@ -44,6 +44,17 @@ void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo)
   return;
 }
 
+/**
+ * This function is a modified version of `HandleRequest()` from the OpenThread CLI
+ * Secure CoAP source code:
+ * https://github.com/UCSC-ThreadAscon/openthread/blob/main/src/cli/cli_coap_secure.cpp#L814
+*/
+void sendObservableResponse(otMessage *aRequest,
+                            const otMessageInfo *aRequestInfo)
+{
+
+}
+
 otError createResource(otCoapResource *resource,
                        const char *resourceName,
                        const char *uri,
@@ -80,9 +91,9 @@ void startCoapServer(uint16_t port) {
 
 /**
  * This function is a modification of the implementation that is used to
- * obtain the Observe option value in a CoaP GET Request, in `Coap::HandleResponse()`
+ * obtain the Observe option value in a CoaP GET Request, in `Coap::HandleRequest()`
  * in the OpenThread CLI:
- * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L1086
+ * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L874-L885
  */
 otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue)
 {
