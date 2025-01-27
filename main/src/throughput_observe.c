@@ -38,8 +38,9 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
 
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    printNetworkKey();
-    otLogNotePlat("Going to set up the server for the Throughput Observe experiment.");
+    PrintDelimiter();
+    tpObserveStartServer();
+    PrintDelimiter();
   }
   s_previous_role = role;
   return;
