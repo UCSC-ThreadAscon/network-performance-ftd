@@ -17,8 +17,7 @@ static otCoapResource route;
  *
  * This assumption should be reasonable since the GET request should not carry any payload.
  */
-#define INITIAL_REQUEST_SIZE OT_RADIO_FRAME_MAX_SIZE
-uint8_t requestBytes[INITIAL_REQUEST_SIZE];
+uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
 otMessageInfo requestInfo;
 
 /**
@@ -39,7 +38,7 @@ void tpObserveRequestHandler(void *aContext,
     memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
     otLogNotePlat("Received CoAP Observe request with token %llx.", token);
   
-    memcpy(&requestBytes, aMessage, INITIAL_REQUEST_SIZE);
+    memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
     memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
   }
 
