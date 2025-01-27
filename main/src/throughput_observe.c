@@ -69,7 +69,7 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_CANCEL)
     {
-      otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
+      otLogNotePlat("Subscription has been cancelled for token %llx.", getToken(aMessage));
       EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
       EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
       brSubscribed = false;
