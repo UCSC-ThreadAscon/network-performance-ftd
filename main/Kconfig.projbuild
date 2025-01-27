@@ -16,8 +16,8 @@ menu "UCSC Thread-ASCON Experiment Workload"
         Set the flag to '2' to run the Packet Loss Confirmable experiment.
         Set the flag to '3' to run the Delay experiment, with the device acting as the SERVER.
         Set the flag to '4' to run the Delay experiment, with the device acting as the CLIENT.
-        Set the flag to '5' to run the Throughput UDP experiment.
-        Set the flag to '6' to run the Packet Loss UDP experiment.
+        Set the flag to '5' to run the Throughput Observe (Non-Confirmable) experiment.
+        Set the flag to '6' to run the Packet Loss Observe (Non-Confirmable) experiment.
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'
@@ -28,9 +28,10 @@ menu "UCSC Thread-ASCON Experiment Workload"
           The recommended TX power values are 20 dBm, 9 dBm, 0 dBm, and -24 dBm.
 
     config SERVER_IP_ADDRESS
-      string 'IP address of the CoAP or UDP server.'
+      string 'IP address of the CoAP server.'
       help
-          Sets the IPv6 address of the server to establish a CoAP or UDP connection with.
+          Sets the IPv6 address of the server to establish a CoAP with for the
+          Throughput and Packet Loss Confirmable experiments.
 
     config DELAY_SERVER_IP_ADDRESS
       string 'The IP Address of the CoAP server for the delay test.'
