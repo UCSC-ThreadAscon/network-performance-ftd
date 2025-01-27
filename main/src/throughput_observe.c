@@ -46,43 +46,48 @@ void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
 {
-  const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
+  uint64_t observeValue = 0;
+  otError error = coapGetOptionValue(aMessage, OT_COAP_OPTION_OBSERVE, &observeValue);
+  handleError(error, "CoAP Get Observe Option Value");
 
-  if (observeOption != NULL)
-  {
-    otLogNotePlat("Observe Value: %" PRIu16 ".", observeOption->mNumber);
+  otLogNotePlat("Observe Option Value: %" PRIu64 ".", observeValue);
+  // const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
 
-    if (!brSubscribed)
-    {
-      if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
-      {
-        otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
-        memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
-        memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
-        brSubscribed = true;
-      }
-      else
-      {
-        otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
-                      getToken(aMessage));
-      }
-    }
-    else // brSubscribed
-    {
-      if (observeOption->mNumber == OBSERVE_CANCEL)
-      {
-        otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
-        EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
-        EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
-        brSubscribed = false;
-      }
-      else
-      {
-        otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
-                      getToken(aMessage));
-      }
-    }
-  }
+  // if (observeOption != NULL)
+  // {
+  //   otLogNotePlat("Observe Value: %" PRIu16 ".", observeOption->mNumber);
+
+  //   if (!brSubscribed)
+  //   {
+  //     if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
+  //     {
+  //       otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
+  //       memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
+  //       memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+  //       brSubscribed = true;
+  //     }
+  //     else
+  //     {
+  //       otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
+  //                     getToken(aMessage));
+  //     }
+  //   }
+  //   else // brSubscribed
+  //   {
+  //     if (observeOption->mNumber == OBSERVE_CANCEL)
+  //     {
+  //       otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
+  //       EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
+  //       EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
+  //       brSubscribed = false;
+  //     }
+  //     else
+  //     {
+  //       otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
+  //                     getToken(aMessage));
+  //     }
+  //   }
+  // }
 
   sendCoapResponse(aMessage, aMessageInfo);
   return;

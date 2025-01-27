@@ -81,7 +81,7 @@ void startCoapServer(uint16_t port) {
 /**
  * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L1086
  */
-otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t optionValue)
+otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue)
 {
   otError error = OT_ERROR_NONE;
 
@@ -96,8 +96,11 @@ otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t op
     
     if (option != NULL)
     {
-      optionValue = 0;
-      error = otCoapOptionIteratorGetOptionUintValue(&iterator, &optionValue);
+      error = otCoapOptionIteratorGetOptionUintValue(&iterator, optionValue);
+    }
+    else
+    {
+      error = OT_ERROR_NOT_FOUND;
     }
   }
 
