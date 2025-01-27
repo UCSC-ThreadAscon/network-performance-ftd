@@ -7,6 +7,11 @@ static otCoapResource route;
 #define RESOURCE_NAME "Throughput Observe Experiment"
 #define URI "throughput-observe"
 
+/**
+ * TO-DO:
+ * Go through all the options in the CoAP response, and find out whether or not
+ * the CoAP request is an observable GET request.
+ */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
