@@ -2,14 +2,29 @@
 #include "time_api.h"
 #include "main.h"
 
+#include <openthread/platform/radio.h>
+
 static otCoapResource route;
 
 #define RESOURCE_NAME "Throughput Observe Experiment"
 #define URI "throughput-observe"
 
 /**
+ * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
+ *
+ * We will assume that the GET request will be not bigger than the maximum frame size
+ * of a single, unfragmented, 802.15.4 packet of 127 bytes:
+ * https://openthread.io/reference/group/radio-types#anonymous-enum-11
+ *
+ * This assumption should be reasonable since the GET request should not carry any payload.
+ */
+#define INITIAL_REQUEST_SIZE OT_RADIO_FRAME_MAX_SIZE
+uint8_t requestBytes[INITIAL_REQUEST_SIZE];
+otMessageInfo requestInfo;
+
+/**
  * TO-DO:
- * 1. When receiving an observe option, print out the token.
+ * 1. When receiving an observe option, print out the token. (DONE)
  * 2. Send notifications to the client every minute.
  * 3. Stop sending packets when the client does a cancellation.
  */
@@ -24,6 +39,9 @@ void tpObserveRequestHandler(void *aContext,
     uint64_t token = 0;
     memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
     otLogNotePlat("Received CoAP Observe request with token %llx.", token);
+  
+    memcpy(&requestBytes, aMessage, INITIAL_REQUEST_SIZE);
+    memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
   }
   else
   {
