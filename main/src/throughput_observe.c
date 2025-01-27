@@ -50,19 +50,35 @@ void tpObserveRequestHandler(void *aContext,
 
   if (observeOption != NULL)
   {
-    if ((!brSubscribed) && (observeOption->mNumber == OBSERVE_SUBSCRIBE))
+    if (!brSubscribed)
     {
-      memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
-      otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
-      brSubscribed = true;
+      if (observeOption->mNumber == OBSERVE_SUBSCRIBE)
+      {
+        otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
+        memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
+        memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+        brSubscribed = true;
+      }
+      else
+      {
+        otLogWarnPlat("Received cancellation from token %llx when NOT subscribed",
+                      getToken(aMessage));
+      }
     }
-    else if ((brSubscribed) && (observeOption->mNumber == OBSERVE_CANCEL))
+    else // brSubscribed
     {
-      otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
-      EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
-      EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
-      brSubscribed = false;
+      if (observeOption->mNumber == OBSERVE_CANCEL)
+      {
+        otLogNotePlat("Subscription has ben called for token %llx.", getToken(aMessage));
+        EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
+        EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
+        brSubscribed = false;
+      }
+      else
+      {
+        otLogWarnPlat("Received subscription request from token %llx when already subscribed",
+                      getToken(aMessage));
+      }
     }
   }
 
