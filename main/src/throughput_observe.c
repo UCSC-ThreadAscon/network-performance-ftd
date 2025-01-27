@@ -41,5 +41,6 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
     printNetworkKey();
     otLogNotePlat("Going to set up the server for the Throughput Observe experiment.");
   }
+  s_previous_role = role;
   return;
 }
