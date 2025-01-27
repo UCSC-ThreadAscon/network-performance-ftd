@@ -78,7 +78,7 @@ void startCoapServer(uint16_t port) {
   return;
 }
 
-void coapGetOption(otMessage *aMessage, uint16_t optionNum)
+otCoapOption *coapGetOption(otMessage *aMessage, uint16_t optionNum)
 {
   otCoapOptionIterator iterator;
   EmptyMemory(&iterator, sizeof(otCoapOptionIterator));

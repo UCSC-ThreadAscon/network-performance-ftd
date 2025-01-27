@@ -17,6 +17,9 @@ void tpObserveRequestHandler(void *aContext,
                              const otMessageInfo *aMessageInfo)
 {
   printRequest(aMessage, aMessageInfo);
+
+  
+
   sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
