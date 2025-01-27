@@ -11,7 +11,9 @@
 #include "coap_workload.h"
 
 void sendNotification(otMessage *aRequest,
-                      const otMessageInfo *aRequestInfo)
+                      const otMessageInfo *aRequestInfo,
+                      void* payload,
+                      size_t payloadSize)
 {
   otMessage *aResponse = NULL;
 
@@ -24,6 +26,8 @@ void sendNotification(otMessage *aRequest,
                                             OT_COAP_TYPE_NON_CONFIRMABLE,
                                             OT_COAP_CODE_CONTENT);
   HandleMessageError("coap message init response", aResponse, error);
+
+  addPayload(aResponse, payload, payloadSize);
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   HandleMessageError("send response", aResponse, error);
