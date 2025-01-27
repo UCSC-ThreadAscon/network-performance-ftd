@@ -18,7 +18,14 @@ void tpObserveRequestHandler(void *aContext,
 {
   printRequest(aMessage, aMessageInfo);
 
-  
+  const otCoapOption *observeOption = coapGetOption(aMessage, OT_COAP_OPTION_OBSERVE);
+  if (observeOption != NULL) {
+    otLogNotePlat("Observe Option mNumber: %" PRIu16 ".", observeOption->mNumber);
+    otLogNotePlat("Observe Option mLength: %" PRIu16 ".", observeOption->mLength);
+  }
+  else {
+    otLogWarnPlat("Observe option is NOT in response.");
+  }
 
   sendCoapResponse(aMessage, aMessageInfo);
   return;

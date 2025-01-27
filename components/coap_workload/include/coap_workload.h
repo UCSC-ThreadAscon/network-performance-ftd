@@ -34,7 +34,7 @@ void resourceDestructor(otCoapResource *resource);
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
-void coapGetOption(otMessage *aMessage, uint16_t optionNum);
+const otCoapOption *coapGetOption(otMessage *aMessage, uint16_t optionNum);
 
 void startCoapServer(uint16_t port);
 
