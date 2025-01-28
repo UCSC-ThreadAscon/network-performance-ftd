@@ -41,7 +41,6 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_CANCEL)
     {
-      otLogNotePlat("Cancelling subscription for token %llx.", getToken(aMessage));
       stopSendNotifications(&brSubscription);
       memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
