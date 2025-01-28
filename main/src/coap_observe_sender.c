@@ -19,11 +19,14 @@ void sendNotificationCallback(void *args)
 }
 
 /**
+ * This function is a modified version of the example source code for printing
+ * the status of an OpenThread SED on light sleep:
  * https://github.com/espressif/esp-idf/blob/master/examples/openthread/ot_sleepy_device/light_sleep/main/esp_ot_sleepy_device.c#L168-L178
  */
 void startSendNotifications(Subscription *subPtr)
 {
-  const esp_timer_create_args_t timer_args = {
+  const esp_timer_create_args_t timer_args =
+  {
     .name = "send_observe_notification",
     .arg  = (void*) subPtr,
     .callback = (void *) sendNotificationCallback,
