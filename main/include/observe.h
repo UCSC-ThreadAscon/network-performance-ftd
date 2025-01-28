@@ -19,14 +19,22 @@
 
 #define NOTIFICATION_INTERVAL_SECONDS 60
 
-typedef struct NotificationCallbackArgs
+/**
+ * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
+ *
+ * We will assume that the GET request will be not bigger than the maximum frame size
+ * of a single, unfragmented, 802.15.4 packet of 127 bytes.
+ *
+ * This assumption should be reasonable since the GET request should not carry any payload.
+ */
+typedef struct Subscription
 {
-  uint8_t *requestBytes;
-  otMessageInfo *requestInfo;
+  uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
+  otMessageInfo requestInfo;
 }
-NotificationCallbackArgs;
+Subscription;
 
-void startSendNotifications(NotificationCallbackArgs *args);
+void startSendNotifications(Subscription *args);
 void stopSendNotifications();
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);

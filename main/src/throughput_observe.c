@@ -6,17 +6,7 @@
 
 static otCoapResource route;
 
-/**
- * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
- *
- * We will assume that the GET request will be not bigger than the maximum frame size
- * of a single, unfragmented, 802.15.4 packet of 127 bytes.
- *
- * This assumption should be reasonable since the GET request should not carry any payload.
- */
-static uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
-static otMessageInfo requestInfo;
-
+static Subscription brSubscription;
 static bool brSubscribed;
 
 uint64_t getToken(otMessage *aMessage)
@@ -46,8 +36,8 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
       otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
-      memcpy(&requestBytes, aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&requestInfo, aMessageInfo, sizeof(otMessageInfo));
+      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
+      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       brSubscribed = true;
     }
     else
@@ -61,8 +51,8 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       otLogNotePlat("Subscription has been cancelled for token %llx.", getToken(aMessage));
-      EmptyMemory(&requestBytes, OT_RADIO_FRAME_MAX_SIZE);
-      EmptyMemory(&requestInfo,  sizeof(otMessageInfo));
+      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
+      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       brSubscribed = false;
     }
     else
