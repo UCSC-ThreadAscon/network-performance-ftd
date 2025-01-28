@@ -38,6 +38,7 @@ void tpObserveRequestHandler(void *aContext,
       otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
       memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
+      startSendNotifications(&brSubscription);
       brSubscribed = true;
     }
     else
@@ -51,6 +52,7 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       otLogNotePlat("Subscription has been cancelled for token %llx.", getToken(aMessage));
+      stopSendNotifications();
       memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       brSubscribed = false;
