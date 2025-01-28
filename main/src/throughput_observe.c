@@ -9,12 +9,6 @@ static otCoapResource route;
 static Subscription brSubscription;
 static bool brSubscribed;
 
-/**
- * TO-DO:
- * 1. When receiving an observe option, print out the token. (DONE)
- * 2. Send notifications to the client every minute. (DONE)
- * 3. Stop sending packets when the client does a cancellation. (DONE)
- */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
