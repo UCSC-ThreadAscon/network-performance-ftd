@@ -1,5 +1,6 @@
 idf_component_register(SRCS "./server/server.c"
                             "./server/print_packet.c"
+                            "./server/observable.c"
                             "./client/request.c"
                             "./client/response_callback.c"
                             "./common/common.c"

@@ -77,3 +77,35 @@ void startCoapServer(uint16_t port) {
   }
   return;
 }
+
+/**
+ * This function is a modification of the implementation that is used to
+ * obtain the Observe option value in a CoaP GET Request, in `Coap::HandleRequest()`
+ * in the OpenThread CLI:
+ * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L874-L885
+ */
+otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue)
+{
+  otError error = OT_ERROR_NONE;
+
+  otCoapOptionIterator iterator;
+  EmptyMemory(&iterator, sizeof(otCoapOptionIterator));
+  
+  error = otCoapOptionIteratorInit(&iterator, aMessage);
+  if (error == OT_ERROR_NONE)
+  {
+    const otCoapOption *option =
+      otCoapOptionIteratorGetFirstOptionMatching(&iterator, optionType);
+    
+    if (option != NULL)
+    {
+      error = otCoapOptionIteratorGetOptionUintValue(&iterator, optionValue);
+    }
+    else
+    {
+      error = OT_ERROR_NOT_FOUND;
+    }
+  }
+
+  return error;
+}

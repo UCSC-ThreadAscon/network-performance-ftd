@@ -34,6 +34,15 @@ void resourceDestructor(otCoapResource *resource);
 void sendCoapResponse(otMessage *aRequest, const otMessageInfo *aRequestInfo);
 void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
+/** ---- CoAP Observe API ---- */
+uint64_t getToken(otMessage *aMessage);
+void sendNotification(otMessage *aRequest,
+                      const otMessageInfo *aRequestInfo,
+                      void* payload,
+                      size_t payloadSize);
+
+otError coapGetOptionValue(otMessage *aMessage, uint16_t optionType, uint64_t *optionValue);
+
 void startCoapServer(uint16_t port);
 
 /* ---- CoAP Response Handler ---- */
