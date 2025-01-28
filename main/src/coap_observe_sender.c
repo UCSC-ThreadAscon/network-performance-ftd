@@ -14,6 +14,7 @@ void sendNotificationCallback(void *args)
   createRandomPayload((uint8_t *) &payload);
 
   sendNotification(aRequest, aRequestInfo, &payload, sizeof(uint32_t));
+  otLogNotePlat("Sent Notification for token %llx.", getToken(aRequest));
   return;
 }
 
@@ -32,11 +33,16 @@ void startSendNotifications(Subscription *subPtr)
 
   ESP_ERROR_CHECK(esp_timer_create(&timer_args, &timer));
   ESP_ERROR_CHECK(esp_timer_start_periodic(timer, intervalUs));
+
+  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
+  otLogNotePlat("Subscription started for token %llx.", getToken(aRequest));
   return;
 }
 
-void stopSendNotifications()
+void stopSendNotifications(Subscription *subPtr)
 {
   ESP_ERROR_CHECK(esp_timer_stop(timer));
+  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
+  otLogNotePlat("Cancelled subscription for token %llx.", getToken(aRequest));
   return;
 }

@@ -17,7 +17,7 @@
 #define PACKET_LOSS_OBSERVE_URI "packet-loss-observe"
 #define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
 
-#define NOTIFICATION_INTERVAL_SECONDS 60
+#define NOTIFICATION_INTERVAL_SECONDS 10
 
 /**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
@@ -34,7 +34,7 @@ typedef struct Subscription
 }
 Subscription;
 
-void startSendNotifications(Subscription *args);
-void stopSendNotifications();
+void startSendNotifications(Subscription *subPtr);
+void stopSendNotifications(Subscription *subPtr);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);

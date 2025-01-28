@@ -9,19 +9,11 @@ static otCoapResource route;
 static Subscription brSubscription;
 static bool brSubscribed;
 
-uint64_t getToken(otMessage *aMessage)
-{
-  uint64_t token = 0;
-  memcpy(&token, otCoapMessageGetToken(aMessage),
-         otCoapMessageGetTokenLength(aMessage));
-  return token;
-}
-
 /**
  * TO-DO:
  * 1. When receiving an observe option, print out the token. (DONE)
- * 2. Send notifications to the client every minute.
- * 3. Stop sending packets when the client does a cancellation.
+ * 2. Send notifications to the client every minute. (DONE)
+ * 3. Stop sending packets when the client does a cancellation. (DONE)
  */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
@@ -35,7 +27,6 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
-      otLogNotePlat("Subscription started for token %llx.", getToken(aMessage));
       memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       startSendNotifications(&brSubscription);
@@ -51,8 +42,8 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_CANCEL)
     {
-      otLogNotePlat("Subscription has been cancelled for token %llx.", getToken(aMessage));
-      stopSendNotifications();
+      otLogNotePlat("Cancelling subscription for token %llx.", getToken(aMessage));
+      stopSendNotifications(&brSubscription);
       memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       brSubscribed = false;
