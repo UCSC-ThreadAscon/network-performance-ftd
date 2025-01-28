@@ -2,21 +2,58 @@
 #include "time_api.h"
 #include "main.h"
 
+#include <openthread/platform/radio.h>
+
 static otCoapResource route;
 
-#define RESOURCE_NAME "Throughput Observe Experiment"
-#define URI "throughput-observe"
+static Subscription brSubscription;
+static bool brSubscribed;
 
 /**
- * TO-DO:
- * Go through all the options in the CoAP response, and find out whether or not
- * the CoAP request is an observable GET request.
+ * TO-DO: Print out CoAP payloads with simulated room temperatures.
+ * https://www.adt.com/resources/average-room-temperature
+ * https://wmo.asu.edu/content/world-highest-temperature
  */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
 {
-  printRequest(aMessage, aMessageInfo);
+  uint64_t observeValue = 0;
+  otError error = coapGetOptionValue(aMessage, OT_COAP_OPTION_OBSERVE, &observeValue);
+  handleError(error, "CoAP Get Observe Option Value");
+
+  if (!brSubscribed)
+  {
+    if (observeValue == OBSERVE_SUBSCRIBE)
+    {
+      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
+      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
+      startSendNotifications(&brSubscription);
+      brSubscribed = true;
+    }
+    else
+    {
+      otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
+                    getToken(aMessage));
+    }
+  }
+  else // brSubscribed
+  {
+    if (observeValue == OBSERVE_CANCEL)
+    {
+      otLogNotePlat("Cancelling subscription for token %llx.", getToken(aMessage));
+      stopSendNotifications(&brSubscription);
+      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
+      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
+      brSubscribed = false;
+    }
+    else
+    {
+      otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
+                    getToken(aMessage));
+    }
+  }
+
   sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
@@ -24,7 +61,8 @@ void tpObserveRequestHandler(void *aContext,
 void tpObserveStartServer(void)
 {
   startCoapServer(OT_DEFAULT_COAP_PORT);
-  createResource(&route, RESOURCE_NAME, URI, tpObserveRequestHandler);
+  createResource(&route, THROUGHPUT_OBSERVE_NAME, THROUGHPUT_OBSERVE_URI,
+                 tpObserveRequestHandler);
   return;
 }
 
