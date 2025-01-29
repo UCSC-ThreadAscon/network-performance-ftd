@@ -23,6 +23,7 @@ void request(otSockAddr *sockAddr,
              otCoapType type);
 
 void addPayload(otMessage *aRequest, void *payload, size_t payloadSize);
+otMessage *createCoapMessage();
 
 /* ---- CoAP Server API ---- */
 otError createResource(otCoapResource *resource,

@@ -29,6 +29,7 @@ typedef struct Subscription
 {
   otSockAddr sockAddr;
   uint64_t token;
+  uint32_t sequenceNum;
 }
 Subscription;
 

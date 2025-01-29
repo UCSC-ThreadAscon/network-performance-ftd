@@ -22,6 +22,7 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
       brSubscription.token = getToken(aMessage);
+      brSubscription.sequenceNum = 0;
       memcpy(&(brSubscription.sockAddr), &(aMessageInfo->mSockAddr), sizeof(otSockAddr));
 
       startSendNotifications(&brSubscription);
