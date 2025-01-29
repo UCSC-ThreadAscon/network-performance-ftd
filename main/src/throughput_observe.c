@@ -21,6 +21,8 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
+      brSubscribed = true;
+
       brSubscription.token = getToken(aMessage);
       brSubscription.tokenLength = otCoapMessageGetTokenLength(aMessage);
       brSubscription.sequenceNum = 0;
@@ -30,7 +32,6 @@ void tpObserveRequestHandler(void *aContext,
 
       startSendNotifications(&brSubscription);
       sendInitialTemperature(aMessage, aMessageInfo, brSubscription.sequenceNum);
-      brSubscribed = true;
       return;
     }
     else
@@ -43,9 +44,9 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_CANCEL)
     {
+      brSubscribed = false;
       stopSendNotifications(&brSubscription);
       EmptyMemory(&brSubscription, sizeof(Subscription));
-      brSubscribed = false;
       sendCoapResponse(aMessage, aMessageInfo);
     }
     else
