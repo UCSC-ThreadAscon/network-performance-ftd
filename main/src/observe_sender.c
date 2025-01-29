@@ -4,25 +4,27 @@
 static esp_timer_handle_t timer;
 
 /**
- * According to the World Meteorological Organization:
- * https://wmo.asu.edu/content/world-highest-temperature
- * 
- * The highest temperature recorded was 134° Fahrenheit. As a result,
- * the temperature will be stored as an unsigned 8 bit integer.
- */
-typedef uint8_t Fahrenheit;
-
-/**
  * Creates payload that simulates data that would be sent from a smart home therometer.
  * This function returns a random temperature (in Fahrenheit) that is within the range
  * of room temperature: between 68-74° Fahrenheit (inclusive).
  *
  * https://www.adt.com/resources/average-room-temperature
  */
-void getTemperature(Fahrenheit *temperature)
+void randomTemperature(Fahrenheit *temperature)
 {
   uint32_t random = (esp_random() % 7) + 68;
   memcpy(temperature, &random, sizeof(Fahrenheit));
+  return;
+}
+
+void sendInitialTemperature(otMessage *aRequest,
+                            const otMessageInfo *aRequestInfo,
+                            uint32_t sequenceNum)
+{
+  Fahrenheit temperature = 0;
+  randomTemperature(&temperature);
+  sendInitialNotification(aRequest, aRequestInfo, &temperature,
+                          sizeof(Fahrenheit), sequenceNum);
   return;
 }
 
@@ -35,7 +37,7 @@ void sendTemperature(Subscription *subscription)
   messageInfo.mPeerPort = subscription->sockAddr.mPort;
 
   Fahrenheit temperature = 0;
-  getTemperature((uint8_t *) &temperature);
+  randomTemperature(&temperature);
 
   sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
                    subscription->sequenceNum, &temperature, sizeof(Fahrenheit));

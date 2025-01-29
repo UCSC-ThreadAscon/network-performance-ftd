@@ -34,9 +34,23 @@ typedef struct Subscription
 }
 Subscription;
 
+/**
+ * CoAP Observe payloads simulate sensor data from a thermometer.
+ *
+ * According to the World Meteorological Organization:
+ * https://wmo.asu.edu/content/world-highest-temperature
+ * 
+ * The highest temperature recorded was 134° Fahrenheit. As a result,
+ * the temperature will be stored as an unsigned 8 bit integer.
+ */
+typedef uint8_t Fahrenheit;
+
 void startSendNotifications(Subscription *subPtr);
 void stopSendNotifications(Subscription *subPtr);
 
 void sendTemperature(Subscription *subscription);
+void sendInitialTemperature(otMessage *aRequest,
+                            const otMessageInfo *aRequestInfo,
+                            uint32_t sequenceNum);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);

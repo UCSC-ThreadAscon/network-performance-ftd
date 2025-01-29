@@ -28,7 +28,7 @@ void tpObserveRequestHandler(void *aContext,
       memcpy(&(brSubscription.sockAddr), &(aMessageInfo->mSockAddr), sizeof(otSockAddr));
 
       startSendNotifications(&brSubscription);
-      sendTemperature(&brSubscription);
+      sendInitialTemperature(aMessage, aMessageInfo, brSubscription.sequenceNum);
       brSubscribed = true;
       return;
     }

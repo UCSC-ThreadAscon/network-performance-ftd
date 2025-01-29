@@ -6,11 +6,54 @@
 */
 #include "coap_workload.h"
 
+/**
+ * CoAP Observe payloads simulate sensor data from a thermometer.
+ *
+ * According to the World Meteorological Organization:
+ * https://wmo.asu.edu/content/world-highest-temperature
+ * 
+ * The highest temperature recorded was 134° Fahrenheit. As a result,
+ * the temperature will be stored as an unsigned 8 bit integer.
+ */
+typedef uint8_t Fahrenheit;
+
 uint64_t getToken(otMessage *aMessage)
 {
   uint64_t token = 0;
   memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
   return token;
+}
+
+/**
+ * The first CoAP notification must be a CoAP response to respond to the CoAP
+ * Observe request by the client. Piggyback the payload of the (simulated) sensor
+ * data in the response.
+ */
+void sendInitialNotification(otMessage *aRequest,
+                             const otMessageInfo *aRequestInfo,
+                             void* payload,
+                             size_t payloadSize,
+                             uint32_t sequenceNum)
+{
+  otMessage *aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
+  if (aResponse == NULL)
+  {
+    otLogCritPlat("Failed to initialize a new message for CoAP response.");
+  }
+
+  otError error = otCoapMessageInitResponse(aResponse, aRequest,
+                                            OT_COAP_TYPE_ACKNOWLEDGMENT,
+                                            OT_COAP_CODE_CONTENT);
+  HandleMessageError("coap observe message init response", aResponse, error);
+
+  error = otCoapMessageAppendObserveOption(aResponse, sequenceNum);
+  HandleMessageError("coap add observe option value", aResponse, error);
+
+  addPayload(aResponse, payload, payloadSize);
+
+  error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
+  HandleMessageError("send response", aResponse, error);
+  return;
 }
 
 /**
