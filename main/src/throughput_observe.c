@@ -30,9 +30,9 @@ void tpObserveRequestHandler(void *aContext,
       brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
       brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
+      sendInitialTemperature(aMessage, aMessageInfo, &brSubscription);
+
       startSendNotifications(&brSubscription);
-      sendInitialTemperature(aMessage, aMessageInfo, brSubscription.sequenceNum,
-                             brSubscription.token);
     }
     else
     {

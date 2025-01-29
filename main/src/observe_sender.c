@@ -26,14 +26,15 @@ void printTemperature(Fahrenheit temperature, uint64_t token)
 
 void sendInitialTemperature(otMessage *aRequest,
                             const otMessageInfo *aRequestInfo,
-                            uint32_t sequenceNum,
-                            uint64_t token)
+                            Subscription *subscription)
 {
   Fahrenheit temperature = 0;
   randomTemperature(&temperature);
   sendInitialNotification(aRequest, aRequestInfo, &temperature,
-                          sizeof(Fahrenheit), sequenceNum);
-  printTemperature(temperature, token);
+                          sizeof(Fahrenheit), subscription->sequenceNum);
+
+  printTemperature(temperature, subscription->token);
+  subscription->sequenceNum += 1;
   return;
 }
 
@@ -50,7 +51,9 @@ void sendTemperature(Subscription *subscription)
 
   sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
                    subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
+
   printTemperature(temperature, subscription->token);
+  subscription->sequenceNum += 1;
   return;
 }
 

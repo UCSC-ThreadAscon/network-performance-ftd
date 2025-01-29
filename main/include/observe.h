@@ -51,7 +51,6 @@ void stopSendNotifications(Subscription *subPtr);
 void sendTemperature(Subscription *subscription);
 void sendInitialTemperature(otMessage *aRequest,
                             const otMessageInfo *aRequestInfo,
-                            uint32_t sequenceNum,
-                            uint64_t token);
+                            Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
