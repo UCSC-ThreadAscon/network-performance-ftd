@@ -21,15 +21,12 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
-      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
+      brSubscription.token = getToken(aMessage);
+      memcpy(&(brSubscription.sockAddr), &(aMessageInfo->mSockAddr), sizeof(otSockAddr));
+
       startSendNotifications(&brSubscription);
       brSubscribed = true;
 
-      /**
-       * The ACK for a CoAP Observe Subscription request should be piggybacked with
-       * current sensor data from the (simulated) smart home thermometer.
-       */
       sendTemperature(aMessage, aMessageInfo);
       return;
     }
@@ -44,8 +41,7 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       stopSendNotifications(&brSubscription);
-      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
+      EmptyMemory(&brSubscription, sizeof(Subscription));
       brSubscribed = false;
     }
     else

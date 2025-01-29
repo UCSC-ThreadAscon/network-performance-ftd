@@ -27,8 +27,8 @@
  */
 typedef struct Subscription
 {
-  uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
-  otMessageInfo requestInfo;
+  otSockAddr sockAddr;
+  uint64_t token;
 }
 Subscription;
 
