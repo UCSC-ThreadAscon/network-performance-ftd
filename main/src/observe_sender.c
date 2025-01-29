@@ -77,7 +77,7 @@ void startSendNotifications(Subscription *subscription)
     .callback = (void *) sendNotificationCallback,
     .skip_unhandled_events = true,
   };
-  uint64_t intervalUs = SECONDS_TO_US(NOTIFICATION_INTERVAL_SECONDS);
+  uint64_t intervalUs = MS_TO_US(NOTIFICATION_INTERVAL_MS);
 
   ESP_ERROR_CHECK(esp_timer_create(&timer_args, &timer));
   ESP_ERROR_CHECK(esp_timer_start_periodic(timer, intervalUs));
