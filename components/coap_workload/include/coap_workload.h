@@ -37,8 +37,10 @@ void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
 /** ---- CoAP Observe API ---- */
 uint64_t getToken(otMessage *aMessage);
-void sendNotification(otMessage *aRequest,
-                      const otMessageInfo *aRequestInfo,
+void sendNotification(otMessageInfo *messageInfo,
+                      uint64_t token,
+                      uint8_t tokenLength,
+                      uint32_t sequenceNum,
                       void* payload,
                       size_t payloadSize);
 

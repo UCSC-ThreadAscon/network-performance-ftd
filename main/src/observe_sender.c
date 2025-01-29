@@ -26,23 +26,27 @@ void getTemperature(Fahrenheit *temperature)
   return;
 }
 
-void sendTemperature(otMessage *aRequest, const otMessageInfo *aRequestInfo)
+void sendTemperature(Subscription *subscription)
 {
+  otMessageInfo messageInfo;
+  EmptyMemory(&messageInfo, sizeof(otMessageInfo));
+
+  messageInfo.mPeerAddr = subscription->sockAddr.mAddress;
+  messageInfo.mPeerPort = subscription->sockAddr.mPort;
+
   Fahrenheit temperature = 0;
   getTemperature((uint8_t *) &temperature);
 
-  sendNotification(aRequest, aRequestInfo, &temperature, sizeof(uint32_t));
+  sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
+                   subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
   otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
-                getToken(aRequest), temperature);
+                subscription->token, temperature);
   return;
 }
 
-void sendNotificationCallback(void *args)
+void sendNotificationCallback(void *subscriptionPtr)
 {
-  Subscription *subPtr = (Subscription *) args;
-  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
-  otMessageInfo *aRequestInfo = &(subPtr->requestInfo);
-  sendTemperature(aRequest, aRequestInfo);
+  sendTemperature((Subscription *) subscriptionPtr);
   return;
 }
 
@@ -51,12 +55,12 @@ void sendNotificationCallback(void *args)
  * the status of an OpenThread SED on light sleep:
  * https://github.com/espressif/esp-idf/blob/master/examples/openthread/ot_sleepy_device/light_sleep/main/esp_ot_sleepy_device.c#L168-L178
  */
-void startSendNotifications(Subscription *subPtr)
+void startSendNotifications(Subscription *subscription)
 {
   const esp_timer_create_args_t timer_args =
   {
     .name = "send_observe_notification",
-    .arg  = (void*) subPtr,
+    .arg  = (void*) subscription,
     .callback = (void *) sendNotificationCallback,
     .skip_unhandled_events = true,
   };
@@ -65,15 +69,13 @@ void startSendNotifications(Subscription *subPtr)
   ESP_ERROR_CHECK(esp_timer_create(&timer_args, &timer));
   ESP_ERROR_CHECK(esp_timer_start_periodic(timer, intervalUs));
 
-  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
-  otLogNotePlat("Subscription started for token %llx.", getToken(aRequest));
+  otLogNotePlat("Subscription started for token %llx.", subscription->token);
   return;
 }
 
-void stopSendNotifications(Subscription *subPtr)
+void stopSendNotifications(Subscription *subscription)
 {
   ESP_ERROR_CHECK(esp_timer_stop(timer));
-  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
-  otLogNotePlat("Cancelled subscription for token %llx.", getToken(aRequest));
+  otLogNotePlat("Cancelled subscription for token %llx.", subscription->token);
   return;
 }

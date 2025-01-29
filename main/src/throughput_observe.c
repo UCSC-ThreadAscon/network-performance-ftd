@@ -21,14 +21,16 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
+      brSubscribed = true;
+
       brSubscription.token = getToken(aMessage);
+      brSubscription.tokenLength = otCoapMessageGetTokenLength(aMessage);
       brSubscription.sequenceNum = 0;
+
       memcpy(&(brSubscription.sockAddr), &(aMessageInfo->mSockAddr), sizeof(otSockAddr));
 
       startSendNotifications(&brSubscription);
-      brSubscribed = true;
-
-      sendTemperature(aMessage, aMessageInfo);
+      sendTemperature(&brSubscription);
       return;
     }
     else

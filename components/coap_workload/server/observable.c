@@ -9,8 +9,7 @@
 uint64_t getToken(otMessage *aMessage)
 {
   uint64_t token = 0;
-  memcpy(&token, otCoapMessageGetToken(aMessage),
-         otCoapMessageGetTokenLength(aMessage));
+  memcpy(&token, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
   return token;
 }
 
@@ -32,7 +31,7 @@ void sendNotification(otMessageInfo *messageInfo,
   otMessage *notification = createCoapMessage();
   otCoapMessageInit(notification, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_CONTENT);
 
-  otError error = otCoapMessageSetToken(notification, token, tokenLength);
+  otError error = otCoapMessageSetToken(notification, (const uint8_t *) &token, tokenLength);
   HandleMessageError("Setting token in CoAP observe notification", notification, error);
 
   error = otCoapMessageAppendObserveOption(notification, sequenceNum);

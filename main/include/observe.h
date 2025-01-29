@@ -29,6 +29,7 @@ typedef struct Subscription
 {
   otSockAddr sockAddr;
   uint64_t token;
+  uint8_t tokenLength;
   uint32_t sequenceNum;
 }
 Subscription;
@@ -36,6 +37,6 @@ Subscription;
 void startSendNotifications(Subscription *subPtr);
 void stopSendNotifications(Subscription *subPtr);
 
-void sendTemperature(otMessage *aRequest, const otMessageInfo *aRequestInfo);
+void sendTemperature(Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
