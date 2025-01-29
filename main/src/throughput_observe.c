@@ -45,6 +45,7 @@ void tpObserveRequestHandler(void *aContext,
       stopSendNotifications(&brSubscription);
       EmptyMemory(&brSubscription, sizeof(Subscription));
       brSubscribed = false;
+      sendCoapResponse(aMessage, aMessageInfo);
     }
     else
     {
@@ -52,8 +53,6 @@ void tpObserveRequestHandler(void *aContext,
                     getToken(aMessage));
     }
   }
-
-  sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
 
