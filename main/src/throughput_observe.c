@@ -2,8 +2,6 @@
 #include "time_api.h"
 #include "main.h"
 
-#include <openthread/platform/radio.h>
-
 static otCoapResource route;
 
 static Subscription brSubscription;
