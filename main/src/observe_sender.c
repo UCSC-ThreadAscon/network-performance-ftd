@@ -81,14 +81,11 @@ void startSendNotifications(Subscription *subscription)
 
   ESP_ERROR_CHECK(esp_timer_create(&timer_args, &timer));
   ESP_ERROR_CHECK(esp_timer_start_periodic(timer, intervalUs));
-
-  otLogNotePlat("Subscription started for token %llx.", subscription->token);
   return;
 }
 
 void stopSendNotifications(Subscription *subscription)
 {
   ESP_ERROR_CHECK(esp_timer_stop(timer));
-  otLogNotePlat("Cancelled subscription for token %llx.", subscription->token);
   return;
 }
