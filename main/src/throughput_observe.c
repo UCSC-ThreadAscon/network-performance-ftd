@@ -32,7 +32,6 @@ void tpObserveRequestHandler(void *aContext,
 
       startSendNotifications(&brSubscription);
       sendInitialTemperature(aMessage, aMessageInfo, brSubscription.sequenceNum);
-      return;
     }
     else
     {
