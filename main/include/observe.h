@@ -11,11 +11,10 @@
 #define OBSERVE_SUBSCRIBE 0
 #define OBSERVE_CANCEL 1
 
-#define THROUGHPUT_OBSERVE_URI "throughput-observe"
 #define THROUGHPUT_OBSERVE_NAME "Throughput Observe"
-
-#define PACKET_LOSS_OBSERVE_URI "packet-loss-observe"
 #define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
+
+#define OBSERVE_EXPERIMENTS_URI "temperature"
 
 #define NOTIFICATION_INTERVAL_SECONDS 10
 
