@@ -17,14 +17,23 @@ void randomTemperature(Fahrenheit *temperature)
   return;
 }
 
+void printTemperature(Fahrenheit temperature, uint64_t token)
+{
+  otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
+                token, temperature);
+  return;
+}
+
 void sendInitialTemperature(otMessage *aRequest,
                             const otMessageInfo *aRequestInfo,
-                            uint32_t sequenceNum)
+                            uint32_t sequenceNum,
+                            uint64_t token)
 {
   Fahrenheit temperature = 0;
   randomTemperature(&temperature);
   sendInitialNotification(aRequest, aRequestInfo, &temperature,
                           sizeof(Fahrenheit), sequenceNum);
+  printTemperature(temperature, token);
   return;
 }
 
@@ -41,8 +50,7 @@ void sendTemperature(Subscription *subscription)
 
   sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
                    subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
-  otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
-                subscription->token, temperature);
+  printTemperature(temperature, subscription->token);
   return;
 }
 
