@@ -25,6 +25,13 @@ void tpObserveRequestHandler(void *aContext,
       memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       startSendNotifications(&brSubscription);
       brSubscribed = true;
+
+      /**
+       * The ACK for a CoAP Observe Subscription request should be piggybacked with
+       * current sensor data from the (simulated) smart home thermometer.
+       */
+      sendTemperature(aMessage, aMessageInfo);
+      return;
     }
     else
     {

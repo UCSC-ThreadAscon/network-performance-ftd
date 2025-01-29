@@ -26,19 +26,23 @@ void getTemperature(Fahrenheit *temperature)
   return;
 }
 
-void sendNotificationCallback(void *args)
+void sendTemperature(otMessage *aRequest, const otMessageInfo *aRequestInfo)
 {
-  Subscription *subPtr = (Subscription *) args;
-
-  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
-  otMessageInfo *aRequestInfo = &(subPtr->requestInfo);
-
   Fahrenheit temperature = 0;
   getTemperature((uint8_t *) &temperature);
 
   sendNotification(aRequest, aRequestInfo, &temperature, sizeof(uint32_t));
   otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
                 getToken(aRequest), temperature);
+  return;
+}
+
+void sendNotificationCallback(void *args)
+{
+  Subscription *subPtr = (Subscription *) args;
+  otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
+  otMessageInfo *aRequestInfo = &(subPtr->requestInfo);
+  sendTemperature(aRequest, aRequestInfo);
   return;
 }
 
