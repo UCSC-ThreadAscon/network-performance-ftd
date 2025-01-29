@@ -38,6 +38,7 @@ void tpObserveRequestHandler(void *aContext,
     {
       otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
                     getToken(aMessage));
+      sendCoapResponse(aMessage, aMessageInfo);
     }
   }
   else // brSubscribed
@@ -45,14 +46,17 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       brSubscribed = false;
+
       stopSendNotifications(&brSubscription);
       EmptyMemory(&brSubscription, sizeof(Subscription));
+
       sendCoapResponse(aMessage, aMessageInfo);
     }
     else
     {
       otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
                     getToken(aMessage));
+      sendCoapResponse(aMessage, aMessageInfo);
     }
   }
   return;
