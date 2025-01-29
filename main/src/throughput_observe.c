@@ -60,7 +60,7 @@ void tpObserveRequestHandler(void *aContext,
 void tpObserveStartServer(void)
 {
   startCoapServer(OT_DEFAULT_COAP_PORT);
-  createResource(&route, THROUGHPUT_OBSERVE_NAME, THROUGHPUT_OBSERVE_URI,
+  createResource(&route, THROUGHPUT_OBSERVE_NAME, OBSERVE_EXPERIMENTS_URI,
                  tpObserveRequestHandler);
   return;
 }
