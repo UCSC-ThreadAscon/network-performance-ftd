@@ -48,5 +48,6 @@ void sendNotification(otMessageInfo *messageInfo,
                      notification, error);
 
   error = otCoapSendRequest(OT_INSTANCE, notification, messageInfo, NULL, NULL);
+  HandleMessageError("Failed to send CoAP observe notification", notification, error);
   return;
 }
