@@ -36,14 +36,6 @@ void sendTemperature(Subscription *subscription)
   messageInfo.mPeerAddr = subscription->sockAddr.mAddress;
   messageInfo.mPeerPort = subscription->sockAddr.mPort;
 
-  otIp6Address *address = &(subscription->sockAddr.mAddress);
-  char buffer[OT_IP6_ADDRESS_STRING_SIZE];
-  EmptyMemory(buffer, OT_IP6_ADDRESS_STRING_SIZE);
-
-  otIp6AddressToString(address, buffer, OT_IP6_ADDRESS_STRING_SIZE);
-
-  otLogNotePlat("The IP address is %s", buffer);
-
   Fahrenheit temperature = 0;
   randomTemperature(&temperature);
 
