@@ -21,8 +21,6 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
-      brSubscribed = true;
-
       brSubscription.token = getToken(aMessage);
       brSubscription.tokenLength = otCoapMessageGetTokenLength(aMessage);
       brSubscription.sequenceNum = 0;
@@ -31,6 +29,7 @@ void tpObserveRequestHandler(void *aContext,
 
       startSendNotifications(&brSubscription);
       sendTemperature(&brSubscription);
+      brSubscribed = true;
       return;
     }
     else
