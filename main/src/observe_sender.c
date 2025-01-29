@@ -3,6 +3,29 @@
 
 static esp_timer_handle_t timer;
 
+/**
+ * According to the World Meteorological Organization:
+ * https://wmo.asu.edu/content/world-highest-temperature
+ * 
+ * The highest temperature recorded was 134° Fahrenheit. As a result,
+ * the temperature will be stored as an unsigned 8 bit integer.
+ */
+typedef uint8_t Fahrenheit;
+
+/**
+ * Creates payload that simulates data that would be sent from a smart home therometer.
+ * This function returns a random temperature (in Fahrenheit) that is within the range
+ * of room temperature: between 68-74° Fahrenheit (inclusive).
+ *
+ * https://www.adt.com/resources/average-room-temperature
+ */
+void getTemperature(Fahrenheit *temperature)
+{
+  uint32_t random = (esp_random() % 7) + 68;
+  memcpy(temperature, &random, sizeof(Fahrenheit));
+  return;
+}
+
 void sendNotificationCallback(void *args)
 {
   Subscription *subPtr = (Subscription *) args;
@@ -10,11 +33,12 @@ void sendNotificationCallback(void *args)
   otMessage *aRequest = (otMessage *) &(subPtr->requestBytes);
   otMessageInfo *aRequestInfo = &(subPtr->requestInfo);
 
-  uint32_t payload = 0;
-  createRandomPayload((uint8_t *) &payload);
+  Fahrenheit temperature = 0;
+  getTemperature((uint8_t *) &temperature);
 
-  sendNotification(aRequest, aRequestInfo, &payload, sizeof(uint32_t));
-  otLogNotePlat("Sent Notification for token %llx.", getToken(aRequest));
+  sendNotification(aRequest, aRequestInfo, &temperature, sizeof(uint32_t));
+  otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
+                getToken(aRequest), temperature);
   return;
 }
 

@@ -9,11 +9,6 @@ static otCoapResource route;
 static Subscription brSubscription;
 static bool brSubscribed;
 
-/**
- * TO-DO: Print out CoAP payloads with simulated room temperatures.
- * https://www.adt.com/resources/average-room-temperature
- * https://wmo.asu.edu/content/world-highest-temperature
- */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)

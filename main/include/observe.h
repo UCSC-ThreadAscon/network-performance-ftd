@@ -1,6 +1,5 @@
 #pragma once
 
-#include "tight_loop.h"
 #include "independent_variables.h"
 
 #include <openthread/thread_ftd.h>
