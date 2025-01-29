@@ -25,7 +25,8 @@ void tpObserveRequestHandler(void *aContext,
       brSubscription.tokenLength = otCoapMessageGetTokenLength(aMessage);
       brSubscription.sequenceNum = 0;
 
-      memcpy(&(brSubscription.sockAddr), &(aMessageInfo->mSockAddr), sizeof(otSockAddr));
+      brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
+      brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
       startSendNotifications(&brSubscription);
       sendInitialTemperature(aMessage, aMessageInfo, brSubscription.sequenceNum);
