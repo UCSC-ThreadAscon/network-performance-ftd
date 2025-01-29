@@ -25,38 +25,6 @@ uint64_t getToken(otMessage *aMessage)
 }
 
 /**
- * The first CoAP notification must be a CoAP response to respond to the CoAP
- * Observe request by the client. Piggyback the payload of the (simulated) sensor
- * data in the response.
- */
-void sendInitialNotification(otMessage *aRequest,
-                             const otMessageInfo *aRequestInfo,
-                             void* payload,
-                             size_t payloadSize,
-                             uint32_t sequenceNum)
-{
-  otMessage *aResponse = otCoapNewMessage(OT_INSTANCE, NULL);
-  if (aResponse == NULL)
-  {
-    otLogCritPlat("Failed to initialize a new message for CoAP response.");
-  }
-
-  otError error = otCoapMessageInitResponse(aResponse, aRequest,
-                                            OT_COAP_TYPE_ACKNOWLEDGMENT,
-                                            OT_COAP_CODE_CONTENT);
-  HandleMessageError("coap observe message init response", aResponse, error);
-
-  error = otCoapMessageAppendObserveOption(aResponse, sequenceNum);
-  HandleMessageError("coap add observe option value", aResponse, error);
-
-  addPayload(aResponse, payload, payloadSize);
-
-  error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
-  HandleMessageError("send response", aResponse, error);
-  return;
-}
-
-/**
  * Based on the implementation shown in:
  * https://github.com/openthread/openthread/blob/main/src/cli/cli_coap.cpp#L248-L276
  *

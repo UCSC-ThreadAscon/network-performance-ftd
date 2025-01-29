@@ -49,8 +49,5 @@ void startSendNotifications(Subscription *subPtr);
 void stopSendNotifications(Subscription *subPtr);
 
 void sendTemperature(Subscription *subscription);
-void sendInitialTemperature(otMessage *aRequest,
-                            const otMessageInfo *aRequestInfo,
-                            Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
