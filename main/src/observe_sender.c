@@ -42,7 +42,7 @@ void sendTemperature(Subscription *subscription)
 
   otIp6AddressToString(address, buffer, OT_IP6_ADDRESS_STRING_SIZE);
 
-  otLogNotePlat("The IP address is %s.", buffer);
+  otLogNotePlat("The IP address is %s", buffer);
 
   Fahrenheit temperature = 0;
   randomTemperature(&temperature);
