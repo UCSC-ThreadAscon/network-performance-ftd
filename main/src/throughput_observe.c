@@ -46,10 +46,10 @@ void tpObserveRequestHandler(void *aContext,
       brSubscribed = false;
 
       stopSendNotifications(&brSubscription);
-      EmptyMemory(&brSubscription, sizeof(Subscription));
-
       sendCoapResponse(aMessage, aMessageInfo);
+
       otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);
+      EmptyMemory(&brSubscription, sizeof(Subscription));
     }
     else
     {
