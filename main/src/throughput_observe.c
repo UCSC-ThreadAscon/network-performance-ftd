@@ -2,18 +2,11 @@
 #include "time_api.h"
 #include "main.h"
 
-#include <openthread/platform/radio.h>
-
 static otCoapResource route;
 
 static Subscription brSubscription;
 static bool brSubscribed;
 
-/**
- * TO-DO: Print out CoAP payloads with simulated room temperatures.
- * https://www.adt.com/resources/average-room-temperature
- * https://wmo.asu.edu/content/world-highest-temperature
- */
 void tpObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
@@ -26,42 +19,52 @@ void tpObserveRequestHandler(void *aContext,
   {
     if (observeValue == OBSERVE_SUBSCRIBE)
     {
-      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
-      startSendNotifications(&brSubscription);
       brSubscribed = true;
+
+      brSubscription.token = getToken(aMessage);
+      brSubscription.tokenLength = otCoapMessageGetTokenLength(aMessage);
+      brSubscription.sequenceNum = 0;
+
+      brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
+      brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
+
+      otLogNotePlat("Subscription started for token %llx.", brSubscription.token);
+      sendInitialTemperature(aMessage, aMessageInfo, &brSubscription);
+      startSendNotifications(&brSubscription);
     }
     else
     {
       otLogWarnPlat("Received cancellation from token %llx when NOT subscribed.",
                     getToken(aMessage));
+      sendCoapResponse(aMessage, aMessageInfo);
     }
   }
   else // brSubscribed
   {
     if (observeValue == OBSERVE_CANCEL)
     {
-      otLogNotePlat("Cancelling subscription for token %llx.", getToken(aMessage));
-      stopSendNotifications(&brSubscription);
-      memcpy(&(brSubscription.requestBytes), aMessage, OT_RADIO_FRAME_MAX_SIZE);
-      memcpy(&(brSubscription.requestInfo), aMessageInfo, sizeof(otMessageInfo));
       brSubscribed = false;
+      otLogNotePlat("Cancelling subscription for token %llx.", brSubscription.token);
+
+      stopSendNotifications(&brSubscription);
+      EmptyMemory(&brSubscription, sizeof(Subscription));
+
+      sendCoapResponse(aMessage, aMessageInfo);
     }
     else
     {
       otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
                     getToken(aMessage));
+      sendCoapResponse(aMessage, aMessageInfo);
     }
   }
-
-  sendCoapResponse(aMessage, aMessageInfo);
   return;
 }
 
 void tpObserveStartServer(void)
 {
   startCoapServer(OT_DEFAULT_COAP_PORT);
-  createResource(&route, THROUGHPUT_OBSERVE_NAME, THROUGHPUT_OBSERVE_URI,
+  createResource(&route, THROUGHPUT_OBSERVE_NAME, OBSERVE_EXPERIMENTS_URI,
                  tpObserveRequestHandler);
   return;
 }
