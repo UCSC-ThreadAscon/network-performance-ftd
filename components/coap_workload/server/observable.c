@@ -42,7 +42,7 @@ void sendInitialNotification(otMessage *aRequest,
   }
 
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
-                                            OT_COAP_TYPE_ACKNOWLEDGMENT,
+                                            OT_COAP_TYPE_CONFIRMABLE,
                                             OT_COAP_CODE_CONTENT);
   HandleMessageError("coap observe message init response", aResponse, error);
 
