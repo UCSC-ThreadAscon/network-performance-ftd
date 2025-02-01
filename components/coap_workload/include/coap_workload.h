@@ -23,6 +23,7 @@ void request(otSockAddr *sockAddr,
              otCoapType type);
 
 void addPayload(otMessage *aRequest, void *payload, size_t payloadSize);
+otMessage *createCoapMessage();
 
 /* ---- CoAP Server API ---- */
 otError createResource(otCoapResource *resource,
@@ -36,8 +37,17 @@ void printRequest(otMessage *aMessage, const otMessageInfo *aMessageInfo);
 
 /** ---- CoAP Observe API ---- */
 uint64_t getToken(otMessage *aMessage);
-void sendNotification(otMessage *aRequest,
-                      const otMessageInfo *aRequestInfo,
+
+void sendInitialNotification(otMessage *aRequest,
+                             const otMessageInfo *aRequestInfo,
+                             void* payload,
+                             size_t payloadSize,
+                             uint32_t sequenceNum);
+
+void sendNotification(otMessageInfo *messageInfo,
+                      uint64_t token,
+                      uint8_t tokenLength,
+                      uint32_t sequenceNum,
                       void* payload,
                       size_t payloadSize);
 

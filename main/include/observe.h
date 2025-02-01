@@ -1,6 +1,5 @@
 #pragma once
 
-#include "tight_loop.h"
 #include "independent_variables.h"
 
 #include <openthread/thread_ftd.h>
@@ -11,13 +10,12 @@
 #define OBSERVE_SUBSCRIBE 0
 #define OBSERVE_CANCEL 1
 
-#define THROUGHPUT_OBSERVE_URI "throughput-observe"
 #define THROUGHPUT_OBSERVE_NAME "Throughput Observe"
-
-#define PACKET_LOSS_OBSERVE_URI "packet-loss-observe"
 #define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
 
-#define NOTIFICATION_INTERVAL_SECONDS 10
+#define OBSERVE_EXPERIMENTS_URI "temperature"
+
+#define NOTIFICATION_INTERVAL_MS 500
 
 /**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
@@ -29,12 +27,30 @@
  */
 typedef struct Subscription
 {
-  uint8_t requestBytes[OT_RADIO_FRAME_MAX_SIZE];
-  otMessageInfo requestInfo;
+  otSockAddr sockAddr;
+  uint64_t token;
+  uint8_t tokenLength;
+  uint32_t sequenceNum;
 }
 Subscription;
 
+/**
+ * CoAP Observe payloads simulate sensor data from a thermometer.
+ *
+ * According to the World Meteorological Organization:
+ * https://wmo.asu.edu/content/world-highest-temperature
+ * 
+ * The highest temperature recorded was 134° Fahrenheit. As a result,
+ * the temperature will be stored as an unsigned 8 bit integer.
+ */
+typedef uint8_t Fahrenheit;
+
 void startSendNotifications(Subscription *subPtr);
 void stopSendNotifications(Subscription *subPtr);
+
+void sendTemperature(Subscription *subscription);
+void sendInitialTemperature(otMessage *aRequest,
+                            const otMessageInfo *aRequestInfo,
+                            Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
