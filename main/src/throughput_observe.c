@@ -28,7 +28,7 @@ void tpObserveRequestHandler(void *aContext,
       brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
       brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
-      otLogNotePlat("Subscription started for token %llx.", brSubscription.token);
+      otLogNotePlat("Subscription started for token 0x%llx.", brSubscription.token);
       sendInitialTemperature(aMessage, aMessageInfo, &brSubscription);
       startSendNotifications(&brSubscription);
     }
@@ -44,16 +44,16 @@ void tpObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       brSubscribed = false;
-      otLogNotePlat("Cancelling subscription for token %llx.", brSubscription.token);
 
       stopSendNotifications(&brSubscription);
       EmptyMemory(&brSubscription, sizeof(Subscription));
 
       sendCoapResponse(aMessage, aMessageInfo);
+      otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);
     }
     else
     {
-      otLogWarnPlat("Received subscription request from token %llx when already subscribed.",
+      otLogWarnPlat("Received subscription request from token 0x%llx when already subscribed.",
                     getToken(aMessage));
       sendCoapResponse(aMessage, aMessageInfo);
     }
