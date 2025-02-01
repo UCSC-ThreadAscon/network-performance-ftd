@@ -15,7 +15,7 @@
 
 #define OBSERVE_EXPERIMENTS_URI "temperature"
 
-#define NOTIFICATION_INTERVAL_MS 500
+#define NOTIFICATION_INTERVAL_MS 3
 
 /**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
