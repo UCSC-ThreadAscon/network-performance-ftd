@@ -69,7 +69,7 @@ void tpConfirmableResponseCallback(void *aContext,
         double throughputUs = (double) totalBytes / denominatorUs;
 
         /**
-         * I found that doubles have 15 digits of precision from:
+         * I learned that doubles have 15 digits of precision from:
          * https://stackoverflow.com/a/2386882/6621292
          */
         PrintDelimiter();
