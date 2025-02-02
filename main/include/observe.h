@@ -10,8 +10,8 @@
 #define OBSERVE_SUBSCRIBE 0
 #define OBSERVE_CANCEL 1
 
-#define THROUGHPUT_OBSERVE_NAME "Throughput Observe"
-#define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
+#define THROUGHPUT_OBSERVE_ROUTE "Throughput Observe"
+#define PACKET_LOSS_OBSERVE_ROUTE "Packet Loss Observe"
 
 #define OBSERVE_EXPERIMENTS_URI "temperature"
 
@@ -54,3 +54,4 @@ void sendInitialTemperature(otMessage *aRequest,
                             Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
+void plObserveStartCallback(otChangedFlags changed_flags, void* ctx);

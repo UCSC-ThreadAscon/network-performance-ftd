@@ -7,7 +7,7 @@ static otCoapResource route;
 static Subscription brSubscription;
 static bool brSubscribed;
 
-void tpObserveRequestHandler(void *aContext,
+void plObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
                              const otMessageInfo *aMessageInfo)
 {
@@ -61,11 +61,11 @@ void tpObserveRequestHandler(void *aContext,
   return;
 }
 
-void tpObserveStartServer(void)
+void plObserveStartServer(void)
 {
   startCoapServer(OT_DEFAULT_COAP_PORT);
-  createResource(&route, THROUGHPUT_OBSERVE_ROUTE, OBSERVE_EXPERIMENTS_URI,
-                 tpObserveRequestHandler);
+  createResource(&route, PACKET_LOSS_OBSERVE_ROUTE, OBSERVE_EXPERIMENTS_URI,
+                 plObserveRequestHandler);
   return;
 }
 
@@ -74,7 +74,7 @@ void tpObserveStartServer(void)
  * the ESP-IDF OpenThread SED state change callback example function:
  * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
  */
-void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
+void plObserveStartCallback(otChangedFlags changed_flags, void* ctx)
 {
   OT_UNUSED_VARIABLE(ctx);
   static otDeviceRole s_previous_role = OT_DEVICE_ROLE_DISABLED;
@@ -85,7 +85,7 @@ void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     PrintDelimiter();
-    tpObserveStartServer();
+    plObserveStartServer();
     PrintDelimiter();
   }
   s_previous_role = role;
