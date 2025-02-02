@@ -68,6 +68,7 @@ void sendInitialNotification(otMessage *aRequest,
  * https://datatracker.ietf.org/doc/html/rfc7641#section-4.2
  */
 void sendNotification(otMessageInfo *messageInfo,
+                      otCoapType type,
                       uint64_t token,
                       uint8_t tokenLength,
                       uint32_t sequenceNum,

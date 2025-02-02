@@ -1,5 +1,6 @@
 #include "observe.h"
 #include "time_api.h"
+#include "main.h"
 
 static esp_timer_handle_t timer;
 
@@ -46,14 +47,29 @@ void sendTemperature(Subscription *subscription)
   messageInfo.mPeerAddr = subscription->sockAddr.mAddress;
   messageInfo.mPeerPort = subscription->sockAddr.mPort;
 
-  Fahrenheit temperature = 0;
-  randomTemperature(&temperature);
+#if PACKET_LOSS_OBSERVE
+  if (subscription->sequenceNum == (PACKET_LOSS_OBSERVE_MAX_PACKETS + 1))
+  {
+    // Send a Confirmable packet (with no payload) indicating that all packets are sent.
+    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, subscription->token,
+                     subscription->tokenLength, subscription->sequenceNum, NULL, 0);
+    otLogNotePlat("Finished sending all packets for Packet Loss Observe experiment.");
+  }
+  else
+  {
+#endif
+    Fahrenheit temperature = 0;
+    randomTemperature(&temperature);
 
-  sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
-                   subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
+    sendNotification(&messageInfo, OT_COAP_TYPE_NON_CONFIRMABLE, subscription->token,
+                     subscription->tokenLength, subscription->sequenceNum, &temperature,
+                     sizeof(Fahrenheit));
 
-  printTemperature(temperature, subscription->token);
-  subscription->sequenceNum += 1;
+    printTemperature(temperature, subscription->token);
+    subscription->sequenceNum += 1;
+#if PACKET_LOSS_OBSERVE
+  }
+#endif
   return;
 }
 
