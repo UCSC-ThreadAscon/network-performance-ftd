@@ -49,7 +49,10 @@ void sendInitialNotification(otMessage *aRequest,
   error = otCoapMessageAppendObserveOption(aResponse, sequenceNum);
   HandleMessageError("coap add observe option value", aResponse, error);
 
-  addPayload(aResponse, payload, payloadSize);
+  if (payload != NULL)
+  {
+    addPayload(aResponse, payload, payloadSize);
+  }
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   HandleMessageError("send response", aResponse, error);

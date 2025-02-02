@@ -57,7 +57,11 @@ void plObserveRequestHandler(void *aContext,
       brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
       otLogNotePlat("Subscription started for token 0x%llx.", brSubscription.token);
-      sendInitialTemperature(aMessage, aMessageInfo, &brSubscription);
+
+      sendInitialNotification(aMessage, aMessageInfo, NULL, 0, brSubscription.sequenceNum);
+      brSubscription.sequenceNum += 1;
+      otLogNotePlat("Sent ACK to subscriber with token 0x%llx.", brSubscription.token);
+
       startSendNotifications(&brSubscription);
     }
     else
