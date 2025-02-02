@@ -41,9 +41,15 @@ void sendInitialNotification(otMessage *aRequest,
     otLogCritPlat("Failed to initialize a new message for CoAP response.");
   }
 
+  otCoapCode statusCode = OT_COAP_CODE_VALID;
+  if (payload != NULL)
+  {
+    statusCode = OT_COAP_CODE_CONTENT;
+  }
+
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
-                                            OT_COAP_CODE_CONTENT);
+                                            statusCode);
   HandleMessageError("coap observe message init response", aResponse, error);
 
   error = otCoapMessageAppendObserveOption(aResponse, sequenceNum);
@@ -69,6 +75,7 @@ void sendInitialNotification(otMessage *aRequest,
  */
 void sendNotification(otMessageInfo *messageInfo,
                       otCoapType type,
+                      otCoapCode statusCode,
                       uint64_t token,
                       uint8_t tokenLength,
                       uint32_t sequenceNum,
@@ -76,7 +83,7 @@ void sendNotification(otMessageInfo *messageInfo,
                       size_t payloadSize)
 {
   otMessage *notification = createCoapMessage();
-  otCoapMessageInit(notification, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_CONTENT);
+  otCoapMessageInit(notification, type, OT_COAP_CODE_CONTENT);
 
   otError error = otCoapMessageSetToken(notification, (const uint8_t *) &token, tokenLength);
   HandleMessageError("setting token in CoAP observe notification", notification, error);

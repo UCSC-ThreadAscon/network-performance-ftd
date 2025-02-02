@@ -46,6 +46,7 @@ void sendInitialNotification(otMessage *aRequest,
 
 void sendNotification(otMessageInfo *messageInfo,
                       otCoapType type,
+                      otCoapCode statusCode,
                       uint64_t token,
                       uint8_t tokenLength,
                       uint32_t sequenceNum,

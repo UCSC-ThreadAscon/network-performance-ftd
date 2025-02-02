@@ -54,20 +54,30 @@ void sendTemperature(Subscription *subscription)
     Fahrenheit temperature = 0;
     randomTemperature(&temperature);
 
-    sendNotification(&messageInfo, OT_COAP_TYPE_NON_CONFIRMABLE, subscription->token,
-                     subscription->tokenLength, subscription->sequenceNum, &temperature,
-                     sizeof(Fahrenheit));
+    sendNotification(&messageInfo, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_CONTENT,
+                     subscription->token, subscription->tokenLength,
+                     subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
 
     printTemperature(temperature, subscription->token);
     subscription->sequenceNum += 1;
 #if PACKET_LOSS_OBSERVE
   }
-  else // Send a CON packet (with no payload) indicating that all packets are sent.
+  else
   {
+    /**
+     * By this point, `PACKET_LOSS_OBSERVE_MAX_PACKETS` Non-Confirmable packets
+     * have all been sent in this experiment. Stop sending packets, and send
+     * a CON packet (with no payload) to tell the Border Router that no more packets
+     * will be sent.
+     */
     assert(subscription->sequenceNum == PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM);
-    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, subscription->token,
-                     subscription->tokenLength, subscription->sequenceNum, NULL, 0);
-    otLogNotePlat("Finished sending all packets for Packet Loss Observe experiment.");
+
+    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_VALID,
+                     subscription->token, subscription->tokenLength,
+                     subscription->sequenceNum, NULL, 0);
+    ESP_ERROR_CHECK(esp_timer_stop(timer));
+
+    otLogNotePlat("Finished sending all packets for the Packet Loss Observe experiment.");
   }
 #endif
   return;
