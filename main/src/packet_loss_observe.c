@@ -76,8 +76,6 @@ void plObserveRequestHandler(void *aContext,
     if (observeValue == OBSERVE_CANCEL)
     {
       brSubscribed = false;
-
-      stopSendNotifications(&brSubscription);
       sendCoapResponse(aMessage, aMessageInfo);
 
       otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);

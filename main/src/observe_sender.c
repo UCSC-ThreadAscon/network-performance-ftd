@@ -75,7 +75,7 @@ void sendTemperature(Subscription *subscription)
     sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_VALID,
                      subscription->token, subscription->tokenLength,
                      subscription->sequenceNum, NULL, 0);
-    ESP_ERROR_CHECK(esp_timer_stop(timer));
+    stopSendNotifications();
 
     otLogNotePlat("Finished sending all packets for the Packet Loss Observe experiment.");
   }
@@ -110,7 +110,7 @@ void startSendNotifications(Subscription *subscription)
   return;
 }
 
-void stopSendNotifications(Subscription *subscription)
+void stopSendNotifications()
 {
   ESP_ERROR_CHECK(esp_timer_stop(timer));
   return;

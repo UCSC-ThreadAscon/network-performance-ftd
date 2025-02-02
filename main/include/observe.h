@@ -48,8 +48,8 @@ Subscription;
  */
 typedef uint8_t Fahrenheit;
 
-void startSendNotifications(Subscription *subPtr);
-void stopSendNotifications(Subscription *subPtr);
+void startSendNotifications(Subscription *subscription);
+void stopSendNotifications();
 
 void sendTemperature(Subscription *subscription);
 void sendInitialTemperature(otMessage *aRequest,

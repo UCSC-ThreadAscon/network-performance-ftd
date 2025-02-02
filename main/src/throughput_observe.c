@@ -45,7 +45,7 @@ void tpObserveRequestHandler(void *aContext,
     {
       brSubscribed = false;
 
-      stopSendNotifications(&brSubscription);
+      stopSendNotifications();
       sendCoapResponse(aMessage, aMessageInfo);
 
       otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);
