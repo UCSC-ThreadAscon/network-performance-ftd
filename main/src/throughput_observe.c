@@ -42,7 +42,8 @@ void tpObserveRequestHandler(void *aContext,
   else // brSubscribed
   {
     if (observeValue == OBSERVE_CANCEL)
-    {
+    { 
+      assert(getToken(aMessage) == brSubscription.token);
       brSubscribed = false;
 
       stopSendNotifications();
