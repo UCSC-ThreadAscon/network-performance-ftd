@@ -13,7 +13,7 @@ void tpObserveRequestHandler(void *aContext,
 {
   uint64_t observeValue = 0;
   otError error = coapGetOptionValue(aMessage, OT_COAP_OPTION_OBSERVE, &observeValue);
-  handleError(error, "CoAP Get Observe Option Value");
+  handleError(error, "coap get observe option value");
 
   if (!brSubscribed)
   {
