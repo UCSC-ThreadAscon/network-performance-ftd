@@ -18,6 +18,7 @@
 #define NOTIFICATION_INTERVAL_MS 1000
 
 #define PACKET_LOSS_OBSERVE_MAX_PACKETS 100
+#define PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM (PACKET_LOSS_OBSERVE_MAX_PACKETS + 1)
 
 /**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.

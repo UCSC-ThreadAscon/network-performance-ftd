@@ -48,14 +48,7 @@ void sendTemperature(Subscription *subscription)
   messageInfo.mPeerPort = subscription->sockAddr.mPort;
 
 #if PACKET_LOSS_OBSERVE
-  if (subscription->sequenceNum == (PACKET_LOSS_OBSERVE_MAX_PACKETS + 1))
-  {
-    // Send a Confirmable packet (with no payload) indicating that all packets are sent.
-    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, subscription->token,
-                     subscription->tokenLength, subscription->sequenceNum, NULL, 0);
-    otLogNotePlat("Finished sending all packets for Packet Loss Observe experiment.");
-  }
-  else
+  if (subscription->sequenceNum < PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM)
   {
 #endif
     Fahrenheit temperature = 0;
@@ -68,6 +61,13 @@ void sendTemperature(Subscription *subscription)
     printTemperature(temperature, subscription->token);
     subscription->sequenceNum += 1;
 #if PACKET_LOSS_OBSERVE
+  }
+  else // Send a CON packet (with no payload) indicating that all packets are sent.
+  {
+    assert(subscription->sequenceNum == PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM);
+    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, subscription->token,
+                     subscription->tokenLength, subscription->sequenceNum, NULL, 0);
+    otLogNotePlat("Finished sending all packets for Packet Loss Observe experiment.");
   }
 #endif
   return;
