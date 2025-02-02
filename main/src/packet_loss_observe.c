@@ -2,6 +2,16 @@
 #include "time_api.h"
 #include "main.h"
 
+/**
+ * TODO:
+ * 1. The initial ACK that is sent should contain any payload. This ACK should
+ *    be used to tell the client that 1000 packets are about to be sent.
+ *
+ * 2. After sending 1000 Non-Confirmable packets, send a Confirmable packet with
+ *    an empty payload. Do not send anymore Non-Confirmable temperature packets
+ *    after this.
+ */
+
 static otCoapResource route;
 
 static Subscription brSubscription;
