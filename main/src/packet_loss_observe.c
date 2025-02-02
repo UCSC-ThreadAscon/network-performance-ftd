@@ -28,12 +28,12 @@ static bool brSubscribed;
  *      This packet will only be used to indicate to the border router it is about to send
  *      Non-Confirmable packets. The ACK will NOT contain any payload.
  *
- *    - After sending Non-Confirmable packets with sequence numbers 1 to `MAX_PACKETS`,
- *      the FTD will send a Confirmable packet with sequence number `MAC_PACKETS + 1`
- *      (with an empty payload) to tell the Border Router that it is has finished sending
- *      all of its packets. Upon receiving this packet, the Border Router should cancel
- *      from the CoAP observe subscription, calculate the packet loss, and then start
- *      the next experiment trial.
+ *    - After sending Non-Confirmable packets with sequence numbers 1 to
+ *      `PACKET_LOSS_OBSERVE_MAX_PACKETS`, the FTD will send a Confirmable packet
+ *      with sequence number `PACKET_LOSS_OBSERVE_MAX_PACKETS + 1` (with an empty payload)
+ *      to tell the Border Router that it is has finished sending all of its packets.
+ *      Upon receiving this packet, the Border Router should cancel from the CoAP observe
+ *      subscription, calculate the packet loss, and then start the next experiment trial.
  */
 void plObserveRequestHandler(void *aContext,
                              otMessage *aMessage,
