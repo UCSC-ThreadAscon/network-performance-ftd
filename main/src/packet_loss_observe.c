@@ -56,7 +56,7 @@ void plObserveRequestHandler(void *aContext,
       brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
       brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
-      otLogNotePlat("Subscription started for token 0x%llx.", brSubscription.token);
+      otLogNotePlat("Subscription started with token 0x%llx.", brSubscription.token);
 
       sendInitialNotification(aMessage, aMessageInfo, NULL, 0, brSubscription.sequenceNum);
       brSubscription.sequenceNum += 1;
@@ -78,7 +78,7 @@ void plObserveRequestHandler(void *aContext,
       brSubscribed = false;
       sendCoapResponse(aMessage, aMessageInfo);
 
-      otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);
+      otLogNotePlat("Cancelled subscription with token 0x%llx.", brSubscription.token);
       EmptyMemory(&brSubscription, sizeof(Subscription));
     }
     else

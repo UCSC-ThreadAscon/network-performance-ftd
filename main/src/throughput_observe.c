@@ -28,7 +28,7 @@ void tpObserveRequestHandler(void *aContext,
       brSubscription.sockAddr.mAddress = aMessageInfo->mPeerAddr;
       brSubscription.sockAddr.mPort = aMessageInfo->mPeerPort;
 
-      otLogNotePlat("Subscription started for token 0x%llx.", brSubscription.token);
+      otLogNotePlat("Subscription started with token 0x%llx.", brSubscription.token);
       sendInitialTemperature(aMessage, aMessageInfo, &brSubscription);
       startSendNotifications(&brSubscription);
     }
@@ -48,7 +48,7 @@ void tpObserveRequestHandler(void *aContext,
       stopSendNotifications();
       sendCoapResponse(aMessage, aMessageInfo);
 
-      otLogNotePlat("Cancelled subscription for token 0x%llx.", brSubscription.token);
+      otLogNotePlat("Cancelled subscription with token 0x%llx.", brSubscription.token);
       EmptyMemory(&brSubscription, sizeof(Subscription));
     }
     else
