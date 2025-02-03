@@ -2,8 +2,6 @@
 
 #include "independent_variables.h"
 
-#include <openthread/thread_ftd.h>
-
 /**
  * https://datatracker.ietf.org/doc/html/rfc7641#section-2
  */
