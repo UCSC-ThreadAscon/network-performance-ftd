@@ -1,4 +1,4 @@
-menu "UCSC Thread-ASCON Experiment Workload"
+menu "UCSC Thread-ASCON Network Performance FTD"
     config OPENTHREAD_AUTO_START
         bool 'Enable the automatic start mode.'
         default False

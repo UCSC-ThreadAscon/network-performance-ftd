@@ -29,7 +29,6 @@ void createMessageInfo(otSockAddr *aSockAddr, otMessageInfo *aMessageInfo)
 }
 
 void createHeaders(otMessage *aRequest,
-                   otMessageInfo *aMessageInfo,
                    const char *uri,
                    otCoapType type)
 {
@@ -123,7 +122,7 @@ void request(otSockAddr *sockAddr,
 
   aRequest = createCoapMessage();
 
-  createHeaders(aRequest, &aMessageInfo, uri, type);
+  createHeaders(aRequest, uri, type);
   addPayload(aRequest, payload, payloadSize);
   send(aRequest, &aMessageInfo, responseCallback);
 
