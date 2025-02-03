@@ -86,21 +86,21 @@ void sendNotification(otMessageInfo *messageInfo,
   otCoapMessageInit(notification, type, OT_COAP_CODE_CONTENT);
 
   otError error = otCoapMessageSetToken(notification, (const uint8_t *) &token, tokenLength);
-  HandleMessageError("setting token in CoAP observe notification", notification, error);
+  HandleMessageError("setting token in coap observe notification", notification, error);
 
   error = otCoapMessageAppendObserveOption(notification, sequenceNum);
-  HandleMessageError("setting the sequence number in CoAP observe notification",
+  HandleMessageError("setting the sequence number in coap observe notification",
                      notification, error);
   
   error = otCoapMessageSetPayloadMarker(notification);
-  HandleMessageError("setting the payload marker in CoAP observe notification",
+  HandleMessageError("setting the payload marker in coap observe notification",
                      notification, error);
 
   error = otMessageAppend(notification, payload, payloadSize);
-  HandleMessageError("appending temperature payload to CoAP observe notification",
+  HandleMessageError("appending temperature payload to coap observe notification",
                      notification, error);
 
   error = otCoapSendRequest(OT_INSTANCE, notification, messageInfo, NULL, NULL);
-  HandleMessageError("failed to send CoAP observe notification", notification, error);
+  HandleMessageError("failed to send coap observe notification", notification, error);
   return;
 }
