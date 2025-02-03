@@ -41,15 +41,24 @@ void sendInitialNotification(otMessage *aRequest,
     otLogCritPlat("Failed to initialize a new message for CoAP response.");
   }
 
+  otCoapCode statusCode = OT_COAP_CODE_VALID;
+  if (payload != NULL)
+  {
+    statusCode = OT_COAP_CODE_CONTENT;
+  }
+
   otError error = otCoapMessageInitResponse(aResponse, aRequest,
                                             OT_COAP_TYPE_ACKNOWLEDGMENT,
-                                            OT_COAP_CODE_CONTENT);
+                                            statusCode);
   HandleMessageError("coap observe message init response", aResponse, error);
 
   error = otCoapMessageAppendObserveOption(aResponse, sequenceNum);
   HandleMessageError("coap add observe option value", aResponse, error);
 
-  addPayload(aResponse, payload, payloadSize);
+  if (payload != NULL)
+  {
+    addPayload(aResponse, payload, payloadSize);
+  }
 
   error = otCoapSendResponse(OT_INSTANCE, aResponse, aRequestInfo);
   HandleMessageError("send response", aResponse, error);
@@ -65,6 +74,8 @@ void sendInitialNotification(otMessage *aRequest,
  * https://datatracker.ietf.org/doc/html/rfc7641#section-4.2
  */
 void sendNotification(otMessageInfo *messageInfo,
+                      otCoapType type,
+                      otCoapCode statusCode,
                       uint64_t token,
                       uint8_t tokenLength,
                       uint32_t sequenceNum,
@@ -72,24 +83,24 @@ void sendNotification(otMessageInfo *messageInfo,
                       size_t payloadSize)
 {
   otMessage *notification = createCoapMessage();
-  otCoapMessageInit(notification, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_CONTENT);
+  otCoapMessageInit(notification, type, OT_COAP_CODE_CONTENT);
 
   otError error = otCoapMessageSetToken(notification, (const uint8_t *) &token, tokenLength);
-  HandleMessageError("setting token in CoAP observe notification", notification, error);
+  HandleMessageError("setting token in coap observe notification", notification, error);
 
   error = otCoapMessageAppendObserveOption(notification, sequenceNum);
-  HandleMessageError("setting the sequence number in CoAP observe notification",
+  HandleMessageError("setting the sequence number in coap observe notification",
                      notification, error);
   
   error = otCoapMessageSetPayloadMarker(notification);
-  HandleMessageError("setting the payload marker in CoAP observe notification",
+  HandleMessageError("setting the payload marker in coap observe notification",
                      notification, error);
 
   error = otMessageAppend(notification, payload, payloadSize);
-  HandleMessageError("appending temperature payload to CoAP observe notification",
+  HandleMessageError("appending temperature payload to coap observe notification",
                      notification, error);
 
   error = otCoapSendRequest(OT_INSTANCE, notification, messageInfo, NULL, NULL);
-  HandleMessageError("failed to send CoAP observe notification", notification, error);
+  HandleMessageError("failed to send coap observe notification", notification, error);
   return;
 }

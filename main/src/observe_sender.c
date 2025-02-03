@@ -1,5 +1,6 @@
 #include "observe.h"
 #include "time_api.h"
+#include "main.h"
 
 static esp_timer_handle_t timer;
 
@@ -19,7 +20,7 @@ void randomTemperature(Fahrenheit *temperature)
 
 void printTemperature(Fahrenheit temperature, uint64_t token)
 {
-  otLogNotePlat("Telling %llx that current temperature is %" PRIu8 "° Fahrenheit.",
+  otLogNotePlat("Telling subscriber of 0x%llx that the temperature is %" PRIu8 "° Fahrenheit.",
                 token, temperature);
   return;
 }
@@ -46,14 +47,39 @@ void sendTemperature(Subscription *subscription)
   messageInfo.mPeerAddr = subscription->sockAddr.mAddress;
   messageInfo.mPeerPort = subscription->sockAddr.mPort;
 
-  Fahrenheit temperature = 0;
-  randomTemperature(&temperature);
+#if PACKET_LOSS_OBSERVE
+  if (subscription->sequenceNum < PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM)
+  {
+#endif
+    Fahrenheit temperature = 0;
+    randomTemperature(&temperature);
 
-  sendNotification(&messageInfo, subscription->token, subscription->tokenLength,
-                   subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
+    sendNotification(&messageInfo, OT_COAP_TYPE_NON_CONFIRMABLE, OT_COAP_CODE_CONTENT,
+                     subscription->token, subscription->tokenLength,
+                     subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
 
-  printTemperature(temperature, subscription->token);
-  subscription->sequenceNum += 1;
+    printTemperature(temperature, subscription->token);
+    subscription->sequenceNum += 1;
+#if PACKET_LOSS_OBSERVE
+  }
+  else
+  {
+    /**
+     * By this point, `PACKET_LOSS_OBSERVE_MAX_PACKETS` Non-Confirmable packets
+     * have all been sent in this experiment. Stop sending packets, and send
+     * a CON packet (with no payload) to tell the Border Router that no more packets
+     * will be sent.
+     */
+    assert(subscription->sequenceNum == PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM);
+
+    sendNotification(&messageInfo, OT_COAP_TYPE_CONFIRMABLE, OT_COAP_CODE_VALID,
+                     subscription->token, subscription->tokenLength,
+                     subscription->sequenceNum, NULL, 0);
+    stopSendNotifications();
+
+    otLogNotePlat("Finished sending all packets for the Packet Loss Observe experiment.");
+  }
+#endif
   return;
 }
 
@@ -84,7 +110,7 @@ void startSendNotifications(Subscription *subscription)
   return;
 }
 
-void stopSendNotifications(Subscription *subscription)
+void stopSendNotifications()
 {
   ESP_ERROR_CHECK(esp_timer_stop(timer));
   return;

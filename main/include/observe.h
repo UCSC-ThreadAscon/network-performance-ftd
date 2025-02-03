@@ -2,20 +2,21 @@
 
 #include "independent_variables.h"
 
-#include <openthread/thread_ftd.h>
-
 /**
  * https://datatracker.ietf.org/doc/html/rfc7641#section-2
  */
 #define OBSERVE_SUBSCRIBE 0
 #define OBSERVE_CANCEL 1
 
-#define THROUGHPUT_OBSERVE_NAME "Throughput Observe"
-#define PACKET_LOSS_OBSERVER_NAME "Packet Loss Observe"
+#define THROUGHPUT_OBSERVE_ROUTE "Throughput Observe"
+#define PACKET_LOSS_OBSERVE_ROUTE "Packet Loss Observe"
 
 #define OBSERVE_EXPERIMENTS_URI "temperature"
 
-#define NOTIFICATION_INTERVAL_MS 500
+#define NOTIFICATION_INTERVAL_MS 1000
+
+#define PACKET_LOSS_OBSERVE_MAX_PACKETS 10
+#define PACKET_LOSS_OBSERVE_MAX_SEQUENCE_NUM (PACKET_LOSS_OBSERVE_MAX_PACKETS + 1)
 
 /**
  * Save a copy of the initial GET request from Border Router to subscribe to CoAP observe.
@@ -45,8 +46,8 @@ Subscription;
  */
 typedef uint8_t Fahrenheit;
 
-void startSendNotifications(Subscription *subPtr);
-void stopSendNotifications(Subscription *subPtr);
+void startSendNotifications(Subscription *subscription);
+void stopSendNotifications();
 
 void sendTemperature(Subscription *subscription);
 void sendInitialTemperature(otMessage *aRequest,
@@ -54,3 +55,4 @@ void sendInitialTemperature(otMessage *aRequest,
                             Subscription *subscription);
 
 void tpObserveStartCallback(otChangedFlags changed_flags, void* ctx);
+void plObserveStartCallback(otChangedFlags changed_flags, void* ctx);
