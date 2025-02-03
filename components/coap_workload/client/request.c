@@ -122,7 +122,7 @@ void request(otSockAddr *sockAddr,
 
   aRequest = createCoapMessage();
 
-  createHeaders(&aMessageInfo, uri, type);
+  createHeaders(aRequest, uri, type);
   addPayload(aRequest, payload, payloadSize);
   send(aRequest, &aMessageInfo, responseCallback);
 
