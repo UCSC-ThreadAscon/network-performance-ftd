@@ -137,19 +137,7 @@ void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx)
   otDeviceRole role = otThreadGetDeviceRole(instance);
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
-    if (role != OT_DEVICE_ROLE_LEADER)
-    {
-      tpConfirmableMain();
-    }
-    else
-    {
-      PrintCritDelimiter();
-      otLogCritPlat("FTD failed to attach to the Thread network lead by the Border Router.");
-      otLogCritPlat("Going to restart the current experiment trial.");
-      PrintCritDelimiter();
-
-      esp_restart();
-    }
+    tpConfirmableMain();
   }
   s_previous_role = role;
   return;
