@@ -33,7 +33,9 @@ void sendInitialTemperature(otMessage *aRequest,
   sendInitialNotification(aRequest, aRequestInfo, &temperature,
                           sizeof(Fahrenheit), subscription->sequenceNum);
 
+#if CONFIG_EXPERIMENT_DEBUG
   printTemperature(temperature, subscription->token);
+#endif
   subscription->sequenceNum += 1;
   return;
 }
