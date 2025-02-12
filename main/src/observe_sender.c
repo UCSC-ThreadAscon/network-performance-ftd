@@ -20,8 +20,7 @@ void randomTemperature(Fahrenheit *temperature)
 
 void printTemperature(Fahrenheit temperature, uint64_t token)
 {
-  otLogNotePlat("Telling subscriber of 0x%llx that the temperature is %" PRIu8 "° Fahrenheit.",
-                token, temperature);
+  otLogNotePlat("Subscription: 0x%llx, Temperature: %" PRIu8 "°F", token, temperature);
   return;
 }
 
@@ -34,7 +33,9 @@ void sendInitialTemperature(otMessage *aRequest,
   sendInitialNotification(aRequest, aRequestInfo, &temperature,
                           sizeof(Fahrenheit), subscription->sequenceNum);
 
+#if CONFIG_EXPERIMENT_DEBUG
   printTemperature(temperature, subscription->token);
+#endif
   subscription->sequenceNum += 1;
   return;
 }
@@ -58,7 +59,9 @@ void sendTemperature(Subscription *subscription)
                      subscription->token, subscription->tokenLength,
                      subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
 
+#if CONFIG_EXPERIMENT_DEBUG
     printTemperature(temperature, subscription->token);
+#endif
     subscription->sequenceNum += 1;
 #if PACKET_LOSS_OBSERVE
   }
