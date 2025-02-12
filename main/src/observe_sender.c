@@ -20,8 +20,7 @@ void randomTemperature(Fahrenheit *temperature)
 
 void printTemperature(Fahrenheit temperature, uint64_t token)
 {
-  otLogNotePlat("Telling subscriber of 0x%llx that the temperature is %" PRIu8 "° Fahrenheit.",
-                token, temperature);
+  otLogNotePlat("Subscription: 0x%llx, Temperature: %" PRIu8 "°F", token, temperature);
   return;
 }
 
