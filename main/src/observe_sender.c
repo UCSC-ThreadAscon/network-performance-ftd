@@ -59,7 +59,9 @@ void sendTemperature(Subscription *subscription)
                      subscription->token, subscription->tokenLength,
                      subscription->sequenceNum, &temperature, sizeof(Fahrenheit));
 
+#if CONFIG_EXPERIMENT_DEBUG
     printTemperature(temperature, subscription->token);
+#endif
     subscription->sequenceNum += 1;
 #if PACKET_LOSS_OBSERVE
   }
