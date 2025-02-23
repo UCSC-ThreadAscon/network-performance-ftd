@@ -43,9 +43,7 @@ void setTxPower() {
       break;
 
     case (OT_ERROR_NONE):
-#if TX_POWER_DEBUG
       otLogNotePlat("Successfully set TX Power.");
-#endif
       break;
 
     default:

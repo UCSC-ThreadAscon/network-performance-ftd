@@ -66,6 +66,21 @@ static void ot_task_worker(void *aContext)
   openthread_netif = init_openthread_netif(&config);
   esp_netif_set_default_netif(openthread_netif);
 
+#if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+  esp_cli_custom_command_init();
+#endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+
+  // Run the main loop
+#if CONFIG_OPENTHREAD_CLI
+  esp_openthread_cli_create_task();
+#endif
+#if CONFIG_OPENTHREAD_AUTO_START
+  otOperationalDatasetTlvs dataset;
+  otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
+  ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
+#endif
+  setTxPower();
+
   /**
    * In the ESP-IDF OpenThread SED example:
    * https://github.com/UCSC-ThreadAscon/esp-idf/blob/master/examples/openthread/ot_sleepy_device/deep_sleep/main/esp_ot_sleepy_device.c#L73
@@ -88,22 +103,15 @@ static void ot_task_worker(void *aContext)
   otSetStateChangedCallback(esp_openthread_get_instance(), plObserveStartCallback, NULL);
 #endif
 
-#if CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
-  esp_cli_custom_command_init();
-#endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
+  PrintDelimiter();
+  printCipherSuite();
+  printTxPower();
+  printNetPerfTest();
+  printTimeSyncStatus();
+  PrintDelimiter();
 
-  // TX power must be set before starting the OpenThread CLI.
-  setTxPower();
+  printNetworkKey();
 
-  // Run the main loop
-#if CONFIG_OPENTHREAD_CLI
-  esp_openthread_cli_create_task();
-#endif
-#if CONFIG_OPENTHREAD_AUTO_START
-  otOperationalDatasetTlvs dataset;
-  otError error = otDatasetGetActiveTlvs(esp_openthread_get_instance(), &dataset);
-  ESP_ERROR_CHECK(esp_openthread_auto_start((error == OT_ERROR_NONE) ? &dataset : NULL));
-#endif
   esp_openthread_launch_mainloop();
 
   // Clean up
