@@ -36,7 +36,6 @@ otError getTxPower(int8_t *aPowerAddr)
 void setTxPower() {
   otError error = otPlatRadioSetTransmitPower(esp_openthread_get_instance(),
                                               CONFIG_TX_POWER);
-  otLogNotePlat("The TX Power we want to set is %d dBm.", CONFIG_TX_POWER);
   switch(error)
   {
     case (OT_ERROR_NOT_IMPLEMENTED):
