@@ -92,9 +92,6 @@ static void ot_task_worker(void *aContext)
   esp_cli_custom_command_init();
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
-  // TX power must be set before starting the OpenThread CLI.
-  setTxPower();
-
   // Run the main loop
 #if CONFIG_OPENTHREAD_CLI
   esp_openthread_cli_create_task();
