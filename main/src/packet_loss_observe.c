@@ -115,6 +115,8 @@ void plObserveStartCallback(otChangedFlags changed_flags, void* ctx)
   if ((connected(role) == true) && (connected(s_previous_role) == false))
   {
     PrintDelimiter();
+    // TX power must be set before starting the OpenThread CLI.
+    setTxPower();
     plObserveStartServer();
     PrintDelimiter();
   }

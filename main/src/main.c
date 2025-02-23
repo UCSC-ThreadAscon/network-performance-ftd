@@ -11,15 +11,5 @@
 void app_main(void)
 {
   startMain();
-
-  PrintDelimiter();
-  printCipherSuite();
-  printTxPower();
-  printNetPerfTest();
-  printTimeSyncStatus();
-  PrintDelimiter();
-
-  printNetworkKey();
-
   return;
 }

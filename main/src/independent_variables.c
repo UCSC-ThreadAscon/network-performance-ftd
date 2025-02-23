@@ -33,7 +33,7 @@ void printNetPerfTest()
 #elif THROUGHPUT_OBSERVE
   otLogNotePlat("Current Test: Throughput Observe (Non-Confirmable)");
 #elif PACKET_LOSS_OBSERVE
-  otLogNotePlat("Current Test: Throughput Observe (Non-Confirmable)");
+  otLogNotePlat("Current Test: Packet Loss Observe (Non-Confirmable)");
 #elif DELAY_CLIENT
   otLogNotePlat("Current Test: Delay Client (Confirmable)");
 #elif DELAY_SERVER
