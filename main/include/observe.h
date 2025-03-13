@@ -38,8 +38,8 @@ Subscription;
 /**
  * CoAP Observe payloads simulate sensor data from a thermometer.
  *
- * According to the World Meteorological Organization:
- * https://wmo.asu.edu/content/world-highest-temperature
+ * According to the U.S. National Park Service:
+ * https://www.nps.gov/deva/learn/nature/weather-and-climate.htm
  * 
  * The highest temperature recorded was 134° Fahrenheit. As a result,
  * the temperature will be stored as an unsigned 8 bit integer.
