@@ -10,7 +10,7 @@ void initDeepSleepTimerMicro(uint64_t timeMicro)
 }
 
 bool isDeepSleepWakeup(void) {
-  return esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_UNDEFINED ?
+  return esp_sleep_get_wakeup_causes() != ESP_SLEEP_WAKEUP_UNDEFINED ?
          true : false;
 }
 
