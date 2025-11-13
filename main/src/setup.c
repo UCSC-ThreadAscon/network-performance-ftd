@@ -71,7 +71,7 @@ static void ot_task_worker(void *aContext)
 #endif // CONFIG_OPENTHREAD_CLI_ESP_EXTENSION
 
   // Run the main loop
-#if CONFIG_OPENTHREAD_CLI
+#if (CONFIG_OPENTHREAD_CLI && !(RTT_CPU_CONFIRMABLE))
   esp_openthread_cli_create_task();
 #endif
 #if CONFIG_OPENTHREAD_AUTO_START
