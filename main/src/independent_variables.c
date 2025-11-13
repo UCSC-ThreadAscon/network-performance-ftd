@@ -28,8 +28,8 @@ void printNetPerfTest()
 {
 #if THROUGHPUT_CONFIRMABLE
   otLogNotePlat("Current Test: Throughput Confirmable");
-#elif RTT_CONFIRMABLE
-  otLogNotePlat("Current Test: Throughput Confirmable");
+#elif RTT_CPU_CONFIRMABLE
+  otLogNotePlat("Current Test: RTT Confirmable & CPU Usage");
 #elif PACKET_LOSS_CONFIRMABLE
   otLogNotePlat("Current Test: Packet Loss Confirmable");
 #elif THROUGHPUT_OBSERVE

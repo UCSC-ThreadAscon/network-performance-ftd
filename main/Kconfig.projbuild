@@ -18,7 +18,7 @@ menu "UCSC Thread-ASCON Network Performance FTD"
         Set the flag to '4' to run the Delay experiment, with the device acting as the CLIENT.
         Set the flag to '5' to run the Throughput Observe (Non-Confirmable) experiment.
         Set the flag to '6' to run the Packet Loss Observe (Non-Confirmable) experiment.
-        Set the flag to '7' to run the Round Trip Time (Confirmable) experiment.
+        Set the flag to '7' to run the Round Trip Time (Confirmable) and CPU Usage experiment.
 
     config TX_POWER
       int 'Set the 802.15.4 TX power used by OpenThread.'

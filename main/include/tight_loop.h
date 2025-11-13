@@ -6,6 +6,7 @@
 #define THROUGHPUT_CONFIRMABLE_URI "throughput-confirmable"
 #define PACKET_LOSS_CONFIRMABLE_URI "packet-loss-confirmable"
 #define DELAY_URI "delay-confirmable"
+#define RTT_CPU_URI "rtt-cpu-confirmable"
 
 #define TIGHT_LOOP_PAYLOAD_BYTES 4
 

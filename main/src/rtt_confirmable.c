@@ -29,7 +29,7 @@ void rttConfirmableSend(otSockAddr *sockAddr)
   uint32_t payload = 0;
   createRandomPayload((uint8_t *) &payload);
   rtStartTime = getTimevalNow(); // get time before send
-  request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, THROUGHPUT_CONFIRMABLE_URI,
+  request(sockAddr, (void *) &payload, TIGHT_LOOP_PAYLOAD_BYTES, RTT_CPU_URI,
           rttConfirmableResponseCallback, OT_COAP_TYPE_CONFIRMABLE);
   return;
 }
@@ -73,6 +73,7 @@ void rttConfirmableResponseCallback(void *aContext,
 
         totalEndTime = getTimevalNow();
 
+        // Print FreeRTOS CPU usage.
         vTaskGetRunTimeStats(stats); 
         PrintDelimiter();
         printf("%s", stats);
@@ -85,32 +86,21 @@ void rttConfirmableResponseCallback(void *aContext,
         double denominatorMs = US_TO_MS((double) denominatorUs);
         double denominatorSecs = US_TO_SECONDS((double) denominatorUs);
 
-        // double throughputSecs = (double) totalBytes / denominatorSecs;
-        // double throughputMs = (double) totalBytes / denominatorMs;
-        // double throughputUs = (double) totalBytes / denominatorUs;
-
         uint64_t usAverage = 0;
         for (uint32_t i = 0; i < MAX_PACKETS; i++) {
           usAverage += rtt_times[i];
         }
         usAverage = usAverage / MAX_PACKETS;
 
-        /**
-         * I learned that doubles have 15 digits of precision from:
-         * https://stackoverflow.com/a/2386882/6621292
-         */
-        // PrintDelimiter();
-        // otLogNotePlat("The throughput is:");
-        // otLogNotePlat("%.15f bytes/second, or", throughputSecs);
-        // otLogNotePlat("%.15f bytes/ms, or", throughputMs);
-        // otLogNotePlat("%.15f bytes/us.", throughputUs);
-        // PrintDelimiter();
-
         PrintDelimiter();
         otLogNotePlat("Average RTT Time microseconds:");
         otLogNotePlat("%llu us", usAverage);
         PrintDelimiter();
 
+        /**
+         * I learned that doubles have 15 digits of precision from:
+         * https://stackoverflow.com/a/2386882/6621292
+         */
         PrintDelimiter();
         otLogNotePlat("Time Elapsed:");
         otLogNotePlat("%.15f seconds.", denominatorSecs);
