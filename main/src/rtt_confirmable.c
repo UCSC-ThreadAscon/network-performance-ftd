@@ -73,10 +73,10 @@ void rttConfirmableResponseCallback(void *aContext,
 
         totalEndTime = getTimevalNow();
 
-        // vTaskGetRunTimeStats(stats); 
-        // PrintDelimiter();
-        // otLogNotePlat("%s", stats);
-        // PrintDelimiter();
+        vTaskGetRunTimeStats(stats); 
+        PrintDelimiter();
+        otLogNotePlat("\n%s", stats);
+        PrintDelimiter();
 
 
         uint64_t usElapsed = timeDiffUs(totalStartTime, totalEndTime);
