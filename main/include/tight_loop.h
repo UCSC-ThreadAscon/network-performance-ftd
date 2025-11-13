@@ -14,6 +14,7 @@
 void createRandomPayload(uint8_t *buffer);
 
 void tpConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
+void rttConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void plConfirmableStartCallback(otChangedFlags changed_flags, void* ctx);
 void startDelayClientCallback(otChangedFlags changed_flags, void* ctx);
 
@@ -21,6 +22,12 @@ void tpConfirmableResponseCallback(void *aContext,
                                    otMessage *aMessage,
                                    const otMessageInfo *aMessageInfo,
                                    otError aResult);
+
+void rttConfirmableResponseCallback(void *aContext,
+                                   otMessage *aMessage,
+                                   const otMessageInfo *aMessageInfo,
+                                   otError aResult);
+
 void tpConfirmableSend(otSockAddr *sockAddr);
 
 void plConfirmableResponseCallback(void *aContext,

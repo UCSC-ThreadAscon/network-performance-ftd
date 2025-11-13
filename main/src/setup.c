@@ -91,6 +91,8 @@ static void ot_task_worker(void *aContext)
    */
 #if THROUGHPUT_CONFIRMABLE
   otSetStateChangedCallback(esp_openthread_get_instance(), tpConfirmableStartCallback, NULL);
+#elif RTT_CONFIRMABLE
+  otSetStateChangedCallback(esp_openthread_get_instance(), rttConfirmableStartCallback, NULL);
 #elif PACKET_LOSS_CONFIRMABLE
   otSetStateChangedCallback(esp_openthread_get_instance(), plConfirmableStartCallback, NULL);
 #elif DELAY_SERVER

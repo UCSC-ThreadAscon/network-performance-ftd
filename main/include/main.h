@@ -48,6 +48,7 @@
 #define DELAY_CLIENT (CONFIG_EXPERIMENT == 4)
 #define THROUGHPUT_OBSERVE (CONFIG_EXPERIMENT == 5)
 #define PACKET_LOSS_OBSERVE (CONFIG_EXPERIMENT == 6)
+#define RTT_CONFIRMABLE (CONFIG_EXPERIMENT == 7)
 
 void startMain(void);
 void resetTrials(void);
