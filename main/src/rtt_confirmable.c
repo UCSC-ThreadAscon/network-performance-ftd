@@ -75,7 +75,7 @@ void rttConfirmableResponseCallback(void *aContext,
 
         vTaskGetRunTimeStats(stats); 
         PrintDelimiter();
-        otLogNotePlat("\n%s", stats);
+        printf("%s", stats);
         PrintDelimiter();
 
 
